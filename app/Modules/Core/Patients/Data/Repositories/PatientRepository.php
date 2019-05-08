@@ -4,6 +4,7 @@ namespace App\Modules\Core\Patients\Data\Repositories;
 
 use App\Modules\Core\Patients\Data\Models\Patient;
 use App\Modules\Core\Persons\Data\Models\Person;
+use Carbon\Carbon;
 
 class PatientRepository {
 

@@ -3,6 +3,7 @@
 namespace App\Modules\Core\Persons\Data\Repositories;
 
 use App\Modules\Core\Persons\Data\Models\Person;
+use Carbon\Carbon;
 
 class PersonRepository {
 
@@ -21,6 +22,9 @@ class PersonRepository {
         $person = new Person;
         $person->fill($data);
 
+        if (isset($data['birthdate']))
+            $person->birthdate = Carbon::parse($data['birthdate']);
+
         $person->save();
 
         return $person;
@@ -28,7 +32,12 @@ class PersonRepository {
 
     public function update($data, Person $person)
     {
-        $person->update($data);
+        $person->fill($data);
+
+        if (isset($data['birthdate']))
+            $person->birthdate = Carbon::parse($data['birthdate']);
+
+        $person->save();
 
         return $person;
     }

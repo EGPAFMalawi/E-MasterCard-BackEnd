@@ -6,6 +6,7 @@ use App\Modules\Core\Persons\Clients\API\Resources\PersonResource;
 use App\Modules\Core\Persons\Data\Models\Person;
 use App\Modules\Core\Persons\Data\Repositories\PersonRepository;
 use App\Modules\Core\Persons\Processing\Actions\CreatePersonAction;
+use App\Modules\Core\Persons\Processing\Actions\UpdatePersonAction;
 use Illuminate\Support\Facades\App;
 
 class Persons{
@@ -28,6 +29,11 @@ class Persons{
     public static function create($data)
     {
         return App::make(CreatePersonAction::class)->run($data);
+    }
+
+    public static function update($data, Person $person)
+    {
+        return App::make(UpdatePersonAction::class)->run($data, $person);
     }
 
 }

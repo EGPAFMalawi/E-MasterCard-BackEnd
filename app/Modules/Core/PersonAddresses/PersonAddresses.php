@@ -6,6 +6,7 @@ use App\Modules\Core\PersonAddresses\Clients\API\Resources\PersonAddressResource
 use App\Modules\Core\PersonAddresses\Data\Models\PersonAddress;
 use App\Modules\Core\PersonAddresses\Data\Repositories\PersonAddressRepository;
 use App\Modules\Core\PersonAddresses\Processing\Actions\CreatePersonAddressAction;
+use App\Modules\Core\PersonAddresses\Processing\Actions\UpdatePersonAddressAction;
 use App\Modules\Core\Persons\Data\Models\Person;
 use Illuminate\Support\Facades\App;
 
@@ -29,6 +30,11 @@ class PersonAddresses{
     public static function create($data, Person $person)
     {
         return App::make(CreatePersonAddressAction::class)->run($data, $person);
+    }
+
+    public static function update($data, PersonAddress $personAddress)
+    {
+        return App::make(UpdatePersonAddressAction::class)->run($data, $personAddress);
     }
 
 }
