@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Core\MasterCards\Clients\API\Resources;
+namespace App\Modules\Core\CardMaps\Clients\API\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class MasterCardResource extends Resource
+class MasterCardMapResource extends Resource
 {
     /**
      * Transform the resource into an array.

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Core\MasterCards\Clients\API\Resources;
 
-use App\Modules\Core\EncounterTypes\Clients\API\Resources\EncounterTypeResource;
+use App\Modules\Core\EncounterTypes\EncounterTypes;
 use Illuminate\Http\Resources\Json\Resource;
 
 class MasterCardResource extends Resource
@@ -21,7 +21,7 @@ class MasterCardResource extends Resource
             'name' => $this->name,
             'version' => $this->version,
             'status' => $this->status,
-            'encounterTypes' => EncounterTypeResource::collection($this->whenLoaded('encounterTypes')),
+            'encounterTypes' => EncounterTypes::resourceCollection($this->whenLoaded('encounterTypes')),
             'dateCreated' => $this->date_created,
             'uuid' => $this->uuid
         ];
