@@ -16,7 +16,7 @@ class CreateEncounterAction
 {
     public function run(Patient $patient, EncounterType $encounterType)
     {
-        $person = Persons::repository()->get($patient->person);
+        $person = $patient->person;
 
         $encounter = App::make(EncounterRepository::class)->create($patient, $encounterType, $person);
 

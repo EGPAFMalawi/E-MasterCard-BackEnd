@@ -6,6 +6,7 @@ use App\Modules\Core\Encounters\Data\Models\Encounter;
 use App\Modules\Core\EncounterTypes\Data\Models\EncounterType;
 use App\Modules\Core\Patients\Data\Models\Patient;
 use App\Modules\Core\Persons\Data\Models\Person;
+use Carbon\Carbon;
 
 class EncounterRepository {
 
@@ -24,10 +25,10 @@ class EncounterRepository {
         return Encounter::where($field, $value)->first();
     }
 
-    public function create($data, Patient $patient, EncounterType $encounterType, Person $person)
+    public function create(Patient $patient, EncounterType $encounterType, Person $person)
     {
         $encounter = new Encounter;
-        $encounter->fill($data);
+        $encounter->encounter_datetime = Carbon::now();
 
         $encounter->patient()->associate($patient);
         $encounter->type()->associate($encounterType);
