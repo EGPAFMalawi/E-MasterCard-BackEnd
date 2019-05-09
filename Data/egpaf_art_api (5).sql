@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 07, 2019 at 07:46 AM
+-- Generation Time: May 09, 2019 at 09:53 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.0.15
 
@@ -575,7 +575,8 @@ INSERT INTO `encounter` (`encounter_id`, `encounter_type`, `patient_id`, `provid
 (3, 4, 3, 3, NULL, NULL, '2019-04-17 04:38:02', 0, '2019-04-17 04:38:02', NULL, NULL, 0, NULL, NULL, NULL, '63717d0f-ebc8-4ab2-98e5-953c3ad87a83', NULL),
 (4, 1, 3, 3, NULL, NULL, '2019-04-17 04:46:04', 0, '2019-04-17 04:46:04', NULL, NULL, 0, NULL, NULL, NULL, '39a993f2-d3d6-4fab-a61d-eb9d68c317ca', NULL),
 (5, 2, 3, 3, NULL, NULL, '2019-04-17 04:46:05', 0, '2019-04-17 04:46:05', NULL, NULL, 0, NULL, NULL, NULL, '588daf3b-9d80-4b75-b501-6bd6223f01e4', NULL),
-(6, 3, 3, 3, NULL, NULL, '2019-04-17 04:46:06', 0, '2019-04-17 04:46:06', NULL, NULL, 0, NULL, NULL, NULL, '2b1e6dfd-57de-4dcd-bcf4-25b00d4c4dd2', NULL);
+(6, 3, 3, 3, NULL, NULL, '2019-04-17 04:46:06', 0, '2019-04-17 04:46:06', NULL, NULL, 0, NULL, NULL, NULL, '2b1e6dfd-57de-4dcd-bcf4-25b00d4c4dd2', NULL),
+(7, 4, 3, 3, NULL, NULL, '2019-05-08 23:30:48', 0, '2019-05-08 23:30:48', NULL, NULL, 0, NULL, NULL, NULL, '5e67ba5b-7a2e-40a1-a977-0df5fe12a7b8', NULL);
 
 -- --------------------------------------------------------
 
@@ -630,7 +631,8 @@ INSERT INTO `hts_record` (`hts_record_id`, `age`, `sex`, `status`, `modality`, `
 (1, 20, 'Male', 'New Positive', 'PITC - Other', '2019-05-07 02:04:59', '2019-05-07 02:04:59'),
 (2, 20, 'Male', 'New Positive', 'PITC - Other', '2019-05-07 02:05:09', '2019-05-07 02:05:09'),
 (3, 20, 'Male', 'New Positive', 'PITC - Other', '2019-05-07 02:05:11', '2019-05-07 02:05:11'),
-(4, 20, 'Male', 'New Positive', 'PITC - Other', '2019-05-07 02:05:15', '2019-05-07 02:05:15');
+(4, 20, 'Male', 'New Positive', 'PITC - Other', '2019-05-07 02:05:15', '2019-05-07 02:05:15'),
+(5, 12, 'Female', 'New Positive', 'PITC - Other', '2019-05-08 21:11:08', '2019-05-08 21:11:08');
 
 -- --------------------------------------------------------
 
@@ -1055,7 +1057,29 @@ INSERT INTO `obs` (`obs_id`, `person_id`, `concept_id`, `encounter_id`, `order_i
 (50, 3, 24, 6, NULL, '2019-04-17 04:46:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-04-17 04:46:06', 0, NULL, NULL, NULL, NULL, '88cc8e6d-99e1-4d9d-b121-d5a57bd2ce28'),
 (51, 3, 25, 6, NULL, '2019-04-17 04:46:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-04-17 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-04-17 04:46:06', 0, NULL, NULL, NULL, NULL, '89e1de61-fc5f-4d7d-95e6-5261cb7da02f'),
 (52, 3, 26, 6, NULL, '2019-04-17 04:46:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-04-17 04:46:06', 0, NULL, NULL, NULL, NULL, 'adf73d93-54a3-4b0f-80c0-2e95578e85e4'),
-(53, 3, 27, 6, NULL, '2019-04-17 04:46:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-04-17 04:46:06', 0, NULL, NULL, NULL, NULL, 'e26e6c0e-3f0a-4e32-8edd-97d9d45b2430');
+(53, 3, 27, 6, NULL, '2019-04-17 04:46:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-04-17 04:46:06', 0, NULL, NULL, NULL, NULL, 'e26e6c0e-3f0a-4e32-8edd-97d9d45b2430'),
+(54, 3, 32, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, 'a88332af-7167-479d-bb2f-74ed1e56e5ae'),
+(55, 3, 33, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30.00, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, 'd1c4acb8-32f2-481d-85f7-4314987e92e6'),
+(56, 3, 34, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, '9c382b84-e572-40f3-a978-7200087d630b'),
+(57, 3, 35, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y', NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, '8d53aab9-8a90-4d9d-b93b-b2a9bad49188'),
+(58, 3, 36, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'N', NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, 'd2702bca-c99c-400b-842c-74792a57825c'),
+(59, 3, 37, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, 'b391cf0a-4c94-481b-97fa-e5ecd27d9dc9'),
+(60, 3, 38, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, '709185dc-64bc-4ec3-b351-76f4a0a5a9d2'),
+(61, 3, 39, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '13A', NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, '158a5e74-069d-488b-aa50-75a7ac49d9e0'),
+(62, 3, 40, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, '99391419-f111-4140-953b-14e800a1d241'),
+(63, 3, 41, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'P', NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, '10a81f2a-227f-4c2d-8571-b56aef8a06dd'),
+(64, 3, 42, 7, NULL, '2019-05-08 23:30:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:49', 0, NULL, NULL, NULL, NULL, '285dad24-f6d1-4b0d-adf6-9d3c7c17e150'),
+(65, 3, 43, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '5f588f09-05f3-48b8-ac67-ba954565a865'),
+(66, 3, 44, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '8dea27d5-ded0-4f0b-8fc7-b56ec1720e18'),
+(67, 3, 45, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Bled', NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '11045cbc-a370-4d12-ac66-4b4b2fdf9717'),
+(68, 3, 46, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1000', NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, 'ca6ac6a8-f077-4e5b-a44b-03636c0cf7fe'),
+(69, 3, 47, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '29f32a3c-a23e-4961-9152-8720a15e837e'),
+(70, 3, 48, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '9f112dd5-a5c5-4585-86bf-cc0c694e08f4'),
+(71, 3, 49, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '66f5d552-40f6-482e-9ee6-3ed2da7b2b76'),
+(72, 3, 50, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, 'cb11f3be-97ba-4d3b-9762-5f2009c63358'),
+(73, 3, 51, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '93d9c769-6e77-408a-9659-c76850b24888'),
+(74, 3, 52, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '5c2f192d-d551-4f53-93d2-858fb0c1f1ae'),
+(75, 3, 53, 7, NULL, '2019-05-08 23:30:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LDL', NULL, NULL, NULL, 0, '2019-05-08 23:30:50', 0, NULL, NULL, NULL, NULL, '6e0b1821-8ccc-4ec9-a26a-c679e41e8906');
 
 -- --------------------------------------------------------
 
@@ -1140,7 +1164,8 @@ INSERT INTO `patient_card_map` (`encounter_id`, `patient_card_id`) VALUES
 (3, 1),
 (4, 1),
 (5, 1),
-(6, 1);
+(6, 1),
+(7, 1);
 
 -- --------------------------------------------------------
 
@@ -1164,7 +1189,8 @@ CREATE TABLE `patient_step` (
 
 INSERT INTO `patient_step` (`patient_step_id`, `patient_id`, `date`, `site`, `step`, `origin_destination`, `art_number`) VALUES
 (1, 3, '2019-04-15', 'ZCH', 'Art Start', 'ZCH123', 'ZCH123'),
-(2, 3, '2019-04-15', 'ZCH', 'Trans-Out', 'ZCH123', 'ZCH123');
+(2, 3, '2019-04-15', 'ZCH', 'Trans-Out', 'ZCH123', 'ZCH123'),
+(3, 4, '2019-05-09', 'QECH', 'Art Start', NULL, 'ZCH-1234');
 
 -- --------------------------------------------------------
 
@@ -1199,7 +1225,7 @@ INSERT INTO `person` (`person_id`, `gender`, `birthdate`, `birthdate_estimated`,
 (1, 'M', '2019-04-01', 0, 0, NULL, NULL, 0, '2019-04-15 19:58:54', NULL, NULL, 0, NULL, NULL, NULL, '7b075d0e-cdb3-4d46-8b27-61b93f1e3e3c'),
 (2, 'M', '2019-04-01', 0, 0, NULL, NULL, 0, '2019-04-15 20:01:17', NULL, NULL, 0, NULL, NULL, NULL, '5f22eb4c-30c0-4274-9adb-6039b6128806'),
 (3, 'M', '2019-04-01', 0, 0, NULL, NULL, 0, '2019-04-15 20:04:55', NULL, NULL, 0, NULL, NULL, NULL, '0c64a74d-c466-47e3-9ccb-b17c84cfc5f3'),
-(4, 'Samuel', '2018-05-14', 0, 0, NULL, NULL, 0, '2019-05-05 15:33:05', NULL, NULL, 0, NULL, NULL, NULL, '697f7d02-8ff7-4f36-8302-ee5061dd30f1');
+(4, 'M', '2018-05-14', 0, 0, NULL, NULL, 0, '2019-05-05 15:33:05', NULL, NULL, 0, NULL, NULL, NULL, '697f7d02-8ff7-4f36-8302-ee5061dd30f1');
 
 -- --------------------------------------------------------
 
@@ -1282,7 +1308,7 @@ INSERT INTO `person_name` (`person_name_id`, `preferred`, `person_id`, `prefix`,
 (1, 0, 1, NULL, 'Samuel', NULL, NULL, 'Yute', NULL, NULL, NULL, 0, '2019-04-15 19:58:55', NULL, NULL, 0, NULL, NULL, NULL, 'a4533bc1-a9e0-4bc8-baab-6a28258bf030'),
 (2, 0, 2, NULL, 'Samuel', NULL, NULL, 'Yute', NULL, NULL, NULL, 0, '2019-04-15 20:01:17', NULL, NULL, 0, NULL, NULL, NULL, '588e40ae-d593-4e79-979c-8e840e108e4c'),
 (3, 0, 3, NULL, 'Samuel', NULL, NULL, 'Yute', NULL, NULL, NULL, 0, '2019-04-15 20:04:55', NULL, NULL, 0, NULL, NULL, NULL, '513eaca1-ebbd-4be6-8c88-ee3961ca2289'),
-(4, 0, 4, NULL, 'Emanuel', 'Malawi', NULL, 'Yute', NULL, NULL, NULL, 0, '2019-05-05 15:33:05', NULL, NULL, 0, NULL, NULL, NULL, 'da7c34aa-3870-4538-aa12-f7018e329f98');
+(4, 0, 4, NULL, 'Emannuel', 'Malawi', NULL, 'Yute', NULL, NULL, NULL, 0, '2019-05-05 15:33:05', NULL, NULL, 0, NULL, NULL, NULL, 'da7c34aa-3870-4538-aa12-f7018e329f98');
 
 -- --------------------------------------------------------
 
@@ -35463,7 +35489,7 @@ ALTER TABLE `district`
 -- AUTO_INCREMENT for table `encounter`
 --
 ALTER TABLE `encounter`
-  MODIFY `encounter_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `encounter_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `encounter_type`
 --
@@ -35473,7 +35499,7 @@ ALTER TABLE `encounter_type`
 -- AUTO_INCREMENT for table `hts_record`
 --
 ALTER TABLE `hts_record`
-  MODIFY `hts_record_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `hts_record_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `location`
 --
@@ -35493,7 +35519,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `obs`
 --
 ALTER TABLE `obs`
-  MODIFY `obs_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `obs_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 --
 -- AUTO_INCREMENT for table `patient_card`
 --
@@ -35503,7 +35529,7 @@ ALTER TABLE `patient_card`
 -- AUTO_INCREMENT for table `patient_step`
 --
 ALTER TABLE `patient_step`
-  MODIFY `patient_step_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `patient_step_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `person`
 --
