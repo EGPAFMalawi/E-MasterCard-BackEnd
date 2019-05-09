@@ -36,7 +36,7 @@ class APIv1Router
 
             $router->get('/export', [
                 'as' => 'export',
-                'uses' => 'ReportAPIController@export',
+                'uses' => 'ReportAPIController@exportPatients',
             ]);
         });
     }
