@@ -9,6 +9,8 @@ return [
             'sex' => 'required|string',
             'status' => 'required|string',
             'modality' => 'required|string',
+            'year' => 'required|numeric',
+            'month' => 'required|numeric',
         ],
 
         'update' => [
@@ -16,6 +18,8 @@ return [
             'sex' => 'required|string',
             'status' => 'required|string',
             'modality' => 'required|string',
+            'year' => 'required|numeric',
+            'month' => 'required|numeric',
         ],
 
     ]

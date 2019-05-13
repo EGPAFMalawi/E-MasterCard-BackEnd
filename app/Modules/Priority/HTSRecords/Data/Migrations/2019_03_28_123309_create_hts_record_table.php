@@ -20,6 +20,9 @@ class CreateHTSRecordTable extends Migration
             $table->string('status');
             $table->string('modality');
 
+            $table->integer('year');
+            $table->integer('month');
+
             $table->timestamps();
         });
     }

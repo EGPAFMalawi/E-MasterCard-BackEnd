@@ -53,7 +53,7 @@ class ProcessObservationsAction
                     $concept = Concepts::repository()->get($value['concept']);
                     $observation = $observationRepo->get($value['observation']);
 
-                    $observationRepo->update($value, $concept, $observation);
+                    $observationRepo->update($value, $observation, $concept);
                 }
             }
         }

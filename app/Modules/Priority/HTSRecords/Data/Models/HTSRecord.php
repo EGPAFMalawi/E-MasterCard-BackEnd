@@ -11,6 +11,6 @@ class HTSRecord extends Model
     protected $table = 'hts_record';
     protected $primaryKey = 'hts_record_id';
 
-    protected $fillable = ['age', 'sex', 'status', 'modality'];
+    protected $fillable = ['age', 'sex', 'status', 'modality', 'year', 'month'];
 
 }

@@ -20,7 +20,9 @@ class HTSRecordResource extends Resource
             'age' => $this->age,
             'sex' => $this->sex,
             'status' => $this->status,
-            'modality' => $this->modality
+            'modality' => $this->modality,
+            'year' => (int)$this->year,
+            'month' => (int)$this->month
         ];
     }
 }

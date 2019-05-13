@@ -19,7 +19,7 @@ class APIv1Router
         $this->router->group([
             'prefix' => 'hts-records',
             'as' => 'hts_records.',
-//            'middleware' => 'auth:api'
+            'middleware' => 'auth:api'
             ],
             function($router)
             {
