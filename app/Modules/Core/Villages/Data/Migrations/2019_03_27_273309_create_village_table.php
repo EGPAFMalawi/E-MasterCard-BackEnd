@@ -17,7 +17,7 @@ class CreateVillageTable extends Migration
             $table->increments('village_id');
             $table->string('name');
 
-            $table->unsignedInteger('region_id');
+            $table->unsignedInteger('traditional_authority_id');
 
             $table->integer('creator')->default(0);
             $table->dateTime('date_created');
@@ -26,9 +26,9 @@ class CreateVillageTable extends Migration
             $table->dateTime('date_retired')->nullable();
             $table->string('retire_reason')->nullable();
 
-            $table->foreign('region_id')
-                ->references('region_id')
-                ->on('region')
+            $table->foreign('traditional_authority_id')
+                ->references('traditional_authority_id')
+                ->on('traditional_authority')
                 ->onDelete('cascade');
         });
 

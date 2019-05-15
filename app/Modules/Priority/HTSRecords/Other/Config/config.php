@@ -11,6 +11,8 @@ return [
             'modality' => 'required|string',
             'year' => 'required|numeric',
             'month' => 'required|numeric',
+            'inserted_hts_record_id' => 'required|string',
+            'service_delivery_point' => 'required|string',
         ],
 
         'update' => [
@@ -20,6 +22,8 @@ return [
             'modality' => 'required|string',
             'year' => 'required|numeric',
             'month' => 'required|numeric',
+            'inserted_hts_record_id' => 'required|string',
+            'service_delivery_point' => 'required|string',
         ],
 
     ]

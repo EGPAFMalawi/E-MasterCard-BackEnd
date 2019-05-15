@@ -19,6 +19,8 @@ class CreateTraditionalAuthorityTable extends Migration
             $table->string('hl7_abbreviation')->nullable();
             $table->string('description')->default('');
 
+            $table->unsignedInteger('district_id');
+
             $table->integer('creator')->default(0);
             $table->dateTime('date_created');
             $table->integer('retired')->default(0);
@@ -26,7 +28,10 @@ class CreateTraditionalAuthorityTable extends Migration
             $table->dateTime('date_retired')->nullable();
             $table->string('retire_reason')->nullable();
 
-            $table->string('uuid', 38)->unique();
+            $table->foreign('district_id')
+                ->references('district_id')
+                ->on('district')
+                ->onDelete('cascade');
         });
 
 
