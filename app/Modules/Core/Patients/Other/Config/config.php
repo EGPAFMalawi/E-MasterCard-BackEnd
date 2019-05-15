@@ -7,7 +7,7 @@ return [
         'store' => [
             'prefix' => 'sometimes|string|nullable|max:10',
             'given_name' => 'required|string|max:50',
-            'middle_name' => 'required|string|max:50',
+            'middle_name' => 'string|max:50',
             'family_name' => 'required|string|max:50',
             'gender' => 'required|string|max:50',
             'birthdate' => 'sometimes|date|before:now|nullable',
