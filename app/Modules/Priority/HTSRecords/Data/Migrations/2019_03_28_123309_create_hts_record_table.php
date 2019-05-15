@@ -15,7 +15,7 @@ class CreateHTSRecordTable extends Migration
     {
         Schema::create('hts_record', function (Blueprint $table) {
             $table->increments('hts_record_id');
-            $table->string('inserted_hts_record_id')->unique();
+            $table->string('inserted_hts_record_id');
             $table->integer('age');
             $table->string('sex');
             $table->string('status');

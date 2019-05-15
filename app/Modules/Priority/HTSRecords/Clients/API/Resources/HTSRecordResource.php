@@ -16,8 +16,8 @@ class HTSRecordResource extends Resource
     {
         return [
             'object' => 'HTSRecord',
-            'HTSRecordID' => $this->hts_record_id,
-            'insertedHTSRecordID' => $this->inserted_hts_record_id,
+//            'HTSRecordID' => $this->hts_record_id,
+            'HTSRecordID' => $this->inserted_hts_record_id,
             'age' => $this->age,
             'sex' => $this->sex,
             'status' => $this->status,
@@ -25,7 +25,7 @@ class HTSRecordResource extends Resource
             'year' => (int)$this->year,
             'month' => (int)$this->month,
             'serviceDeliveryPoint' => $this->service_delivery_point,
-            'createdAt' => $this->created_at
+            'createdAt' => (string)$this->created_at
         ];
     }
 }
