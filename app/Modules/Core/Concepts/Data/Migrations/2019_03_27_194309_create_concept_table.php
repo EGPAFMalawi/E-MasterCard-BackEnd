@@ -30,6 +30,9 @@ class CreateConceptTable extends Migration
             $table->integer('voided_by')->nullable();
             $table->dateTime('date_voided')->nullable();
             $table->string('void_reason')->nullable();
+            $table->integer('retired_by')->nullable();
+            $table->dateTime('date_retired')->nullable();
+            $table->string('retire_reason')->nullable();
 
             $table->string('uuid', 38)->unique();
         });
