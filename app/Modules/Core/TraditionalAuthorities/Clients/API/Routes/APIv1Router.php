@@ -33,6 +33,11 @@ class APIv1Router
                 'as' => 'get',
                 'uses' => 'TraditionalAuthorityAPIController@get',
             ]);
+
+            $router->get('/{traditionalAuthority}/villages', [
+                'as' => 'get.villages',
+                'uses' => 'TraditionalAuthorityAPIController@getVillages',
+            ]);
         });
     }
 }

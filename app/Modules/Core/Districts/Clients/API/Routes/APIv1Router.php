@@ -33,6 +33,11 @@ class APIv1Router
                 'as' => 'get',
                 'uses' => 'DistrictAPIController@get',
             ]);
+
+            $router->get('/{district}/traditional-authorities', [
+                'as' => 'get.traditional_authorities',
+                'uses' => 'DistrictAPIController@getTraditionalAuthorities',
+            ]);
         });
     }
 }

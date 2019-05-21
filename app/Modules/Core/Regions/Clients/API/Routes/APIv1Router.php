@@ -33,6 +33,11 @@ class APIv1Router
                 'as' => 'get',
                 'uses' => 'RegionAPIController@get',
             ]);
+
+            $router->get('/{region}/districts', [
+                'as' => 'get.districts',
+                'uses' => 'RegionAPIController@getDistricts',
+            ]);
         });
     }
 }
