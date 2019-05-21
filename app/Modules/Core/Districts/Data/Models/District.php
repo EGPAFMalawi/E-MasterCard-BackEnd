@@ -2,6 +2,7 @@
 
 namespace App\Modules\Core\Districts\Data\Models;
 
+use App\Modules\Core\Facilities\Data\Models\Facility;
 use App\Modules\Core\Regions\Data\Models\Region;
 use App\Modules\Core\TraditionalAuthorities\Data\Models\TraditionalAuthority;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,11 @@ class District extends Model
     public function traditionalAuthorities()
     {
         return $this->hasMany(TraditionalAuthority::class, 'district_id');
+    }
+
+    public function facilities()
+    {
+        return $this->hasMany(Facility::class, 'district_id');
     }
 
     public function region()

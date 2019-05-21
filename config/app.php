@@ -201,6 +201,7 @@ return [
         App\Modules\Core\TraditionalAuthorities\Other\Providers\TraditionalAuthorityServiceProvider::class,
         App\Modules\Core\Villages\Other\Providers\VillageServiceProvider::class,
         App\Modules\Core\Locations\Other\Providers\LocationServiceProvider::class,
+        App\Modules\Core\Facilities\Other\Providers\FacilityServiceProvider::class,
 
         // Priority Modules
         App\Modules\Priority\Reports\Other\Providers\ReportServiceProvider::class,
