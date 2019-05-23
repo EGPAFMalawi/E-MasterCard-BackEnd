@@ -48,7 +48,7 @@ class ObservationRepository {
         if ($conceptDatatype->hl7_abbreviation == 'NM')
             $observation->value_numeric = $value;
         elseif($conceptDatatype->hl7_abbreviation == 'DT')
-            $observation->value_datetime = Carbon::parse($value)->toDateTimeString();
+            $observation->value_datetime = is_null($value)?null:Carbon::parse($value)->toDateTimeString();
         elseif($conceptDatatype->hl7_abbreviation == 'ZZ')
             $observation->value_text = $value;
         else
