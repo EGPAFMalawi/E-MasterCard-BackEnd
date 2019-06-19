@@ -17,6 +17,8 @@ class GetReportAction
     public function run($data)
     {
         $patients = Patients::repository()->getAll();
+        //$patients = $patients->where('patient_id', 2);
+
         $reportPayload = null;
 
         if ($data['code'] == 1)

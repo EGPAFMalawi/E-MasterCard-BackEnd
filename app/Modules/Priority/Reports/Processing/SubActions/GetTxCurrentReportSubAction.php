@@ -6,6 +6,7 @@ use App\Modules\Core\Concepts\Concepts;
 use App\Modules\Core\EncounterTypes\EncounterTypes;
 use App\Modules\Core\Patients\Patients;
 use App\Modules\Priority\Reports\Processing\Tasks\GetDefaultersTask;
+use App\Modules\Priority\Reports\Processing\Tasks\GetLastEncounterTask;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 
@@ -20,7 +21,8 @@ class GetTxCurrentReportSubAction
 
         $patientsWithoutOutcome = $patients->filter(function ($patient) use ($adverseOutcomeConcept,$encounterType){
             #Get Last Encounter
-            $lastEncounter = $patient->encounters->where('encounter_type', $encounterType->encounter_type_id)->last();
+            $lastEncounter = App::make(GetLastEncounterTask::class)->run($patient, $encounterType);
+
             if (is_null($lastEncounter))
                 return false;
 

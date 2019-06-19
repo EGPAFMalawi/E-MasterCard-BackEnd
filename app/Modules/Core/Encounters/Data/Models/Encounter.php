@@ -4,6 +4,7 @@ namespace App\Modules\Core\Encounters\Data\Models;
 
 use App\Modules\Core\EncounterTypes\Data\Models\EncounterType;
 use App\Modules\Core\Observations\Data\Models\Observation;
+use App\Modules\Core\PatientCards\Data\Models\PatientCard;
 use App\Modules\Core\Patients\Data\Models\Patient;
 use App\Modules\Core\Persons\Data\Models\Person;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +37,11 @@ class Encounter extends Model
     public function provider()
     {
         return $this->belongsTo(Person::class, 'provider_id');
+    }
+
+    public function patientCards()
+    {
+        return $this->belongsToMany(PatientCard::class, 'patient_card_map', 'encounter_id', 'patient_card_id');
     }
 
     public static function boot()

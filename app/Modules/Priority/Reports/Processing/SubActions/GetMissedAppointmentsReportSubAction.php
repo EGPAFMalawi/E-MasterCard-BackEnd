@@ -5,6 +5,7 @@ namespace App\Modules\Priority\Reports\Processing\SubActions;
 use App\Modules\Core\Concepts\Concepts;
 use App\Modules\Core\EncounterTypes\EncounterTypes;
 use App\Modules\Core\Patients\Patients;
+use App\Modules\Priority\Reports\Processing\Tasks\GetLastEncounterTask;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -27,7 +28,8 @@ class GetMissedAppointmentsReportSubAction
         foreach ($patients as $patient)
         {
             #Get Last Encounter
-            $lastEncounter = $patient->encounters->where('encounter_type', $encounterType->encounter_type_id)->last();
+            $lastEncounter = App::make(GetLastEncounterTask::class)->run($patient, $encounterType);
+
             if (is_null($lastEncounter))
                 continue;
 
