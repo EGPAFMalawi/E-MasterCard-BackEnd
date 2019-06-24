@@ -37,7 +37,7 @@ class Observation extends Model
         if ($this->concept->datatype->hl7_abbreviation == 'NM')
             $value = $this->value_numeric;
         elseif($this->concept->datatype->hl7_abbreviation == 'DT')
-            $value = Carbon::parse($this->value_datetime)->format('Y-m-d');
+            $value = is_null($this->value_datetime)?null:Carbon::parse($this->value_datetime)->format('Y-m-d');
         elseif($this->concept->datatype->hl7_abbreviation == 'ZZ')
             $value = $this->value_text;
         else

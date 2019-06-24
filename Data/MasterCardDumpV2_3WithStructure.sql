@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 15, 2019 at 06:41 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 7.0.15
+-- Host: mysql
+-- Generation Time: Jun 24, 2019 at 06:07 PM
+-- Server version: 5.7.22
+-- PHP Version: 7.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,8 +19,35 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `egpaf_art_api`
+-- Database: `new_emastercard`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `concept`
+--
+
+CREATE TABLE `concept` (
+  `concept_id` int(10) UNSIGNED NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `short_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` mediumtext COLLATE utf8mb4_unicode_ci,
+  `form_text` mediumtext COLLATE utf8mb4_unicode_ci,
+  `datatype_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `class_id` int(11) NOT NULL DEFAULT '0',
+  `is_set` int(11) NOT NULL DEFAULT '0',
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `default_charge` int(11) DEFAULT NULL,
+  `version` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `concept`
@@ -77,7 +106,28 @@ INSERT INTO `concept` (`concept_id`, `retired`, `short_name`, `description`, `fo
 (50, 0, NULL, NULL, NULL, 1, 0, 0, 1, '2007-05-04 07:39:18', NULL, NULL, 1, '2007-12-28 13:54:26', NULL, NULL, NULL, '50'),
 (51, 0, NULL, NULL, NULL, 1, 0, 0, 1, '2007-05-04 07:39:18', NULL, NULL, 1, '2007-12-28 13:54:26', NULL, NULL, NULL, '51'),
 (52, 0, NULL, NULL, NULL, 1, 0, 0, 1, '2007-05-04 07:39:18', NULL, NULL, 1, '2007-12-28 13:54:26', NULL, NULL, NULL, '52'),
-(53, 0, NULL, NULL, NULL, 3, 0, 0, 1, '2007-05-04 07:39:18', NULL, NULL, 1, '2007-12-28 13:54:26', NULL, NULL, NULL, '53');
+(53, 0, NULL, NULL, NULL, 4, 0, 0, 1, '2007-05-04 07:39:18', NULL, NULL, 1, '2007-12-28 13:54:26', NULL, NULL, NULL, '53'),
+(54, 0, NULL, NULL, NULL, 3, 0, 0, 1, '2007-05-04 07:39:18', NULL, NULL, 1, '2007-12-28 13:54:26', NULL, NULL, NULL, '54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `concept_datatype`
+--
+
+CREATE TABLE `concept_datatype` (
+  `concept_datatype_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `hl7_abbreviation` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `concept_datatype`
@@ -96,6 +146,30 @@ INSERT INTO `concept_datatype` (`concept_datatype_id`, `name`, `hl7_abbreviation
 (11, 'Rule', 'ZZ', 'Value derived from other data', 1, '2006-09-11 11:22:00', 0, NULL, NULL, NULL, 'e093ecb0-df1a-11de-a277-0026181bb84d'),
 (12, 'Structured Numeric', 'SN', 'Complex numeric values possible (ie, <5, 1-10, etc.)', 1, '2005-08-05 22:00:00', 0, NULL, NULL, NULL, 'e093ede6-df1a-11de-a277-0026181bb84d'),
 (13, 'Complex', 'ED', 'Complex value.  Analogous to HL7 Embedded Datatype', 1, '2008-05-28 10:25:34', 0, NULL, NULL, NULL, 'e093ef1c-df1a-11de-a277-0026181bb84d');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `concept_name`
+--
+
+CREATE TABLE `concept_name` (
+  `concept_name_id` int(10) UNSIGNED NOT NULL,
+  `concept_id` int(10) UNSIGNED DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `locale` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `concept_name_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `locale_preferred` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `concept_name`
@@ -154,7 +228,26 @@ INSERT INTO `concept_name` (`concept_name_id`, `concept_id`, `name`, `locale`, `
 (50, 50, 'Family Planning Depo No of Condom', 'en', 1, '2007-05-04 07:39:18', NULL, NULL, 0, NULL, NULL, NULL, '50', NULL, 0),
 (51, 51, 'Height (cm)', 'en', 1, '2007-05-04 07:39:18', NULL, NULL, 0, NULL, NULL, NULL, '51', NULL, 0),
 (52, 52, 'Age (curr)', 'en', 1, '2007-05-04 07:39:18', NULL, NULL, 0, NULL, NULL, NULL, '52', NULL, 0),
-(53, 53, 'Viral Load Result Symbol', 'en', 1, '2007-05-04 07:39:18', NULL, NULL, 0, NULL, NULL, NULL, '53', NULL, 0);
+(53, 53, 'Viral Load Result Symbol', 'en', 1, '2007-05-04 07:39:18', NULL, NULL, 0, NULL, NULL, NULL, '53', NULL, 0),
+(54, 54, 'Age at Init Type', 'en', 1, '2007-05-04 07:39:18', NULL, NULL, 0, NULL, NULL, NULL, '54', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `district`
+--
+
+CREATE TABLE `district` (
+  `district_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `region_id` int(10) UNSIGNED NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `district`
@@ -193,262 +286,52 @@ INSERT INTO `district` (`district_id`, `name`, `region_id`, `creator`, `date_cre
 (30, 'Balaka', 3, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
 (31, 'Neno', 3, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
 (32, 'Blantyre City', 3, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(33, 'Afghanistan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(34, 'Akrotiri', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(35, 'Albania', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(36, 'American Samoa', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(37, 'Andorra', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(38, 'Angola', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(39, 'Anguilla', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(40, 'Antarctica', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(41, 'Antigua and Barbuda', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(42, 'Argentina', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(43, 'Armenia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(44, 'Aruba', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(45, 'Ashmore and Cartier Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(46, 'Australia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(47, 'Austria', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(48, 'Azerbaijan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(49, 'Bahamas, The', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(50, 'Bahrain', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(51, 'Barbados', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(52, 'Belarus', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(53, 'Burkina Faso', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(54, 'Bulgaria', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(55, 'Brunei', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(56, 'British Virgin Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(57, 'British Indian Ocean Territory', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(58, 'Brazil', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(59, 'Bouvet Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(60, 'Botswana', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(61, 'Bosnia and Herzegovina', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(62, 'Bolivia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(63, 'Bhutan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(64, 'Bermuda', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(65, 'Benin', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(66, 'Belize', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(67, 'Belgium', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(68, 'Bangladesh', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(69, 'Burma', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(70, 'Burundi', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(71, 'Cambodia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(72, 'Cameroon', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(73, 'Canada', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(74, 'Cape Verde', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(75, 'Cayman Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(76, 'Central African Republic', 4, 1, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
-(77, 'Chad', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(78, 'Chile', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(79, 'China', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(80, 'Christmas Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(81, 'Clipperton Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(82, 'Cocos Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(83, 'Colombia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(84, 'Comoros', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(85, 'Democratic Republic of Congo (DRC)', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(86, 'Congo Republic of the', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(87, 'Cook Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(88, 'Coral Sea Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(89, 'Cook Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(90, 'Coral Sea Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(91, 'Costa Rica', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(92, 'Cote d\'Ivoire', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(93, 'Croatia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(94, 'Cuba', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(95, 'Cyprus', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(96, 'Czech Republic', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(97, 'Denmark', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(98, 'Dhekelia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(99, 'Djibouti', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(100, 'Dominica', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(101, 'Dominican Republic', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(102, 'Ecuador', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(103, 'Egypt', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(104, 'El Salvador', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(105, 'Equatorial Guinea', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(106, 'Eritrea', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(107, 'Estonia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(108, 'Ethiopia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(109, 'Europa Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(110, 'Falkland Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(112, 'Faroe Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(113, 'Fiji', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(114, 'Finland', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(115, 'France', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(116, 'French Guiana', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(117, 'French Polynesia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(118, 'French Southern and Antarctic Lands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(119, 'Gabon', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(120, 'Gambia, The', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(121, 'Gaza Strip', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(122, 'Georgia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(123, 'Germany', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(124, 'Ghana', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(125, 'Gibraltar', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(126, 'Glorioso Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(127, 'Greece', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(128, 'Greenland', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(129, 'Grenada', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(130, 'Guadeloupe', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(131, 'Guam', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(132, 'Guatemala', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(133, 'Guernsey', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(134, 'Guinea', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(135, 'Guinea_Bissau', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(136, 'Guyana', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(137, 'Haiti', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(138, 'Heard Island and McDonald Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(139, 'Holy See (Vatican City)', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(140, 'Honduras', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(141, 'Hong Kong', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(142, 'Hungary', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(143, 'celand', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(144, 'India', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(145, 'Indonesia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(146, 'Iran', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(147, 'Iraq', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(148, 'Ireland', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(149, 'Isle of Man', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(150, 'Israel', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(151, 'Italy', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(152, 'Jamaica', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(153, 'Jan Mayen', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(154, 'Japan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(155, 'Jersey', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(156, 'Jordan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(157, 'Juan de Nova Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(158, 'Kazakhstan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(159, 'Kenya', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(160, 'Kiribati', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(161, 'Korea North', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(162, 'Korea South', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(163, 'Kuwait', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(164, 'Kyrgyzstan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(165, 'Laos', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(166, 'Latvia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(167, 'Lebanon', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(168, 'Lesotho', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(169, 'Liberia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(170, 'Libya', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(171, 'Liechtenstein', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(172, 'Lithuania', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(173, 'Luxembourg', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(174, 'Macau', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(175, 'Macedonia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(176, 'Madagascar', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(178, 'Malaysia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(179, 'Maldives', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(180, 'Mali', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(181, 'Malta', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(182, 'Marshall Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(183, 'Martinique', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(184, 'Mauritania', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(185, 'Mauritius', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(186, 'Mayotte', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(187, 'Mexico', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(188, 'Micronesia Federated States of', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(189, 'Moldova', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(190, 'Monaco', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(191, 'Mongolia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(192, 'Montserrat', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(193, 'Morocco', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(194, 'Mozambique', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(195, 'Namibia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(196, 'Nauru', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(197, 'Navassa Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(198, 'Nepal', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(199, 'Netherlands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(200, 'Netherlands Antilles', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(201, 'New Caledonia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(202, 'New Zealand', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(203, 'Nicaragua', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(204, 'Niger', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(205, 'Nigeria', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(206, 'Niue', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(207, 'Norfolk Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(208, 'Northern Mariana Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(209, 'Norway', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(210, 'Oman', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(211, 'Pakistan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(212, 'Palau', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(213, 'Panama', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(214, 'Papua New Guinea', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(215, 'Paracel Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(216, 'Paraguay', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(217, 'Peru', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(218, 'Philippines', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(219, 'Pitcairn Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(220, 'Poland', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(221, 'Portugal', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(222, 'Puerto Rico', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(223, 'Qatar', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(224, 'Reunion', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(225, 'Romania', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(226, 'Russia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(227, 'Rwanda', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(228, 'Saint Helena', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(229, 'Saint Kitts and Nevis', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(230, 'Saint Lucia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(231, 'Saint Pierre and Miquelon', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(232, 'Saint Vincent and the Grenadines', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(233, 'Samoa', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(234, 'San Marino', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(235, 'Sao Tome and Principe', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(236, 'Saudi Arabia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(237, 'Senegal', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(238, 'Serbia and Montenegro', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(239, 'Seychelles', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(240, 'Sierra Leone', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(241, 'Singapore', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(242, 'Slovakia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(243, 'Slovenia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(244, 'Solomon Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(245, 'Somalia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(246, 'South Africa', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(247, 'South Georgia and the South Sandwich Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(248, 'Spain', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(249, 'Spratly Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(250, 'Sri Lanka', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(251, 'Sudan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(252, 'Suriname', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(253, 'Svalbard', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(254, 'Swaziland', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(255, 'Sweden', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(256, 'Switzerland', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(257, 'Syria', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(258, 'Taiwan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(259, 'Tajikistan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(260, 'Tanzania', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(261, 'Thailand', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(262, 'Timor-Leste', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(263, 'Togo', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(264, 'Tokelau', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(265, 'Tonga', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(266, 'Trinidad and Tobago', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(267, 'Tromelin Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(268, 'Tunisia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(269, 'Turkey', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(270, 'Turkmenistan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(271, 'Turks and Caicos Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(272, 'Tuvalu', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(273, 'Uganda', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(274, 'Ukraine', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(275, 'United Arab Emirates', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(276, 'United Kingdom', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(278, 'United States of America', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(279, 'Uruguay', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(280, 'Uzbekistan', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(281, 'Vanuatu', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(282, 'Venezuela', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(283, 'Vietnam', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(284, 'Virgin Islands', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(285, 'Wake Island', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(286, 'Wallis and Futuna', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(287, 'West Bank', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(288, 'Western Sahara', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(289, 'Yemen', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(290, 'Zambia', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL),
-(291, 'Zimbabwe', 4, 1, '2011-07-27 12:17:25', 0, NULL, NULL, NULL);
+(33, 'Foreign', 4, 0, '2019-06-23 00:00:00', 0, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `encounter`
+--
+
+CREATE TABLE `encounter` (
+  `encounter_id` int(10) UNSIGNED NOT NULL,
+  `encounter_type` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `provider_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `location_id` int(11) DEFAULT NULL,
+  `form_id` int(11) DEFAULT NULL,
+  `encounter_datetime` datetime NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `program_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `encounter_type`
+--
+
+CREATE TABLE `encounter_type` (
+  `encounter_type_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `description` mediumtext COLLATE utf8mb4_unicode_ci,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `encounter_type`
@@ -459,6 +342,862 @@ INSERT INTO `encounter_type` (`encounter_type_id`, `name`, `description`, `creat
 (2, 'ART STATUS AT INITIATION', 'An ART Encounter, for patient status at initiation', 1, '2010-01-10 21:32:11', 0, NULL, NULL, NULL, '2'),
 (3, 'ART CONFIRMATORY HIV BEFORE START', 'An ART Encounter, for patient HIV test before Start', 1, '2010-01-10 21:32:11', 0, NULL, NULL, NULL, '3'),
 (4, 'ART VISIT', 'An ART Encounter, for patient visit', 1, '2010-01-10 21:32:11', 0, NULL, NULL, NULL, '4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `facility`
+--
+
+CREATE TABLE `facility` (
+  `facility_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `site_code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` double(8,2) DEFAULT NULL,
+  `longitude` double(8,2) DEFAULT NULL,
+  `district_id` int(10) UNSIGNED NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `facility`
+--
+
+INSERT INTO `facility` (`facility_id`, `name`, `site_code`, `latitude`, `longitude`, `district_id`, `creator`, `date_created`, `retired`, `retired_by`, `date_retired`, `retire_reason`) VALUES
+(1, 'Balaka District Hospital', 'BDH', 34.95, -14.99, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(2, 'Balaka Dream Clinic', 'BDC', NULL, NULL, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(3, 'Balaka OPD Health Centre', 'BKOP', 34.96, -14.99, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(4, 'Chiendausiku Health Centre', 'CYDU', 35.08, -15.02, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(5, 'Chimatilo Health Centre', 'CHIM', NULL, NULL, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(6, 'Comfort Clinic', 'CMFT', NULL, NULL, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(7, 'Kalembo Health Centre', 'KLBO', 35.18, -14.86, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(8, 'Kankao Health Centre', 'KNKO', 34.92, -15.05, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(9, 'Kwitanda Health Centre', 'KTDA', 35.09, -15.06, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(10, 'Mbera Health Centre', 'MBRA', 35.05, -14.91, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(11, 'Namanolo Health Centre', 'NMNO', 35.19, -15.00, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(12, 'Namdumbo Health Centre', 'NDBO', NULL, NULL, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(13, 'Phalula Health Centre', 'PHAC', 34.89, -15.23, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(14, 'Phimbi Health Centre', 'PBHC', 35.11, -15.25, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(15, 'Ulongwe Health Centre', 'ULHC', 35.18, -14.86, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(16, 'Utale 1 Health Centre', 'UTH', 35.06, -15.18, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(17, 'Utale 2 Health Centre', 'UTHC', 35.07, -15.17, 30, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(18, 'AMECCA Chilaweni Health centre', 'AMEQ', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(19, 'Bangwe Health Centre', 'BGWE', 35.08, -15.82, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(20, 'Bangwe Madina Health Centre', 'BMAC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(21, 'Blantyre Adventist Hospital', 'BAH', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(22, 'Blantyre City Assembly Clinic', 'BCAC', 35.03, -15.80, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(23, 'Blantyre District Health Office', 'BDHO', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(24, 'Blantyre Dream Project', 'BDP', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(25, 'Blantyre Water Board Clinic', 'BWBC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(26, 'BLM Lunzu', 'LBLM', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(27, 'Carlsberg / Sobo Clinic Blantyre', 'CSCB', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(28, 'Central East African Railways Clinic', 'CEAR', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(29, 'Chavala Health Centre', 'CVAL', 34.83, -15.83, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(30, 'Chichiri ESCOM Clinic', 'ESCB', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(31, 'Chichiri Prison Clinic', 'CPC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(32, 'Chichiri Prison Clinic', 'CPC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(33, 'Chikowa Health Centre', 'CKOW', 34.87, -15.67, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(34, 'Chileka Health Centre Blantyre', 'CHCB', 35.24, -15.68, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(35, 'Chileka SDA Health Centre', 'CSDA', 34.93, -15.66, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(36, 'Chilomoni Health Centre', 'CILO', 34.98, -15.77, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(37, 'Chilomoni Private Clinic', 'CHQM', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(38, 'Chimembe Health Centre', 'CMBE', 34.89, -15.78, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(39, 'Chirimba Health Centre', 'CHIR', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(40, 'Chitawira Private Hospital', 'CPH', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(41, 'College of Medicine Private Clinic', 'COMQ', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(42, 'Dziwe Health Centre', 'DZWE', 34.88, -15.56, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(43, 'El-Barakah Private Clinic', 'EQRB', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(44, 'Gateway Clinic', 'GACL', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(45, 'Kadidi Health Centre', 'KADI', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(46, 'Kanjedza Police Clinic', 'KPC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(47, 'Kapeni Dream Centre', 'KPND', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(48, 'Lafarge Cement Clinic', 'LFGE', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(49, 'Limbe Diagnostic Centre', 'LDC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(50, 'Limbe Health Centre', 'LHC', 35.05, -15.82, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(51, 'Limbe Leaf Tobacco Clinic Limbe', 'LLTB', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(52, 'Lirangwe Health Centre', 'LARI', 35.03, -15.53, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(53, 'Lumbira / Mitsidi Health Centre', 'LMHC', 34.97, -15.28, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(54, 'Lundu Health Centre', 'LDUH', 35.01, -15.42, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(55, 'Lungu Private Clinic', 'LUNP', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(56, 'MACRO Blantyre', 'MCRB', 35.01, -15.78, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(57, 'Madziabango Health Centre', 'MDAG', 34.91, -15.97, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(58, 'Makata Dispensary Ndirande', 'MKTD', 35.08, -15.63, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(59, 'Makata Health Centre Lunzu', 'MAKT', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(60, 'Makhetha Clinic', 'MKTA', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(61, 'Malabada Health Centre', 'MLBD', 35.04, -15.76, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(62, 'Malamulo Day Clinic', 'MALD', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(63, 'Malmed Private Clinic', 'MMED', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(64, 'MASM Medi Clinic Limbe', 'MASL', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(65, 'Mbayani Health Centre', 'MQBY', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(66, 'Mdeka Health Centre', 'MDKH', 34.94, -15.47, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(67, 'Medicare City Centre Clinic / City Centre Clinic / Makadam Pvt Clinic', 'CHC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(68, 'Merit Private Clinic', 'MQRT', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(69, 'Mlambe Mission Hospital', 'MLBE', 35.02, -15.64, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(70, 'Moyo Private Clinic', 'UMOY', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(71, 'Mpemba Health Centre', 'MPEM', 34.96, -15.87, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(72, 'Mpingo Maternity', 'MPI', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(73, 'Mtengoumodzi Private Hospital', 'MTGU', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(74, 'Mwachira Private Clinic', 'MRPC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(75, 'Mwaiwathu Private Hospital', 'MWAI', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(76, 'Namikoko Health Centre', 'NKHC', 35.07, -15.49, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(77, 'Nancholi Youth Organisation Clinic', 'NANQ', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(78, 'Ndirande Health Centre', 'NDRH', 35.04, -15.78, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(79, 'Nyambadwe Private Hospital', 'NBPH', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(80, 'Pace Clinic', 'PACC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(81, 'Pensulo Health Centre', 'PENS', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(82, 'Polytechnic Blantyre', 'PBC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(83, 'Queen Elizabeth Central Hospital', 'QECH', 35.02, -15.80, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(84, 'Sanjika Clinic', 'SAJC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(85, 'Shifa Private Clinic', 'SHFA', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(86, 'Soche Adventist Health Centre', 'SOCA', 35.06, -15.81, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(87, 'Soche Maternity', 'SOM', 35.03, -15.86, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(88, 'Sos Childrens Village Blantyre', 'SOSB', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(89, 'South Lunzu Health Centre', 'SL', 35.05, -15.73, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(90, 'St Vincent Health Centre Chadzunda', 'CZDA', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(91, 'Umunthu Foundation Clinic', 'UMUQ', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(92, 'Unilever South East Company Clinic', 'USEC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(93, 'United Bus Company Clinic', 'UBCC', NULL, NULL, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(94, 'Zingwangwa Health Centre', 'ZHC', 35.00, -15.82, 14, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(95, 'Alumenda Health Centre', 'ALMD', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(96, 'Bereu Health Post', 'BUR', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(97, 'Chapananga Health Centre', 'CPNG', 34.39, -15.81, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(98, 'Chikwawa District Hospital', 'CDHC', 34.79, -16.02, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(99, 'Chipwaila Health Centre', 'CPWL', 34.87, -14.47, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(100, 'Chithumba Health Centre', 'CHEC', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(101, 'Dolo Health Centre', 'DOLO', 34.72, -16.48, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(102, 'Gaga Health Centre', 'GAGA', 34.37, -15.81, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(103, 'Kakoma Health Centre', 'KKMA', 34.49, -16.01, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(104, 'Kalulu Health Centre, Chikwawa', 'KLLU', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(105, 'Kapichira ESCOM Clinic', 'KESC', 35.03, -15.79, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(106, 'Lengwe Health Centre', 'LEGW', 34.84, -16.29, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(107, 'Majete (Epicenter) Health Centre', 'MAJT', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(108, 'Makhwira Health Centre', 'MKWR', 34.79, -16.03, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(109, 'Mangulenje Health Centre', 'MGLJ', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(110, 'Mapelera Health Centre', 'MPLH', 34.92, -16.11, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(111, 'Mfera Health Centre', 'MFEL', 34.87, -16.07, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(112, 'Misomali Health Centre', 'MSML', 34.49, -16.01, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(113, 'Mkumaniza Health Centre', 'MKUM', 34.49, -16.01, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(114, 'Mwanza Clinic Area 3', 'MZAC', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(115, 'Ndakwera Health Centre', 'NDKH', 34.69, -16.22, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(116, 'Ngabu Rural Hospital', 'NRH', 34.89, -16.46, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(117, 'Ngabu SDA Health Centre', 'NGSD', 34.88, -16.46, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(118, 'Nkombedzi Health Centre', 'NKMC', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(119, 'St Montfort Hospital', 'SMMH', 34.87, -16.26, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(120, 'Sucoma Clinic Illovo', 'SIC', NULL, NULL, 27, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(121, 'Akasale Private Cinic', 'AKQS', NULL, NULL, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(122, 'Bilal Clinic', 'BLAL', 35.13, -15.74, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(123, 'Bilal Clinic', 'BLAL', 35.13, -15.74, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(124, 'Chimwawa Health Centre', 'CHIW', NULL, NULL, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(125, 'Chiradzulu District Hospital', 'CRDZ', 35.19, -15.70, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(126, 'Chitera Health Centre', 'CTER', 35.12, -15.61, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(127, 'Chitera Health Centre', 'CTER', 35.12, -15.61, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(128, 'Mauwa Health Centre', 'MUWA', 35.25, -15.65, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(129, 'Mauwa Health Centre', 'MUWA', 35.25, -15.65, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(130, 'Mbulumbuzi Health Centre', 'MBLZ', 35.16, -15.64, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(131, 'Mbulumbuzi Health Centre', 'MBLZ', 35.16, -15.64, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(132, 'Milepa Health Centre', 'MLPA', 35.32, -15.69, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(133, 'Milepa Health Centre', 'MLPA', 35.32, -15.69, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(134, 'Namadzi Health Centre', 'NMDZ', 35.19, -15.55, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(135, 'Namadzi Health Centre', 'NMDZ', 35.19, -15.55, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(136, 'Namitambo Health Centre', 'NMTH', 35.27, -15.84, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(137, 'Namitambo Health Centre', 'NMTH', 35.27, -15.84, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(138, 'Ndunde Health Centre', 'NDEH', 35.23, -15.70, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(139, 'Ndunde Health Centre', 'NDEH', 35.23, -15.70, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(140, 'Nkalo Health Centre', 'NKLO', 35.31, -15.97, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(141, 'Nkalo Health Centre', 'NKLO', 35.31, -15.97, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(142, 'PIM Health Centre', 'PIMH', NULL, NULL, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(143, 'St Joseph Mission Hospital Nguludi', 'SJMH', 35.17, -15.80, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(144, 'Thumbwe Health Centre', 'TBHC', 35.25, -15.77, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(145, 'Thumbwe Health Centre', 'TBHC', 35.25, -15.77, 11, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(146, 'Chambo Health Centre', 'CMBO', 33.40, -9.94, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(147, 'Chisasu Health Post', 'CASU', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(148, 'Chitipa District Hospital', 'CDH', 33.27, -9.79, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(149, 'Ifumbo Health Centre', 'IFBO', 33.40, -9.60, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(150, 'Kameme Health Centre', 'KMME', 33.13, -9.54, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(151, 'Kapenda Health Centre', 'KPDA', 33.25, -9.49, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(152, 'Kaseye Mission Hospital', 'KSYE', 33.37, -9.67, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(153, 'Mahowe Health Centre', 'MAHQ', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(154, 'Misuku Health Centre', 'MSKU', 33.52, -9.68, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(155, 'Nthalire Health Centre', 'NTAR', 33.64, -10.35, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(156, 'Wenya Health Centre', 'WEHC', 33.56, -10.11, 1, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(157, 'Bembeke Health Centre', 'BMBK', 34.42, -14.36, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(158, 'Chikuse Health Centre', 'CKSE', 34.32, -14.15, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(159, 'Chimoto Health Centre', 'CMTO', 34.01, -14.44, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(160, 'Chiphwanya St Joseph Health Centre', 'CPWY', 34.26, -14.08, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(161, 'Chitowo Health Centre', 'CTWO', 34.04, -14.22, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(162, 'Chongoni Health Centre', 'CONI', 34.27, -14.32, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(163, 'Dedza District Hospital', 'DZAH', 34.33, -14.38, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(164, 'Dzindevu Health Centre', 'DZDV', 34.36, -14.20, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(165, 'FPAM Clinic Dedza', 'FPAD', NULL, NULL, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(166, 'Golomoti Health Centre', 'GLMT', 34.60, -14.41, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(167, 'Kafele Health Centre', 'KFEL', 33.72, -14.43, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(168, 'Kalulu Health Centre', 'KALH', 34.20, -14.00, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(169, 'Kanyama Health Centre', 'KYMA', 34.32, -14.24, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(170, 'Kanyezi Health Centre', 'KNZ', 34.07, -14.39, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(171, 'Kaphuka Health Centre', 'KPHA', 34.31, -14.04, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(172, 'Kasina Health Centre', 'KSNA', 34.13, -14.14, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(173, 'Kaundu Health Centre', 'KUDU', 35.44, -14.18, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(174, 'Lobi Rural Hospital', 'LBRH', 34.07, -14.39, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(175, 'Matumba Health Centre', 'MTBA', 33.91, -14.37, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(176, 'Mayani Health Centre', 'MYNI', 34.25, -14.10, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(177, 'Mganja Health Centre', 'MGJA', NULL, NULL, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(178, 'Mikondo Dispensary', 'MKDO', 32.94, -14.45, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(179, 'Mphati Health Centre', 'MPHT', 34.08, -14.46, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(180, 'Mphunzi Health Centre', 'MPZH', 34.18, -14.38, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(181, 'Mtakataka Health Centre', 'MTAK', 34.51, -14.23, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(182, 'Mtendere Health Centre', 'MTDR', 34.08, -14.31, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(183, 'Mua Mission Hospital', 'MUAH', 34.51, -14.28, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(184, 'Nakalazi Health Centre', 'NKZH', 34.55, -14.20, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(185, 'Police College Health Centre Mua', 'PCHC', 34.51, -14.23, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(186, 'Tiyese Private Maternity', 'TIY', NULL, NULL, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(187, 'Tsoyo Dispensary', 'TSOY', 34.16, -14.15, 23, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(188, 'Bowe Health Centre', 'BOWE', 33.68, -13.28, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(189, 'Chakhadza Health Centre', 'CKZ', 33.65, -13.44, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(190, 'Chankhungu Health Centre', 'CNGU', 34.01, -13.77, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(191, 'Chinkhwiri Health Centre', 'CKWR', 33.72, -13.39, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(192, 'Chisepo Health Centre', 'CSPO', 33.47, -13.63, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(193, 'Chizolowondo Health Centre', 'CZLW', 33.51, -13.46, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(194, 'Dowa District Hospital', 'DDH', 33.94, -13.66, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(195, 'Dzaleka Health Centre', 'DLKA', 33.87, -13.66, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(196, 'Dzoole Health Centre', 'DZLE', 33.66, -13.59, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(197, 'FPAM Clinic Dowa', 'FPCD', NULL, NULL, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(198, 'Kasese Health Centre', 'LNKS', 33.58, -13.33, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(199, 'Kayembe Health Centre', 'KYBE', 35.57, -14.85, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(200, 'Madisi Mission Hospital', 'MDMH', 33.61, -13.41, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(201, 'Mbingwa Health Centre', 'MBGW', 33.51, -13.54, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(202, 'Mponela Rural Hospital', 'MPO', 33.74, -13.53, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(203, 'Msakambewa Health Centre', 'MSKB', 33.90, -13.55, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(204, 'Mtengowanthenga Community Hospital', 'MTGC', 33.77, -13.67, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(205, 'Mtengowanthenga Dream Project', 'MTGD', NULL, NULL, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(206, 'Mvera Army Camp', 'MAMC', 34.14, -13.78, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(207, 'Mvera Mission Hospital', 'MVER', 34.13, -13.74, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(208, 'Mwangala Health Centre', 'MALA', 33.92, -13.49, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(209, 'Nalunga Mafika Health Centre', 'NLGH', NULL, NULL, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(210, 'Thonje Health Centre', 'TOHC', 34.24, -13.72, 12, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(211, 'Atupele Health Centre', 'AHC', 33.84, -9.73, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(212, 'BLM Karonga', 'BLMK', 33.92, -9.94, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(213, 'Care Private Clinic And Dental Surgery', 'CCDS', NULL, NULL, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(214, 'Chilumba Barracks Clinic', 'CBC', 34.21, -10.39, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(215, 'Chilumba Rural Hospital', 'CRBH', 34.25, -10.43, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(216, 'Fulirwa Health Centre', 'FLRW', 34.11, -10.45, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(217, 'Iponga Health Centre', 'IPOG', 33.81, -9.65, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(218, 'Kaporo Rural Hospital', 'KRH', 33.87, -9.77, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(219, 'Karonga District Hospital', 'KRGA', 33.91, -9.96, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(220, 'Kasoba Health Centre', 'KSBA', 33.87, -9.87, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(221, 'Lupembe Health Centre', 'LPME', 33.99, -10.07, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(222, 'Lwezga Health Centre', 'LWZA', 34.18, -10.57, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(223, 'Mpata Health Centre', 'MPTA', 33.81, -9.96, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(224, 'Ngana Health Centre', 'NGAH', 33.70, -9.62, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(225, 'Nyungwe Health Centre', 'NYHC', 34.11, -10.29, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(226, 'Sangilo Health Centre', 'SOHC', 34.21, -10.52, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(227, 'St Anne\'s Health Centre', 'SAHC', 34.21, -10.41, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(228, 'Wiliro Health Centre', 'WIHC', 33.61, -9.89, 4, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(229, 'Bua Dispensary', 'BUAD', 33.54, -13.29, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(230, 'Chamwabvi Dispensary', 'CMWV', 33.69, -13.11, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(231, 'Chulu Health Centre', 'CULU', 33.31, -12.82, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(232, 'Dwangwa Health Centre', 'DGWA', 33.45, -12.88, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(233, 'FPAM Clinic Kasungu', 'FPAK', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(234, 'Gogode Dispensary', 'GGDE', 33.56, -12.89, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(235, 'Kalikeni Private Clinic', 'KLKN', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(236, 'Kaluluma Rural Hospital', 'KLRH', 33.52, -12.58, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(237, 'Kamboni Health Centre', 'KBNI', 33.18, -13.31, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(238, 'Kamuzu Academy Clinic', 'KCC', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(239, 'Kapelula Health Centre', 'KPLA', 33.87, -12.88, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(240, 'Kasalika Health Centre', 'KSRK', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(241, 'Kasungu District Hospital', 'KDH', 33.48, -13.04, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(242, 'Kawamba Health Centre', 'KWBA', 33.34, -13.30, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(243, 'Khola Health Centre', 'KHOL', 33.32, -13.34, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(244, 'Linyangwa Health Centre', 'LNYG', 33.30, -13.14, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(245, 'Lodjwa Health Centre', 'LJWA', 33.53, -12.42, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(246, 'Mdunga Health Centre', 'MDGA', 33.85, -12.99, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(247, 'Mkhota Rural Growth Health Centre', 'NRGC', 33.34, -13.57, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(248, 'Mnyanja Health Centre', 'MNYJ', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(249, 'Mpepa Health Centre', 'MPPA', 33.33, -12.62, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(250, 'Mtunthama Health Centre', 'MTHC', 33.68, -13.03, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(251, 'Mziza Health Centre', 'MZAH', 33.50, -13.28, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(252, 'Newa / Mpasazi Health Centre', 'NEWH', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(253, 'Nkhamenya Community Hospital', 'NCMH', 33.50, -12.57, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(254, 'Ofesi Dispensary', 'OFD', 33.55, -12.78, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(255, 'Santhe Health Centre', 'STHC', 33.39, -13.47, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(256, 'Simulemba Health Centre', 'SMHC', 33.68, -12.74, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(257, 'St Andrews Clinic', 'SAC', 33.67, -13.03, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(258, 'St Augustine Health Centre', 'STAQ', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(259, 'St Faith Anglican Clinic', 'FAIT', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(260, 'Wimbe Health Centre', 'WHC', 33.69, -12.99, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(261, 'Yankho Private Clinic', 'OQHK', NULL, NULL, 2, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(262, 'St Mary\'s Chisumulu Health Centre', 'SMCH', 34.62, -12.03, 17, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(263, 'St Peters Mission Hospital', 'SPMH', 34.74, -12.06, 17, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(264, 'Adventist Health Centre Lilongwe', 'AHCL', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(265, 'African Bible College Clinic', 'ABCC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(266, 'Airwing Clinic', 'AIRW', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(267, 'Alliance One Clinic', 'ALOC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(268, 'Area 18 Health Centre', 'AREH', 33.78, -13.94, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(269, 'Area 18 Medi Clinic', 'MEDI', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(270, 'Area 25 Health Centre', 'ARHC', 33.77, -13.89, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(271, 'Area 30 Police Clinic', 'APC', 33.78, -13.93, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(272, 'Area 36 Private Clinic', 'QAND', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(273, 'Auction Holdings Limited Clinic Kanengo', 'AHCK', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(274, 'Baylor Childrens Centre Of Excellence In Malawi', 'BCCE', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(275, 'Bethsaida Private Hospital', 'BETP', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(276, 'Blessings Hospital', 'BH', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(277, 'Bunda College', 'BCC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(278, 'Bwaila Hospital', 'BWIR', 33.77, -13.99, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(279, 'Carlsberg / Sobo Clinic Lilongwe', 'CSCL', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(280, 'Central Health Clinic Area 47', 'CENH', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(281, 'Chadza Health Centre', 'CDZA', 33.84, -14.15, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(282, 'Chikowa Health Centre Lilongwe', 'CKWA', 33.46, -13.73, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(283, 'Chileka Health Centre Lilongwe Static Art', 'CLKA', 33.39, -14.02, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(284, 'Chileka Health Centre Lilongwe Static Art', 'CLKA', 33.39, -14.02, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(285, 'Chilobwe Majiga Health Centre', 'CMHC', 33.37, -13.85, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(286, 'Chimbalanga Health Centre', 'CMLG', 34.12, -13.94, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(287, 'Chioza Health Centre', 'IOZA', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(288, 'Chitedze Health Centre', 'CTDZ', 33.65, -13.98, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(289, 'Chiunjiza Health Centre', 'CUJZ', 33.67, -14.41, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(290, 'Chiwamba Health Centre', 'CWBA', 33.93, -13.86, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(291, 'City Centre Clinic', 'CCC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(292, 'Daeyang Luke Hospital', 'DYLH', 33.81, -13.87, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(293, 'Diamphwi Health Centre', 'DPWI', 34.08, -14.13, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(294, 'Dickson Health Centre', 'DKSN', 33.66, -14.27, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(295, 'Discovery Medi Clinic', 'DMDC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(296, 'Dr David Livingstone Memorial Clinic', 'DLMC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(297, 'Dzenza Health Centre', 'DZEZ', 33.75, -13.88, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(298, 'ESCOM Clinic Lilongwe', 'ESCL', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(299, 'Fidelity Private Clinic', 'FPCH', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(300, 'FPAM Clinic Kawale', 'FPQK', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(301, 'Good Hope Private Clinic', 'GHPC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(302, 'JTI Leaf Clinic Kanengo', 'ALCK', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(303, 'Kabudula Rural Hospital', 'KBDL', 33.45, -13.82, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(304, 'Kachere Private Clinic', 'KAPC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(305, 'Kamuzu Barracks', 'KB', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(306, 'Kamuzu Central Hospital', 'KCH', 33.79, -13.98, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(307, 'Kanengo Tobacco Processors Clinic', 'KTPC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(308, 'Kang\'oma Health Centre', 'KGMA', 33.88, -13.98, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(309, 'Katchale Health Centre', 'KTLE', 33.48, -13.04, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(310, 'Kawale Health Centre', 'KWLH', 34.11, -11.64, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(311, 'Kawale Medical Services', 'KMS', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(312, 'Khongoni Health Centre', 'KGON', 33.37, -13.77, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(313, 'Lighthouse', 'LH', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(314, 'Likuni Mission Hospital', 'LMH', 33.71, -14.03, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(315, 'Lilongwe City Assembly Chinsapo', 'LCAC', 33.73, -14.01, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(316, 'Lilongwe District Health Office', 'LLDH', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(317, 'Lilongwe Health Clinic', 'LIHC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(318, 'Lilongwe Private Clinic', 'LPP', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(319, 'Limbe Leaf Tobacco Clinic Lilongwe', 'LLTL', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(320, 'Lingadzi Private Clinic', 'LGAZ', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(321, 'Lumbadzi Health Centre', 'LBDZ', 33.80, -13.77, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(322, 'MACRO Lilongwe', 'MCRL', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(323, 'Malembo Health Centre Lilongwe', 'MHCL', 33.41, -13.62, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(324, 'Malingunde Health Centre', 'MLGD', 33.64, -14.17, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(325, 'Maluwa Health Centre', 'MWHC', 33.87, -14.26, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(326, 'MARS Clinic', 'MRSC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(327, 'MASM Area 43', 'MASM', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(328, 'MASM Medi Clinic Lilongwe', 'MSCL', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(329, 'Matapila Health Centre', 'MTPL', 33.98, -14.01, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(330, 'Maula Prison Health Centre', 'MAUP', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(331, 'Maziko Private Clinic', 'MAZC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(332, 'Mbabvi Health Centre', 'MBVI', 33.67, -13.93, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(333, 'Mbang\'ombe 1 Health Centre', 'MBG', 33.38, -14.17, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(334, 'Mbang\'ombe 2 Health Centre', 'MGBE', 33.71, -13.74, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(335, 'Mbwatalika Health Centre', 'MBTL', 33.55, -14.00, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(336, 'McGuire Wellness Center (Child Legacy)', 'MCG', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(337, 'Ming\'ongo Health Centre', 'MGOG', 33.45, -14.08, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(338, 'Mitundu Community Hospital', 'MTCH', 33.77, -14.25, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(339, 'Mlale Mission Hospital', 'MLLE', 33.76, -14.23, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(340, 'Mlolera Womens Clinic', 'MLWC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(341, 'Mtenthera Health Centre', 'MTTL', 34.01, -14.11, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(342, 'Nambuma Health Centre', 'NMBU', 33.56, -13.73, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(343, 'Nathenje Health Centre', 'NTJH', 33.91, -14.08, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(344, 'Ndaula Health Centre', 'ULAH', 33.51, -14.14, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(345, 'New State House Dispensary', 'NSHD', 33.85, -13.96, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(346, 'Ngoni Health Centre', 'NGOH', 33.64, -13.77, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(347, 'Nkhalango Clinic', 'NKLC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(348, 'Nkhoma Mission Hospital', 'NMH', 34.10, -14.04, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(349, 'Nsaru Health Centre', 'NSAH', 33.50, -13.89, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(350, 'Nthondo Health Centre Lilongwe', 'NDHC', 33.45, -14.03, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(351, 'Nyamanda Private Clinic', 'NYPC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(352, 'Partners In Hope Clinic', 'PIHC', 33.79, -14.02, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(353, 'SOS Clinic', 'SOSL', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(354, 'Ssh', 'SSHC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(355, 'St Gabriel Mission Hospital', 'SGMH', 33.35, -13.98, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(356, 'Tachira Private Clinic', 'TPC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(357, 'The Clinic', 'TCLC', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(358, 'Ukwe Health Centre', 'UKHC', 33.60, -13.83, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(359, 'Umoyo Private Clinic', 'QUMO', NULL, NULL, 18, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(360, 'Chamba Dispensary', 'CBDA', 35.42, -15.20, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(361, 'Chikweo Health Centre', 'CKWO', 35.67, -14.76, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(362, 'Gawanani Health Centre', 'GWNN', 35.20, -15.22, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(363, 'Kawinga Health Centre', 'KWGA', 33.34, -13.30, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(364, 'Liwonde Medical Clinic', 'LMDC', 35.22, -15.07, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(365, 'Machinga District Hospital', 'MACH', 35.23, -15.06, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(366, 'Machinga Health Centre', 'MCGH', 35.30, -15.18, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(367, 'Mangamba Health Centre', 'MGBA', NULL, NULL, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(368, 'Mbonechera Health Centre', 'MBNQ', 35.48, -14.89, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(369, 'Mkwepere Health Centre', 'MKWP', NULL, NULL, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(370, 'Mlomba Health Centre', 'MLBA', NULL, NULL, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(371, 'Mpiri Health Centre', 'MPHC', 35.61, -14.77, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(372, 'Mposa Health Centre', 'MPSA', 35.52, -15.15, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(373, 'Namandanje Health Centre', 'NMDA', 35.48, -14.88, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(374, 'Namanja Health Centre', 'NMJH', 35.68, -14.96, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(375, 'Nayinunje Health Centre', 'NAHC', 35.57, -14.74, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(376, 'Nayuchi Health Centre', 'NAYH', 35.53, -14.98, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(377, 'Ngokwe Health Centre', 'NKWH', 35.80, -14.71, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(378, 'Nsanama Health Centre', 'NNMC', 35.49, -14.99, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(379, 'Ntaja Health Centre', 'NHCM', 35.53, -14.87, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(380, 'Ntholowa Health Centre', 'NTLW', NULL, NULL, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(381, 'Nyambi Health Centre', 'NIHC', 35.57, -14.69, 5, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(382, 'Assalaam Clinic', 'ASLM', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(383, 'Billy Riordan Memorial Health Clinic', 'BRMC', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(384, 'Chikole Dispensary', 'CKLE', 35.38, -14.42, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(385, 'Chilipa Health Centre Mangochi', 'CLPA', 34.97, -14.70, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(386, 'Chilonga Health Centre', 'CHGA', 34.87, -14.46, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(387, 'Chiponde Health Centre', 'CHIP', 35.60, -14.37, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(388, 'Chiumbangame Health Centre', 'CAME', 35.55, -14.32, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(389, 'Chiunda Health Centre', 'CUDA', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(390, 'Iba Health Centre', 'IBA', 35.40, -14.30, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(391, 'Jalasi Health Centre', 'JLAS', 35.44, -14.36, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(392, 'Kadango Dispensary', 'KAD', 35.19, -14.06, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(393, 'Kapire Dream Centre', 'KADC', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(394, 'Kapire Health Centre', 'KPRE', 35.00, -14.79, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(395, 'Katema Health Centre', 'KTMA', 33.91, -14.28, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(396, 'Katuli Health Centre', 'KTUL', 34.64, -15.03, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(397, 'Koche Health Centre', 'KCHE', 35.14, -14.33, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(398, 'Kukalanga Health Centre', 'KULG', 35.18, -14.64, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(399, 'Lugola Health Centre', 'LGLA', 35.29, -13.99, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(400, 'Lulanga Health Centre', 'LLAG', 34.92, -13.69, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(401, 'Lungwena Health Centre', 'LGWN', 35.25, -14.24, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(402, 'Luwalika Health Centre', 'LWLK', 35.47, -14.24, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(403, 'Makanjira Health Centre', 'MKJR', 35.05, -13.72, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(404, 'Malawi Army Marine Camp Hospital', 'MAMH', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(405, 'Maldeco Fisheries Clinic', 'MDCO', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(406, 'Malembo Health Centre Mangochi', 'MHCM', 34.83, -14.24, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(407, 'Malombe Health Centre', 'MLOB', 35.35, -14.63, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(408, 'Malukula Health Centre', 'MALU', 35.36, -14.44, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(409, 'Mama Khadija Private Clinic Namwera', 'MKPC', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(410, 'Mangochi District Hospital', 'MAGC', 35.26, -14.48, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(411, 'Mase Health Centre', 'MSEH', 35.36, -14.58, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(412, 'Mkumba Health Centre', 'MKBA', 35.53, -14.59, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(413, 'Monkeybay Community Hospital', 'MBCH', 34.91, -14.09, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(414, 'Mpondasi Health Centre', 'MPDS', 35.24, -14.45, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(415, 'Mtimabii Health Centre', 'MTMB', 35.08, -14.61, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(416, 'Mulibwanji Hospital', 'MLBJ', 35.59, -14.51, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(417, 'Namalaka Health Centre', 'NMLK', 35.19, -14.12, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(418, 'Namwera Health Centre', 'NMWH', 35.50, -14.36, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(419, 'Nancholi Dispensary', 'NCLH', 35.59, -14.48, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(420, 'Nangalamu Health Centre', 'NALH', 35.67, -14.47, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(421, 'Nankhwali Health Centre', 'NKWL', 34.84, -14.13, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(422, 'Nankumba Health Centre', 'NKBA', 34.82, -14.37, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(423, 'Ngapani Health Centre', 'NGA', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(424, 'Nkope Health Centre', 'NKOH', 35.04, -14.20, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(425, 'Phirilongwe Health Centre', 'PWHC', 34.90, -14.59, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(426, 'Sinyala Health Centre', 'SYLA', 35.58, -14.58, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(427, 'Sister Martha Hospital', 'SIMH', 35.54, -14.39, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(428, 'Somba Health Centre', 'SOMB', NULL, NULL, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(429, 'St Martins Mission Hospital', 'SMAH', 35.29, -14.35, 3, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(430, 'Achikondi Women Community Friendly  Services Clinic', 'AWCF', NULL, NULL, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(431, 'Chioshya Health Centre', 'COSH', 33.17, -13.80, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(432, 'Chipumi Health Centre', 'CPMI', 33.08, -13.63, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(433, 'Guillime Mission Hospital', 'GMH', 33.08, -13.89, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(434, 'Gumba Health Centre', 'GHC', NULL, NULL, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(435, 'Home of Hope Clinic', 'QHHC', NULL, NULL, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(436, 'Kaigwazanga Health Centre', 'KGWG', 32.93, -13.63, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(437, 'Kapanga Health Centre', 'KPGA', 33.31, -14.06, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(438, 'Kapiri Mission Hospital', 'KMH', 33.17, -13.56, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(439, 'Kochilira Health Centre', 'KHC', 33.04, -13.78, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(440, 'Ludzi St Josephs Health Centre', 'LDZI', 32.99, -13.76, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(441, 'Mchinji District Hospital', 'MCH', 32.89, -13.80, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(442, 'Mikundi Health Centre', 'MKDI', 33.14, -13.71, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(443, 'Mkanda Health Centre', 'MKND', 32.96, -13.51, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(444, 'Nkhwazi Health Centre', 'NKWZ', 33.23, -13.92, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(445, 'Tembwe Health Centre', 'TEHC', 33.06, -13.90, 20, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(446, 'Bondo Health Centre', 'BODO', 35.61, -16.04, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(447, 'Chambe Health Centre', 'CHBE', 35.49, -15.90, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(448, 'Chinyama Health Centre', 'CYMA', 35.34, -16.16, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(449, 'Chisitu Health Centre', 'CSTU', NULL, NULL, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(450, 'Chonde Health Centre', 'CODE', 35.32, -16.00, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(451, 'Dzenje Maternity', 'DZJE', 35.41, -16.12, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(452, 'Friends of Mulanje (FOMO)', 'FOMO', NULL, NULL, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(453, 'Kambenje Health Centre', 'KBJE', 35.56, -15.85, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(454, 'Lujeri Health Centre', 'LJRH', NULL, NULL, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(455, 'Mbiza Health Centre', 'MBZA', 35.35, -16.09, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(456, 'Milonde Health Centre', 'MLDE', 35.48, -16.10, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(457, 'Mimosa Dispensary', 'MMSA', 35.61, -16.09, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(458, 'Minimini Dispensary', 'QSPE', 34.54, -16.04, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(459, 'Mkomaola Health Centre', 'MKOM', NULL, NULL, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(460, 'Mpala Health Centre', 'MPLA', 35.52, -16.14, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(461, 'Mulanje District Hospital', 'MDHC', 35.51, -16.03, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(462, 'Mulanje Mission Hospital', 'MMH', 35.46, -16.02, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(463, 'Mulomba Health Centre', 'MLBH', 35.51, -15.77, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(464, 'Muloza Health Centre', 'MLZH', 35.76, -16.06, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(465, 'Namasalima Health Centre Mulanje', 'NSLM', 35.72, -16.08, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(466, 'Namphungo Health Centre', 'NPUG', 35.35, -15.80, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(467, 'Namulenga Health Centre', 'NAMU', 35.33, -15.87, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(468, 'Naphimba Health Centre', 'NPMH', 35.68, -16.03, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(469, 'Ruo Dispensary', 'QRUO', NULL, NULL, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(470, 'Thembe Health Centre', 'TMBD', 35.43, -16.09, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(471, 'Thuchila Health Centre', 'TCHC', 35.36, -15.92, 24, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(472, 'Kunenekude Health Centre', 'KUNE', 34.49, -15.46, 19, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(473, 'Mwanza District Hospital', 'MWZH', 34.51, -15.60, 19, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(474, 'Thambani Health Centre', 'TNHC', 34.40, -15.73, 19, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(475, 'Tulonkhondo Health Centre', 'THC', 34.52, -15.75, 19, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(476, 'Bwengu Health Centre', 'BHC', 33.92, -11.06, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(477, 'Care Medical Clinic', 'CRMQ', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(478, 'Choma Health Centre', 'COMA', 33.99, -11.31, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(479, 'Dr Msachi\'s Clinic', 'DRMC', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL);
+INSERT INTO `facility` (`facility_id`, `name`, `site_code`, `latitude`, `longitude`, `district_id`, `creator`, `date_created`, `retired`, `retired_by`, `date_retired`, `retire_reason`) VALUES
+(480, 'Ekwendeni Mission Hospital', 'EKDN', 33.88, -11.20, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(481, 'Emsizini Health Centre', 'EMSZ', 33.82, -11.44, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(482, 'Engucwini Health Post', 'EGCN', 33.82, -11.20, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(483, 'Enukweni Health Centre', 'ENKW', 33.89, -11.18, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(484, 'Enukweni Mission Health Centre', 'ENKQ', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(485, 'ESCOM Clinic Mzuzu', 'ESCM', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(486, 'FPAM Clinic Mzuzu', 'FPMZ', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(487, 'Kabwafu Health Centre', 'KBWF', 33.53, -11.31, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(488, 'Kafukule Health Centre', 'KFKL', 33.63, -11.46, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(489, 'Kamwe Health Centre', 'KMWE', 33.79, -11.10, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(490, 'Kaweche Health Centre', 'KAWE', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(491, 'Khuyukuyu Health Centre', 'KYKY', 33.91, -11.22, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(492, 'Luvwere Health Centre', 'LUV', 33.67, -11.39, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(493, 'Luzi Health Centre', 'LUZI', 33.96, -11.00, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(494, 'MACRO Mzuzu', 'MCRM', 34.01, -11.47, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(495, 'Malidadi Health Centre', 'MADI', 33.50, -11.23, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(496, 'Manolo Health Centre', 'MNLO', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(497, 'MASM Medi Clinic Katoto', 'MASK', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(498, 'Matuli Health Centre', 'MAT', 33.90, -11.49, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(499, 'Moyale Barracks Health Centre', 'MOY', 34.04, -11.46, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(500, 'Mpherembe Health Centre', 'MPER', 33.61, -11.29, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(501, 'Mtwalo Health Centre', 'MTWL', 33.75, -11.40, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(502, 'Mumbwe Medical Centre', 'MMC', 34.03, -11.46, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(503, 'Mzambazi Community Hospital', 'MZCH', 33.43, -11.43, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(504, 'Mzuzu Central Hospital', 'RBWC', 34.00, -11.43, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(505, 'Mzuzu Central Prison', 'MCP', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(506, 'Mzuzu Health Centre', 'MHC', 34.02, -11.46, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(507, 'Mzuzu University Clinic', 'MZUC', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(508, 'Njuyu Health Centre', 'NJYU', 33.63, -11.46, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(509, 'Nkhorongo Health Centre', 'NKRH', 33.98, -11.39, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(510, 'St John of God Clinic', 'SJGC', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(511, 'St John\'s Mission Hospital', 'SJM', 34.03, -11.45, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(512, 'Sunrise Private Clinic', 'SRPV', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(513, 'Thunduwike Health Centre', 'THHE', 33.58, -11.18, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(514, 'Wezi Medical Centre', 'WZMC', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(515, 'BLM Mzimba', 'MBLM', 33.59, -11.90, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(516, 'Bulala Health Centre', 'BLLA', 33.45, -11.68, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(517, 'Chikangawa Health Centre', 'CKGW', 33.80, -11.84, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(518, 'Edingeni Health Centre', 'EDGN', 33.31, -12.04, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(519, 'Ehehleni Dispensary', 'EHLN', 33.59, -12.26, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(520, 'Embangweni Mission Hospital', 'EMH', 33.48, -12.14, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(521, 'Emfeni Health Centre', 'EHC', 33.61, -12.59, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(522, 'Endindeni Health Centre', 'EDNI', 33.56, -11.76, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(523, 'Euthini Community Hospital', 'EUTN', 33.42, -11.46, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(524, 'Hoho Health Centre', 'HOHO', 33.69, -12.28, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(525, 'Jenda Health Centre', 'JEDA', 33.55, -12.35, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(526, 'Kabuwa Health Centre', 'KBWA', 34.07, -12.52, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(527, 'Kalikumbi Health Centre', 'KLKB', 33.33, -12.20, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(528, 'Kamteteka Health Centre', 'KTTK', 33.36, -11.84, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(529, 'Katete Community Hospital', 'KTET', 35.04, -14.52, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(530, 'Khosolo Health Centre', 'KHSL', 33.79, -12.44, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(531, 'Lunjika Health Centre', 'LJKA', 33.69, -11.76, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(532, 'Luwawa Health Centre', 'LWAW', 33.72, -12.11, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(533, 'Luwelezi Health Centre', 'LWLZ', 33.64, -12.49, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(534, 'Mabiri Health Centre', 'MBRI', 33.43, -12.25, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(535, 'Madede Health Centre', 'MDED', 33.29, -11.54, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(536, 'Manyamula Health Centre', 'MYLA', 33.44, -11.94, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(537, 'Mbalachanda Health Centre', 'MBCD', 33.37, -11.36, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(538, 'Mhalaunda Health Centre', 'MHLD', 33.47, -12.05, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(539, 'Mkoma Health Centre', 'MKMA', 33.78, -12.61, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(540, 'Msese Health Centre', 'MSHC', 33.74, -12.36, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(541, 'Mtende Health Centre', 'MTDE', 33.55, -11.50, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(542, 'Mzalangwe Health Centre', 'NLGW', 33.57, -11.61, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(543, 'Mzimba District Hospital', 'MDH', 33.58, -11.90, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(544, 'Raiply Clinic', 'RIPC', NULL, NULL, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(545, 'Vibangala Dispensary', 'VBNG', 33.49, -12.23, 15, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(546, 'Chifunga Health Centre', 'CFGA', 34.71, -15.62, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(547, 'Dambe Health Centre', 'DAMQ', NULL, NULL, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(548, 'FPAM Clinic Neno', 'FPCN', NULL, NULL, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(549, 'Ligowe Health Centre', 'LGWE', NULL, NULL, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(550, 'Lisungwi Community Hospital', 'LSGW', 34.77, -15.44, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(551, 'Luwani Health Centre', 'LWAN', 34.74, -15.48, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(552, 'Magareta Health Centre', 'MRET', 34.63, -15.55, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(553, 'Matandani Health Centre', 'MTDN', 34.65, -15.33, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(554, 'Matope Health Centre', 'MTPE', 34.95, -15.35, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(555, 'Midzemba Health Centre', 'MIHC', NULL, NULL, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(556, 'Msambe Health Centre', 'NSBH', 34.61, -15.26, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(557, 'Neno District Hospital', 'NNDH', 34.65, -15.39, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(558, 'Neno Parish Health Centre', 'NPHC', 34.61, -15.44, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(559, 'Nkula Health Centre', 'NKA', 34.83, -15.52, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(560, 'Tedzani ESCOM Clinic', 'TEC', NULL, NULL, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(561, 'Zalewa PIH', 'ZDH', 34.83, -15.52, 31, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(562, 'BLM Nkhatabay', 'NBLM', NULL, NULL, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(563, 'Bula Health Centre', 'BULA', 34.12, -11.22, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(564, 'Chesamu Health Centre', 'CHES', 34.02, -11.85, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(565, 'Chikwina Health Centre', 'CKWN', 34.17, -11.40, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(566, 'Chilambwe Health Centre', 'CLBW', 34.32, -11.69, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(567, 'Chintheche Rural Hospital', 'CRH', 34.17, -11.83, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(568, 'Chisala Health Centre', 'CISL', 34.12, -11.57, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(569, 'Chitheka Health Centre', 'CTKA', 33.95, -11.70, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(570, 'Kachere Health Centre', 'KCRE', 34.05, -12.00, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(571, 'Kande Health Centre', 'KADE', 34.11, -11.94, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(572, 'Kavuzi Health Centre', 'KAVU', 34.63, -14.29, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(573, 'Khondowe Health Centre', 'KDOW', 34.17, -10.59, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(574, 'Liuzi Health Centre', 'LIUZ', 34.02, -12.19, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(575, 'Luwazi Health Centre', 'LWAZ', 34.15, -11.52, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(576, 'Maula Health Centre', 'MAHC', 34.23, -11.73, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(577, 'Mpamba Health Centre', 'MPBA', 34.20, -11.55, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(578, 'Mzenga Health Centre', 'MZGH', 34.08, -11.73, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(579, 'Nkhatabay District Hospital', 'NKHB', 34.30, -11.60, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(580, 'Nkhatabay Private Clinic', 'QNKH', NULL, NULL, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(581, 'Nthungwa Health Centre', 'NTHC', 33.80, -11.66, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(582, 'Usisya Health Centre', 'USHC', 34.21, -11.24, 7, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(583, 'Alinafe Community Hospital', 'ALCH', 34.24, -13.39, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(584, 'Benga Health Centre', 'BGAH', 34.27, -13.37, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(585, 'Bua Health Centre', 'BUA', 34.21, -12.80, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(586, 'Chididi Health Centre Nkhotakota', 'CDID', 34.31, -13.09, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(587, 'Dwambazi Rural Hospital', 'DRH', 33.99, -12.23, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(588, 'Dwangwa Cane Growers Association Clinic', 'DCGC', NULL, NULL, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(589, 'Dwangwa Matiki Clinic', 'DMC', 34.15, -12.50, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(590, 'Kapili Health Centre', 'KPLI', 34.31, -13.22, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(591, 'Kasitu Health Centre', 'KSTU', 34.82, -16.07, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(592, 'Katimbira Health Centre', 'KTBR', 33.61, -12.35, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(593, 'Liwaladzi Health Centre', 'LWAH', 34.17, -12.62, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(594, 'Malowa Health Centre', 'MLOW', 34.25, -13.18, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(595, 'Mazunga Private Clinic', 'MAZP', NULL, NULL, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(596, 'Mpamantha Health Centre', 'MPMT', 34.25, -13.07, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(597, 'Msenjere Health Centre', 'MSJR', 34.17, -12.73, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(598, 'Mtosa Health Centre', 'MTSA', 34.27, -13.44, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(599, 'Mwansambo Health Centre', 'MWAS', 34.13, -13.50, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(600, 'Ngala Health Centre', 'NGLH', 34.07, -12.37, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(601, 'Nkhotakota District Hospital', 'KKHO', 34.29, -12.93, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(602, 'Nkhunga Health Centre', 'KHHC', 34.11, -12.48, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(603, 'St Anne\'s Mission Hospital', 'SAMH', 34.30, -12.93, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(604, 'World Medical Fund', 'WMD', NULL, NULL, 6, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(605, 'Chididi Health Centre Nsanje', 'CDD', 35.17, -16.91, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(606, 'Kalemba Community Hospital', 'KCM', 35.11, -16.58, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(607, 'Lulwe Health Centre', 'LULW', 35.11, -17.09, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(608, 'Makhanga Health Centre', 'MKGA', 35.17, -16.52, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(609, 'Masenjere Health Centre', 'MJRE', 35.10, -16.34, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(610, 'Mbenje Health Centre', 'MBJE', 35.22, -16.99, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(611, 'Ndamera Health Centre', 'NMRH', 35.22, -17.10, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(612, 'Nsanje District Hospital', 'NJDH', 35.26, -16.92, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(613, 'Nyamithuthu Health Centre', 'NTTC', 35.20, -16.68, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(614, 'Phokera Health Centre', 'PKHC', 35.17, -16.63, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(615, 'Sankhulani Health Centre', 'SHHC', 35.26, -16.46, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(616, 'Sorgin Health Centre', 'SGHC', 35.01, -16.54, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(617, 'Tengani Health Centre', 'TGHC', 35.27, -16.92, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(618, 'Tikondane Private Clinic', 'TQKN', NULL, NULL, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(619, 'Trinity Mission Hospital', 'TRMH', 35.17, -16.42, 29, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(620, 'Bilira Health Centre', 'BLIL', 34.85, -14.83, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(621, 'Biriwiri Health Centre', 'BRWR', 34.64, -14.82, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(622, 'Bwanje Health Centre', 'BWAH', 34.77, -14.65, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(623, 'Champiti Health Centre', 'CMPT', NULL, NULL, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(624, 'Chigodi Health Centre', 'CGDI', 34.54, -14.49, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(625, 'Chikande Health Centre', 'CKDE', 34.91, -14.77, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(626, 'Doviko Dispensary', 'DVKO', 34.59, -15.08, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(627, 'Dzunje Dispensary', 'DZUN', 34.74, -14.81, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(628, 'FPAM Clinic Ntcheu', 'FPQN', NULL, NULL, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(629, 'Ganya Health Centre', 'GNYA', 34.62, -14.61, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(630, 'Gowa Heath Centre', 'GOWA', 34.59, -14.70, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(631, 'Kalimanjira Health Centre', 'KALI', NULL, NULL, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(632, 'Kandeu Health Centre', 'KDEU', 34.62, -14.60, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(633, 'Kapeni Health Centre', 'KPEN', 34.77, -15.00, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(634, 'Kasinje Health Centre', 'KSJE', 34.13, -14.15, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(635, 'Katsekera Health Centre', 'KATS', 33.52, -10.81, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(636, 'Lakeview Health Centre', 'LKVW', 34.55, -14.64, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(637, 'Lizulu Health Centre', 'LZLU', 34.47, -14.52, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(638, 'Manjawira Maternity', 'MJWR', 34.86, -15.01, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(639, 'Masasa Health Centre', 'MSAS', 34.42, -14.43, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(640, 'Matanda Health Centre', 'MTAD', 34.67, -15.11, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(641, 'Mlanda Health Centre', 'MLND', 34.46, -14.48, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(642, 'Mlangeni Health Centre', 'MLGE', 34.54, -14.68, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(643, 'Mphepozinai Dispensary', 'MPZN', 34.66, -14.74, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(644, 'Mtonda Health Centre', 'MTND', 34.75, -15.02, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(645, 'Nsipe Health Centre', 'NSHC', 34.75, -14.86, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(646, 'Nsiyaludzu Health Centre', 'NSYH', 34.87, -14.94, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(647, 'Ntcheu District Hospital', 'NUDH', 34.64, -14.82, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(648, 'Nzama Health Centre', 'NHC', 34.59, -14.89, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(649, 'Senzani Health Centre', 'SZHC', 34.86, -15.08, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(650, 'Sharpe Valley Health Centre', 'SVM', 34.74, -14.61, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(651, 'Sister Theresa Community Hospital Mikoke', 'STCH', 34.83, -15.00, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(652, 'Tsangano Health Centre', 'TSHC', 34.61, -15.17, 25, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(653, 'Chinguluwe Health Centre Ntchisi', 'CGHC', 33.87, -13.26, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(654, 'Chinthembwe Health Centre', 'CNBW', 33.91, -13.43, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(655, 'Kangolwa Health Centre', 'KGRW', 34.07, -13.37, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(656, 'Kansonga Health Centre Ntchisi', 'KNSG', 33.80, -13.27, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(657, 'Khuwi Health Centre', 'KHWI', 33.83, -13.43, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(658, 'Malambo St Theresa Health Centre', 'TSMC', NULL, NULL, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(659, 'Malomo Health Centre', 'MLMO', 33.84, -13.15, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(660, 'Mkhuzi Health Centre', 'MKZI', 33.78, -13.37, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(661, 'Mzandu Health Centre', 'MZDH', 34.03, -13.49, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(662, 'Ntchisi District Hospital', 'NDH', 33.91, -13.36, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(663, 'Nthondo Health Centre', 'NHCN', 34.02, -13.25, 8, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(664, 'Chiringa CHAM Health Centre', 'CHCC', NULL, NULL, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(665, 'Chiringa Maternity', 'CRGA', 35.77, -15.77, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(666, 'Chitekesa Health Centre', 'CTKS', 35.57, -15.55, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(667, 'Kalinde Health Centre', 'KLDE', 35.73, -15.67, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(668, 'Migowi Health Centre', 'MGWI', 35.69, -15.72, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(669, 'Mpasa Health Centre', 'MPAS', 35.61, -15.76, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(670, 'Mulungu Alinafe Clinic', 'MALI', NULL, NULL, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(671, 'Mwanga Health Centre', 'MWAG', 35.53, -15.65, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(672, 'Nambazo Health Centre', 'NBZH', 35.82, -15.56, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(673, 'Nazombe Health Centre (Gogo Nazombe)', 'GNBE', NULL, NULL, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(674, 'Nkhulambe Health Centre', 'NKBH', 35.75, -15.86, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(675, 'Nkhwayi Health Centre', 'MKYI', 35.63, -15.61, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(676, 'Phalombe Health Centre', 'PLHC', 35.65, -15.81, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(677, 'Phalombe Mission Hospital Holy Family', 'PHFH', 35.62, -15.82, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(678, 'Sukasanje Health Centre', 'SUHC', 35.77, -15.93, 26, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(679, 'BLM Rumphi', 'RBLM', 33.86, -11.02, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(680, 'Bolero Rural Hospital', 'BLRO', 33.74, -10.98, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(681, 'Chitimba Health Centre', 'CTMB', 34.17, -10.60, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(682, 'Eva Demaya Centre', 'EDC', 33.65, -10.96, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(683, 'Katowo Health Centre', 'KTWO', 34.22, -12.76, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(684, 'Livingstonia Mission Hospital', 'GLMH', 34.11, -10.60, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(685, 'Lura Health Centre', 'LURA', 34.04, -10.72, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(686, 'Luwuchi Health Centre', 'LWCI', 34.19, -10.68, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(687, 'Mhuju Rural Hospital', 'MHJU', 34.00, -10.87, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(688, 'Mlowe Health Centre', 'MLWE', 34.19, -10.76, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(689, 'Mphompha Health Centre', 'MPHM', 34.07, -11.01, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(690, 'Mwazisi Health Centre', 'MZSI', 33.58, -10.94, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(691, 'Mzokoto Health Centre', 'MZKH', 34.03, -10.91, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(692, 'Ng\'onga Health Centre', 'NNGA', 33.94, -10.94, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(693, 'Nthenje Dispensary', 'NNJE', 33.99, -10.92, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(694, 'Rumphi District Hospital', 'RDH', 33.85, -11.02, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(695, 'St Patricks Health Centre', 'SPHC', 33.87, -11.02, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(696, 'Tcharo Dispensary', 'TCHD', 34.22, -10.96, 13, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(697, 'Chagunda Health Centre', 'CGDA', 34.37, -13.88, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(698, 'Chinguluwe Health Centre Salima', 'CGLW', 34.38, -13.66, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(699, 'Chipoka Health Centre', 'CPKA', 34.52, -13.99, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(700, 'Chitala Health Centre', 'CTLA', 34.27, -13.67, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(701, 'Kaphatenga Health Centre', 'KPAT', 34.38, -13.76, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(702, 'Katawa Health Centre', 'KTHC', NULL, NULL, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(703, 'Khombedza Health Centre', 'KBDZ', 34.38, -13.76, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(704, 'Life Line Salima Health Centre', 'LLSH', 34.54, -14.09, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(705, 'Lifuwu Health Centre', 'LFWH', 34.59, -13.68, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(706, 'Mafco Health Centre', 'MFCO', 34.60, -13.78, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(707, 'Maganga Health Centre', 'MGGA', 34.56, -13.85, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(708, 'Makiyoni Health Centre', 'MKYN', 34.20, -13.59, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(709, 'Mchoka Health Centre', 'MCOK', 34.49, -13.93, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(710, 'Ngodzi Health Centre', 'NZHC', 34.51, -14.09, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(711, 'Parachute Battalion Clinic', 'PRBC', 34.54, -14.09, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(712, 'Salima District Hospital', 'SDH', 34.42, -13.76, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(713, 'Senga Bay Baptist Medical Clinic', 'SBMC', 34.60, -13.74, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(714, 'Thavite Health Centre', 'TVHC', 34.26, -13.50, 16, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(715, 'Amalika Health Centre', 'AMLK', 35.03, -15.99, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(716, 'Bvumbwe Research Health Centre', 'BRHC', 35.07, -15.89, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(717, 'Changata Health Centre', 'CGAT', 35.15, -16.23, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(718, 'Chimaliro Health Centre', 'CMLR', 35.18, -15.98, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(719, 'Chimvu Health Centre', 'CMVU', 35.12, -15.61, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(720, 'Chingazi Health Centre', 'CGZI', 35.21, -15.92, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(721, 'Chipho Health Centre', 'CPHO', 35.11, -16.17, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(722, 'Chisoka Health Centre', 'CSKA', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(723, 'Didi Health Centre', 'DIDI', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(724, 'Gombe Health Centre', 'GMBE', 35.23, -16.38, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(725, 'Hallena Oakley Ntambanyama Health Centre', 'HOHC', 35.08, -16.13, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(726, 'Khonjeni Health Centre', 'KJNH', 35.27, -16.10, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(727, 'Makapwa Health Centre', 'MKPW', 35.28, -16.18, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(728, 'Makungwa Health Centre', 'MKGW', 35.03, -15.94, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(729, 'Makwasa Estate Clinic', 'MKWS', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(730, 'Malamulo Mission Hospital', 'MLML', 35.11, -16.17, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(731, 'Mangunda Health Centre', 'MGDA', 35.26, -16.03, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(732, 'Mapanga Maternity', 'MPGA', 35.20, -16.28, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(733, 'Mchima Clinic', 'MCIM', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(734, 'Mianga Health Centre', 'MAGA', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(735, 'Mikolongwe Health Centre', 'MKLG', 35.18, -15.90, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(736, 'Mitengo Health Centre St Joseph', 'MTGO', 35.25, -16.11, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(737, 'Naming\'omba Health Centre', 'NMGH', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(738, 'Nsabwe Health Centre', 'NSAB', 35.20, -16.34, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(739, 'Sambankhanga Health Centre', 'SKHC', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(740, 'Satemwa Clinic', 'SATC', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(741, 'St Martins Molere Health Centre', 'SMMC', 35.14, -16.22, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(742, 'Thekerani Health Centre', 'TKHC', 35.21, -16.32, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(743, 'Thomasi Health Centre', 'TMHC', 34.98, -16.03, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(744, 'Thunga Health Centre', 'THHC', NULL, NULL, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(745, 'Thyolo District Hospital', 'THD', 35.15, -16.07, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(746, 'Zoa Health Centre', 'ZOHC', 35.20, -16.24, 22, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(747, 'AHI Private Clinic', 'AHIC', 34.48, -15.80, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(748, 'Bimbi Health Centre', 'BMBI', 35.48, -15.31, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(749, 'BLM Zomba', 'ZBLM', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(750, 'Chamba Health Centre', 'CMBA', 35.52, -15.47, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(751, 'Chancellor College Clinic', 'CNCC', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(752, 'Changalume Barracks Clinic', 'MBCC', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(753, 'Chilipa Health Centre Zomba', 'CHLP', 35.12, -15.32, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(754, 'Chinamwali Private Clinic', 'CNML', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(755, 'Chingale Health Centre', 'CGLE', 35.18, -15.40, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(756, 'Chipini Health Centre', 'CPNI', 35.10, -15.39, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(757, 'City Clinic Zomba', 'CCZ', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(758, 'Cobbe Barracks Hospital', 'CBH', 35.30, -15.39, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(759, 'Domasi Rural Hospital', 'DMSI', 35.40, -15.28, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(760, 'H. Parker Sharp Health Centre (Domasi CCAP)', 'HPS', 35.36, -15.30, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(761, 'Lambulira Health Centre', 'LMBR', 35.34, -15.48, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(762, 'Likangala Health Centre', 'LKGL', 35.54, -15.43, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(763, 'Machinjiri Health Centre', 'MCJR', 35.42, -15.23, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(764, 'Maera Health Centre', 'MAER', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(765, 'Magomero Health Centre', 'MGMR', 35.26, -15.56, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(766, 'Makwapala Health Centre', 'MKPL', 35.46, -15.37, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(767, 'MASM Medi Clinic Zomba', 'MASZ', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(768, 'Matawale Health Centre', 'MTWA', 35.36, -15.39, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(769, 'Matiya Health Centre', 'MTYA', 35.55, -15.53, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(770, 'Mayaka Health Centre', 'MYKA', 35.37, -15.57, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(771, 'Mmambo Health Centre', 'MMAB', 35.16, -15.26, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(772, 'Mwandama Health Centre', 'MWDM', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(773, 'Naisi Health Centre', 'NAIH', 35.39, -15.36, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(774, 'Namadidi Health Centre', 'NHEC', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(775, 'Namasalima Health Centre Zomba', 'NMSA', 35.49, -15.23, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(776, 'Namikango Health Centre', 'KAGH', 35.24, -15.48, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(777, 'Nasawa Health Centre', 'NAWH', 35.26, -15.60, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(778, 'Ngwelero Health Centre', 'NGLR', 35.43, -15.67, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(779, 'Nkasala Health Centre', 'NKL', 35.22, -15.33, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(780, 'Pirimiti Health Centre', 'PMHC', 35.45, -15.48, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(781, 'Police College Hospital Zomba', 'PCHZ', 35.33, -15.39, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(782, 'Sadzi Health Centre', 'SADZ', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(783, 'St Lukes Mission Hospital', 'SLMH', 35.35, -15.21, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(784, 'State House Dispensary', 'STHD', 35.31, -15.38, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(785, 'Thondwe Health Centre', 'TDHC', 35.24, -15.48, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(786, 'Zilindo Health Centre', 'ZILD', NULL, NULL, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(787, 'Zomba Central Hospital', 'ZCH', 35.31, -15.40, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(788, 'Zomba Central Prison Clinic', 'ZCP', 35.32, -15.40, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(789, 'Zomba Mental Hospital', 'ZMH', 35.30, -15.40, 9, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL),
+(790, 'Foreign Country', 'FC', 0.00, 0.00, 33, 0, '0000-00-00 00:00:00', 0, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hts_record`
+--
+
+CREATE TABLE `hts_record` (
+  `hts_record_id` int(10) UNSIGNED NOT NULL,
+  `inserted_hts_record_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `age` int(11) NOT NULL,
+  `sex` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `modality` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `service_delivery_point` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `year` int(11) NOT NULL,
+  `month` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `location`
+--
+
+CREATE TABLE `location` (
+  `location_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `location`
@@ -485,218 +1224,384 @@ INSERT INTO `location` (`location_id`, `name`, `description`, `creator`, `date_c
 (18, 'Mbangombe Health Centre', 'Health Centre , Public Health Facility', 0, '2008-05-06 02:33:43', 0, NULL, NULL, NULL),
 (19, 'Bwaila Hospital (Bottom)', 'Health Centre , Public Health Facility', 0, '2008-05-06 02:33:43', 0, NULL, NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_card`
+--
+
+CREATE TABLE `master_card` (
+  `master_card_id` int(10) UNSIGNED NOT NULL,
+  `version` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Dumping data for table `master_card`
 --
 
 INSERT INTO `master_card` (`master_card_id`, `version`, `status`, `creator`, `date_created`, `changed_by`, `date_changed`, `voided`, `voided_by`, `date_voided`, `void_reason`, `uuid`) VALUES
-(1, '1', '', 0, '2019-04-01 00:00:00', NULL, NULL, 0, NULL, NULL, NULL, '1'),
-(2, '2', '', 0, '2019-04-01 00:00:00', NULL, NULL, 0, NULL, NULL, NULL, '2'),
-(3, '3', '', 0, '2019-04-01 00:00:01', NULL, NULL, 0, NULL, NULL, NULL, '3'),
-(4, '4', '', 0, '2019-04-01 00:00:01', NULL, NULL, 0, NULL, NULL, NULL, '4'),
-(5, '5', '', 0, '2019-04-01 00:00:02', NULL, NULL, 0, NULL, NULL, NULL, '5'),
-(6, '6', '', 0, '2019-04-01 00:00:02', NULL, NULL, 0, NULL, NULL, NULL, '6'),
-(7, '7', '', 0, '2019-04-01 00:00:03', NULL, NULL, 0, NULL, NULL, NULL, '7'),
-(8, '7 Paeds', '', 0, '2019-04-01 00:00:03', NULL, NULL, 0, NULL, NULL, NULL, '8');
+(7, '7 Adults', '', 0, '2019-04-01 00:00:03', NULL, NULL, 0, NULL, NULL, NULL, '7'),
+(8, '7 Peds', '', 0, '2019-04-01 00:00:03', NULL, NULL, 0, NULL, NULL, NULL, '8');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_card_map`
+--
+
+CREATE TABLE `master_card_map` (
+  `concept_id` int(10) UNSIGNED NOT NULL,
+  `encounter_type_id` int(10) UNSIGNED NOT NULL,
+  `master_card_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `master_card_map`
 --
 
 INSERT INTO `master_card_map` (`concept_id`, `encounter_type_id`, `master_card_id`) VALUES
-(1, 2, 5),
-(1, 2, 6),
+(28, 1, 7),
+(28, 1, 8),
+(29, 1, 7),
+(29, 1, 8),
+(30, 1, 7),
+(30, 1, 8),
+(31, 1, 7),
+(31, 1, 8),
 (1, 2, 7),
 (1, 2, 8),
 (2, 2, 7),
 (2, 2, 8),
-(3, 2, 5),
 (3, 2, 7),
 (3, 2, 8),
-(4, 2, 5),
-(4, 2, 6),
 (4, 2, 7),
 (4, 2, 8),
-(5, 2, 5),
-(5, 2, 6),
 (5, 2, 7),
 (5, 2, 8),
-(6, 2, 5),
-(6, 2, 6),
 (6, 2, 7),
 (6, 2, 8),
-(7, 2, 5),
-(7, 2, 6),
 (7, 2, 7),
 (7, 2, 8),
-(8, 2, 5),
-(8, 2, 6),
 (8, 2, 7),
 (8, 2, 8),
-(9, 2, 5),
-(9, 2, 6),
 (9, 2, 7),
 (9, 2, 8),
-(10, 2, 5),
-(10, 2, 6),
 (10, 2, 7),
 (10, 2, 8),
-(11, 2, 5),
-(11, 2, 6),
 (11, 2, 7),
-(12, 2, 5),
-(12, 2, 6),
+(11, 2, 8),
 (12, 2, 7),
 (12, 2, 8),
-(13, 2, 5),
-(13, 2, 6),
 (13, 2, 7),
 (13, 2, 8),
-(14, 2, 5),
-(14, 2, 6),
 (14, 2, 7),
 (14, 2, 8),
-(15, 3, 5),
-(15, 3, 6),
+(54, 2, 7),
+(54, 2, 8),
 (15, 3, 7),
 (15, 3, 8),
-(16, 3, 5),
-(16, 3, 6),
 (16, 3, 7),
 (16, 3, 8),
-(17, 3, 5),
-(17, 3, 6),
 (17, 3, 7),
 (17, 3, 8),
-(18, 3, 5),
-(18, 3, 6),
 (18, 3, 7),
 (18, 3, 8),
-(19, 3, 5),
-(19, 3, 6),
 (19, 3, 7),
 (19, 3, 8),
-(20, 3, 5),
-(20, 3, 6),
 (20, 3, 7),
 (20, 3, 8),
-(21, 3, 5),
-(21, 3, 6),
 (21, 3, 7),
 (21, 3, 8),
-(22, 3, 5),
-(22, 3, 6),
 (22, 3, 7),
 (22, 3, 8),
-(23, 3, 5),
-(23, 3, 6),
 (23, 3, 7),
 (23, 3, 8),
-(24, 3, 5),
-(24, 3, 6),
 (24, 3, 7),
 (24, 3, 8),
-(25, 3, 5),
-(25, 3, 6),
 (25, 3, 7),
 (25, 3, 8),
-(26, 3, 5),
-(26, 3, 6),
 (26, 3, 7),
-(27, 3, 5),
-(27, 3, 6),
+(26, 3, 8),
 (27, 3, 7),
-(28, 1, 5),
-(28, 1, 6),
-(28, 1, 7),
-(28, 1, 8),
-(29, 1, 5),
-(29, 1, 6),
-(29, 1, 7),
-(29, 1, 8),
-(30, 1, 5),
-(30, 1, 6),
-(30, 1, 7),
-(31, 1, 5),
-(31, 1, 6),
-(31, 1, 7),
-(31, 1, 8),
-(32, 4, 5),
-(32, 4, 6),
+(27, 3, 8),
 (32, 4, 7),
 (32, 4, 8),
-(33, 4, 5),
-(33, 4, 6),
 (33, 4, 7),
 (33, 4, 8),
-(34, 4, 5),
-(34, 4, 6),
-(34, 4, 7),
-(35, 4, 5),
-(35, 4, 6),
 (35, 4, 7),
 (35, 4, 8),
-(36, 4, 5),
-(36, 4, 6),
 (36, 4, 7),
 (36, 4, 8),
-(37, 4, 5),
-(37, 4, 6),
 (37, 4, 7),
 (37, 4, 8),
-(38, 4, 5),
-(38, 4, 6),
 (38, 4, 7),
 (38, 4, 8),
-(39, 4, 5),
-(39, 4, 6),
 (39, 4, 7),
 (39, 4, 8),
-(40, 4, 5),
-(40, 4, 6),
 (40, 4, 7),
 (40, 4, 8),
-(41, 4, 5),
-(41, 4, 6),
 (41, 4, 7),
 (41, 4, 8),
-(42, 4, 6),
 (42, 4, 7),
 (42, 4, 8),
-(43, 4, 5),
-(43, 4, 6),
 (43, 4, 7),
 (43, 4, 8),
-(44, 4, 5),
-(44, 4, 6),
 (44, 4, 7),
 (44, 4, 8),
-(45, 4, 5),
-(45, 4, 6),
 (45, 4, 7),
 (45, 4, 8),
-(46, 4, 5),
-(46, 4, 6),
 (46, 4, 7),
 (46, 4, 8),
-(47, 4, 5),
-(47, 4, 6),
 (47, 4, 7),
 (47, 4, 8),
-(48, 4, 5),
-(48, 4, 6),
 (48, 4, 7),
 (48, 4, 8),
-(49, 4, 5),
-(49, 4, 6),
-(50, 4, 5),
-(50, 4, 6),
-(51, 4, 5),
+(49, 4, 7),
+(49, 4, 8),
+(50, 4, 7),
+(50, 4, 8),
+(51, 4, 7),
+(51, 4, 8),
+(52, 4, 7),
 (52, 4, 8),
-(53, 4, 5),
-(53, 4, 6),
 (53, 4, 7),
 (53, 4, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `obs`
+--
+
+CREATE TABLE `obs` (
+  `obs_id` int(10) UNSIGNED NOT NULL,
+  `person_id` int(10) UNSIGNED NOT NULL,
+  `concept_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `encounter_id` int(10) UNSIGNED DEFAULT NULL,
+  `order_id` int(10) UNSIGNED DEFAULT NULL,
+  `obs_datetime` datetime NOT NULL,
+  `location_id` int(11) DEFAULT NULL,
+  `obs_group_id` int(11) DEFAULT NULL,
+  `accession_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value_group_id` int(11) DEFAULT NULL,
+  `value_boolean` tinyint(1) DEFAULT NULL,
+  `value_coded` int(11) DEFAULT NULL,
+  `value_coded_name_id` int(11) DEFAULT NULL,
+  `value_drug` int(11) DEFAULT NULL,
+  `value_datetime` datetime DEFAULT NULL,
+  `value_numeric` double(8,2) DEFAULT NULL,
+  `value_modifier` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value_text` mediumtext COLLATE utf8mb4_unicode_ci,
+  `date_started` datetime DEFAULT NULL,
+  `date_stopped` datetime DEFAULT NULL,
+  `comments` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value_complex` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient`
+--
+
+CREATE TABLE `patient` (
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `guardian_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `patient_phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `guardian_phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `follow_up` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `guardian_relation` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient_card`
+--
+
+CREATE TABLE `patient_card` (
+  `patient_card_id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `master_card_id` int(10) UNSIGNED NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient_card_map`
+--
+
+CREATE TABLE `patient_card_map` (
+  `encounter_id` int(10) UNSIGNED NOT NULL,
+  `patient_card_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient_step`
+--
+
+CREATE TABLE `patient_step` (
+  `patient_step_id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `date` date DEFAULT NULL,
+  `site` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `step` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `origin_destination` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `art_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `person`
+--
+
+CREATE TABLE `person` (
+  `person_id` int(10) UNSIGNED NOT NULL,
+  `gender` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  `birthdate` date DEFAULT NULL,
+  `birthdate_estimated` int(11) NOT NULL DEFAULT '0',
+  `dead` int(11) NOT NULL DEFAULT '0',
+  `death_date` datetime DEFAULT NULL,
+  `cause_of_death` int(11) DEFAULT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `person_address`
+--
+
+CREATE TABLE `person_address` (
+  `person_address_id` int(10) UNSIGNED NOT NULL,
+  `person_id` int(10) UNSIGNED NOT NULL,
+  `preferred` int(11) NOT NULL DEFAULT '0',
+  `address1` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city_village` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state_province` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `postal_code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country_district` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `neighborhood_cell` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `region` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `subregion` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `township_division` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `person_name`
+--
+
+CREATE TABLE `person_name` (
+  `person_name_id` int(10) UNSIGNED NOT NULL,
+  `preferred` int(11) NOT NULL DEFAULT '0',
+  `person_id` int(10) UNSIGNED NOT NULL,
+  `prefix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `given_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `family_name_prefix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `family_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `family_name2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `family_name_suffix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `degree` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `date_changed` datetime DEFAULT NULL,
+  `voided` int(11) NOT NULL DEFAULT '0',
+  `voided_by` int(11) DEFAULT NULL,
+  `date_voided` datetime DEFAULT NULL,
+  `void_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `region`
+--
+
+CREATE TABLE `region` (
+  `region_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `region`
@@ -708,373 +1613,429 @@ INSERT INTO `region` (`region_id`, `name`, `creator`, `date_created`, `retired`,
 (3, 'Southern Region', 1, '2011-07-27 11:56:02', 0, NULL, NULL, NULL),
 (4, 'Foreign', 1, '2011-07-27 11:56:02', 0, NULL, NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `traditional_authority`
+--
+
+CREATE TABLE `traditional_authority` (
+  `traditional_authority_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `hl7_abbreviation` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `district_id` int(10) UNSIGNED NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Dumping data for table `traditional_authority`
 --
 
-INSERT INTO `traditional_authority` (`traditional_authority_id`, `name`, `district_id`, `creator`, `date_created`, `retired`, `retired_by`, `date_retired`, `retire_reason`) VALUES
-(1, 'Mwabulambya', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(2, 'Mwenemisuku', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(3, 'Mwenewenya', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(4, 'Nthalire', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(5, 'Kameme', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(6, 'Chitipa Boma', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(7, 'Kilipula', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(8, 'Mwakaboko', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(9, 'Kyungu', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(10, 'Wasambo', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(11, 'Mwirang\'ombe', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(12, 'Karonga Town', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(13, 'Kabunduli', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(14, 'Fukamapiri', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(15, 'Malenga Mzoma', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(16, 'S/C Malanda', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(17, 'S/C Zilakoma', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(18, ' Mankhambira', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(19, 'S/C Fukamalaza', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(20, 'S/C Mkumbira', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(21, 'Musisya', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(22, 'S/C Nyaluwanga', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(23, 'S/C Mkondowe', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(24, 'Timbiri', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(25, 'Boghoyo', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(26, 'Nkhata-bay Boma', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(27, 'Chikulamayembe', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(28, 'Mwamlowe', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(29, 'S/C Mwahenga', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(30, 'S/C Mwalweni', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(31, 'S/C Kachulu', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(32, 'S/C Chapinduka', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(33, 'S/C Mwankhunikira', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(34, 'Katumbi', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(35, 'S/C Zolokere', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(36, 'Nyika National Park (A)', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(37, 'Rumphi Boma', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(38, 'M\'mbelwa', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(39, 'Mtwalo', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(40, 'S/C Kampingo Sibande', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(41, 'S/C Jaravikuba Munthali', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(42, 'Chindi', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(43, 'Mzikubola', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(44, 'Mabulabo', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(45, 'S/C Khosolo Gwaza Jere', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(46, 'Mpherembe', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(47, 'Mzukuzuku', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(48, 'Mzimba Boma', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(49, 'Nkhorongo Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(50, 'Lupaso Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(51, 'Zolozolo Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(52, 'Chiputula Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(53, 'Mchengautuwa Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(54, 'Katoto Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(55, 'Jombo Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(56, 'Mzilawayingwe Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(57, 'Chasefu Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(58, 'Katawa Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(59, 'Masasa Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(60, 'Kaning\'ina Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(61, 'Vipya Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(62, 'Msongwe Ward', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(63, 'New Airport Site', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(64, 'Mkumpha', 17, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(65, 'Kasungu Boma', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(66, 'TA Chilowamatambe', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(67, 'TA Chisikwa', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(68, 'TA Chulu', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(69, 'TA Kaluluma', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(70, 'TA Kaomba', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(71, 'TA Kapelula', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(72, 'TA Kawamba', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(73, 'S/C Lukwa', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(74, 'S/C Mnyanja', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(75, 'S/C Njombwa', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(76, 'TA Santhe', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(77, 'S/C Simlemba', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(78, 'TA Wimbe', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(79, 'Kasungu National Park', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(80, 'TA Kanyenda', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(81, 'SC Kafuzila', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(82, 'TA Malengachanzi', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(83, 'STA Mphonde', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(84, 'TA Mwadzama', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(85, 'TA Mwansambo', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(86, 'Nkhotakota Boma', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(87, 'Ta Kasakula', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(88, 'TA Chikho', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(89, 'S/C Nthondo', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(90, 'TA Kalumo', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(91, 'S/C Chilooko', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(92, 'Ntchisi Boma', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(93, 'TA Dzoole', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(94, 'S/C Chakhadza', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(95, 'TA Kayembe', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(96, 'TA Chiwere', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(97, 'SC Mkukula', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(98, 'TA Msakambewa', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(99, 'TA Mponela', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(100, 'Mponela Urban', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(101, 'Dowa Boma', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(102, 'Maganga', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(103, 'Kalonga', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(104, 'Pemba', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(105, 'SC Kambwiri', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(106, 'Ndindi', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(107, 'SC Kambalame', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(108, 'Khombedza', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(109, 'SC Mwanza', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(110, 'Kuluunda', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(111, 'SC Msosa', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(112, 'Salima Boma', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(113, 'Chadza', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(114, 'Kalolo', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(115, 'Chiseka', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(116, 'Mazengera', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(117, 'Chitekwere', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(118, 'Khongoni', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(119, 'Chimutu', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(120, 'Area 1 (Falls)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(121, 'Area 2 (Old town)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(122, 'Area 3', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(123, 'Area 4', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(124, 'Area 5', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(125, 'Area 6', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(126, 'Area 7 (Kawale)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(127, 'Area 8 (Biwi)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(128, 'Area 9', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(129, 'Area 10', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(130, 'Area 11', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(131, 'Area 12', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(132, 'Area 13', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(133, 'Area 14 ', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(134, 'Area 15', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(135, 'Area 16', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(136, 'Area 17', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(137, 'Area 18', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(138, 'Area 19', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(139, 'Area 20 (Chilinde 1)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(140, 'Area 21 (Chilinde)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(141, 'Area 22', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(142, 'Area 23', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(143, 'Area 24', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(144, 'Area 25', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(145, 'Area 26 (Manyenje)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(146, 'Area 27 (Liwewe)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(147, 'Area 28', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(148, 'Area 29 (Kanengo)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(149, 'Area 30', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(150, 'Area 31', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(151, 'Area 32', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(152, 'Area 33', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(153, 'Area 34', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(154, 'Area 35', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(155, 'Area 36', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(156, 'Area 37', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(157, 'Area 38 (Chimutu)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(158, 'Area 39 (Chatata)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(159, 'Area 40', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(160, 'Area 41', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(161, 'Area 42', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(162, 'Area 43', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(163, 'Area 44', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(164, 'Area 45 (Katete)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(165, 'Area 46 (Njewa)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(166, 'Area 47', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(167, 'Area 48', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(168, 'Area 49', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(169, 'Area 50 (Senti)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(170, 'Area 51 (M\'gona)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(171, 'Area 52 (Lumbadzi TC)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(172, 'Area 53 (Lumbadzi)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(173, 'Area 54', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(174, 'Area 55 (Chitukula)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(175, 'Area 56 (Ntandire)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(176, 'Area 57(Chinsapo)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(177, 'Area 58 (Likuni)', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(178, 'Mchinji Boma', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(179, 'Mduwa', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(180, 'Mkanda', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(181, 'Dambe', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(182, 'Mavwere', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(183, 'Mlonyeni', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(184, 'Zulu', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(185, 'Dedza Town', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(186, 'Kamenya Gwaza', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(187, 'Kaphuka', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(188, 'Pemba', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(189, 'Chauma', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(190, 'Kachindamoto', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(191, 'Chilikumwendo', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(192, 'Kasumbu', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(193, 'Tambala', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(194, 'Ntcheu Boma', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(195, 'Chakhumbira', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(196, 'Champiti', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(197, 'Goodson Ganya', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(198, 'Kwataine', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(199, 'Makwangwala', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(200, 'Masasa', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(201, 'Mpando', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(202, 'Njolomole', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(203, 'Phambala', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(204, 'Mangochi Boma', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(205, 'Chimwala', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(206, 'Jalasi', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(207, 'Makanjila', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(208, 'Mponda', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(209, 'Nankumba', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(210, 'Lake Malawi National Park', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(211, 'Chowe', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(212, 'Katuli', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(213, 'Mbwananyambi', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(214, 'Namabvi', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(215, 'Liwonde National Park', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(216, 'Machinga Boma', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(217, 'Chamba', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(218, 'Chiwalo', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(219, 'Liwonde', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(220, 'Mposa', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(221, 'Nyambi', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(222, 'Liwonde Town', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(223, 'Chikweo', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(224, 'Kawinga', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(225, 'Mlomba', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(226, 'Ngokwe', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(227, 'Sitola', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(228, 'Mbiza', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(229, 'Kuntumanji', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(230, 'Mkumbira', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(231, 'Mwambo', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(232, 'Chikowi', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(233, 'Malemia', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(234, 'Mlumbe', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(235, 'Chambo Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(236, 'Chhikamveka Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(237, 'Chilunga East Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(238, 'Likangala Central Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(239, 'Masongola Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(240, 'Mtiya Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(241, 'Zakazaka Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(242, 'Chikamveka North Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(243, 'Chirunga Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(244, 'Likangala South Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(245, 'Likangala North Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(246, 'Mbedza Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(247, 'Sadzi Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(248, 'Zomba Central Ward', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(249, 'Chitera', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(250, 'Kadewere', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(251, 'Likoswe', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(252, 'Mchema', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(253, 'Nkalo', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(254, 'Mpama', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(255, 'Chiradzulu Boma', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(256, 'Kuntaja', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(257, 'Lunzu TPA', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(258, 'Nkula TPA', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(259, 'Kapeni', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(260, 'Lundu', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(261, 'Makata', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(262, 'Somba', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(263, 'Chigaru', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(264, 'Kunthembwe', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(265, 'Machinjili', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(266, 'Bangwe Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(267, 'Blantyre West Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(268, 'Chigumula Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(269, 'Likhubula Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(270, 'Limbe Central Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(271, 'Mapanga Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(272, 'Misesa Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(273, 'Mzedi Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(274, 'Nancholi Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(275, 'Ndirande South Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(276, 'Nkolokoti Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(277, 'Soche East Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(278, 'South Lunzu Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(279, 'Soche West Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(280, 'Nyambadwe Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(281, 'Ndirande West Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(282, 'Ndirande North Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(283, 'Namiyango Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(284, 'Msamba Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(285, 'Michiru Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(286, 'Limbe East Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(287, 'Limbe West Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(288, 'Chilomoni Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(289, 'Chichiri Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(290, 'Blantrye East Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(291, 'Blantrye Central Ward', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(292, 'Kanduku', 19, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(293, 'Nthache', 19, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(294, 'Mwanza Boma', 19, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(295, 'Khwethemule', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(296, 'Kapichi', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(297, 'Chimaliro', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(298, 'Changata', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(299, 'Bvumbwe', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(300, 'Thukuta', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(301, 'Mbawela', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(302, 'Luchenza Town', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(303, 'Mphuka', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(304, 'Nsabwe', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(305, 'Thyolo Boma', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(306, 'Nchilamwela', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(307, 'Thomasi', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(308, 'Mulanje Boma', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(309, 'Mulanje Mountain', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(310, 'Chikumbu', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(311, 'Juma', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(312, 'Njema', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(313, 'Laston Njema', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(314, 'Mabuka', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(315, 'Nkanda', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(316, 'Nthiramanja', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(317, 'Phalombe Boma', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(318, 'Chiwalo', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(319, 'Mkhumba', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(320, 'Nazombe', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(321, 'Chapananga', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(322, 'Kasisi', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(323, 'Katunga', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(324, 'Lundu', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(325, 'Makhuwira', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(326, 'Maseya', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(327, 'Ngabu', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(328, 'Chikwawa Boma', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(329, 'Mwabvi Game Reserve', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(330, 'Nsanje Boma', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(331, 'Chimombo', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(332, 'Malemia', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(333, 'Mlolo', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(334, 'Nyachikadza', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(335, 'Ngabu', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(336, 'Makoko', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(337, 'Mbenje', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(338, 'Ndamera', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(339, 'Tengani', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(340, 'Balaka Boma', 30, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(341, 'Kalembo', 30, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(342, 'Nsamala', 30, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(343, 'Dambe', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(344, 'Mlauli', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(345, 'Neno Boma', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(346, 'Ngozi', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(347, 'Symon', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
-(512, 'Tsabango', 18, 1, '2012-10-03 10:17:16', 0, NULL, NULL, NULL),
-(513, 'Njewa', 18, 1, '2012-10-03 10:17:21', 0, NULL, NULL, NULL),
-(514, 'Kabudula', 18, 1, '2012-10-03 10:17:27', 0, NULL, NULL, NULL),
-(515, 'Malili', 18, 1, '2012-10-03 10:17:39', 0, NULL, NULL, NULL),
-(516, 'Chitukula', 18, 1, '2012-10-03 10:17:49', 0, NULL, NULL, NULL),
-(517, 'Masumbankhunda', 18, 1, '2012-10-03 10:17:55', 0, NULL, NULL, NULL),
-(518, 'Masula', 18, 1, '2012-10-03 10:18:11', 0, NULL, NULL, NULL);
+INSERT INTO `traditional_authority` (`traditional_authority_id`, `name`, `hl7_abbreviation`, `description`, `district_id`, `creator`, `date_created`, `retired`, `retired_by`, `date_retired`, `retire_reason`) VALUES
+(1, 'Mwabulambya', NULL, '', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(2, 'Mwenemisuku', NULL, '', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(3, 'Mwenewenya', NULL, '', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(4, 'Nthalire', NULL, '', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(5, 'Kameme', NULL, '', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(6, 'Chitipa Boma', NULL, '', 1, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(7, 'Kilipula', NULL, '', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(8, 'Mwakaboko', NULL, '', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(9, 'Kyungu', NULL, '', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(10, 'Wasambo', NULL, '', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(11, 'Mwirang\'ombe', NULL, '', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(12, 'Karonga Town', NULL, '', 4, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(13, 'Kabunduli', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(14, 'Fukamapiri', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(15, 'Malenga Mzoma', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(16, 'S/C Malanda', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(17, 'S/C Zilakoma', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(18, ' Mankhambira', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(19, 'S/C Fukamalaza', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(20, 'S/C Mkumbira', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(21, 'Musisya', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(22, 'S/C Nyaluwanga', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(23, 'S/C Mkondowe', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(24, 'Timbiri', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(25, 'Boghoyo', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(26, 'Nkhata-bay Boma', NULL, '', 7, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(27, 'Chikulamayembe', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(28, 'Mwamlowe', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(29, 'S/C Mwahenga', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(30, 'S/C Mwalweni', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(31, 'S/C Kachulu', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(32, 'S/C Chapinduka', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(33, 'S/C Mwankhunikira', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(34, 'Katumbi', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(35, 'S/C Zolokere', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(36, 'Nyika National Park (A)', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(37, 'Rumphi Boma', NULL, '', 13, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(38, 'M\'mbelwa', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(39, 'Mtwalo', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(40, 'S/C Kampingo Sibande', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(41, 'S/C Jaravikuba Munthali', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(42, 'Chindi', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(43, 'Mzikubola', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(44, 'Mabulabo', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(45, 'S/C Khosolo Gwaza Jere', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(46, 'Mpherembe', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(47, 'Mzukuzuku', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(48, 'Mzimba Boma', NULL, '', 15, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(49, 'Nkhorongo Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(50, 'Lupaso Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(51, 'Zolozolo Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(52, 'Chiputula Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(53, 'Mchengautuwa Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(54, 'Katoto Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(55, 'Jombo Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(56, 'Mzilawayingwe Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(57, 'Chasefu Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(58, 'Katawa Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(59, 'Masasa Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(60, 'Kaning\'ina Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(61, 'Vipya Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(62, 'Msongwe Ward', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(63, 'New Airport Site', NULL, '', 21, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(64, 'Mkumpha', NULL, '', 17, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(65, 'Kasungu Boma', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(66, 'TA Chilowamatambe', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(67, 'TA Chisikwa', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(68, 'TA Chulu', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(69, 'TA Kaluluma', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(70, 'TA Kaomba', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(71, 'TA Kapelula', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(72, 'TA Kawamba', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(73, 'S/C Lukwa', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(74, 'S/C Mnyanja', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(75, 'S/C Njombwa', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(76, 'TA Santhe', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(77, 'S/C Simlemba', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(78, 'TA Wimbe', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(79, 'Kasungu National Park', NULL, '', 2, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(80, 'TA Kanyenda', NULL, '', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(81, 'SC Kafuzila', NULL, '', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(82, 'TA Malengachanzi', NULL, '', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(83, 'STA Mphonde', NULL, '', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(84, 'TA Mwadzama', NULL, '', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(85, 'TA Mwansambo', NULL, '', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(86, 'Nkhotakota Boma', NULL, '', 6, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(87, 'Ta Kasakula', NULL, '', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(88, 'TA Chikho', NULL, '', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(89, 'S/C Nthondo', NULL, '', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(90, 'TA Kalumo', NULL, '', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(91, 'S/C Chilooko', NULL, '', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(92, 'Ntchisi Boma', NULL, '', 8, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(93, 'TA Dzoole', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(94, 'S/C Chakhadza', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(95, 'TA Kayembe', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(96, 'TA Chiwere', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(97, 'SC Mkukula', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(98, 'TA Msakambewa', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(99, 'TA Mponela', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(100, 'Mponela Urban', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(101, 'Dowa Boma', NULL, '', 12, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(102, 'Maganga', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(103, 'Kalonga', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(104, 'Pemba', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(105, 'SC Kambwiri', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(106, 'Ndindi', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(107, 'SC Kambalame', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(108, 'Khombedza', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(109, 'SC Mwanza', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(110, 'Kuluunda', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(111, 'SC Msosa', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(112, 'Salima Boma', NULL, '', 16, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(113, 'Chadza', NULL, '', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(114, 'Kalolo', NULL, '', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(115, 'Chiseka', NULL, '', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(116, 'Mazengera', NULL, '', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(117, 'Chitekwere', NULL, '', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(118, 'Khongoni', NULL, '', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(119, 'Chimutu', NULL, '', 18, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(120, 'Area 1 (Falls)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(121, 'Area 2 (Old town)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(122, 'Area 3', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(123, 'Area 4', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(124, 'Area 5', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(125, 'Area 6', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(126, 'Area 7 (Kawale)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(127, 'Area 8 (Biwi)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(128, 'Area 9', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(129, 'Area 10', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(130, 'Area 11', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(131, 'Area 12', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(132, 'Area 13', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(133, 'Area 14 ', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(134, 'Area 15', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(135, 'Area 16', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(136, 'Area 17', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(137, 'Area 18', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(138, 'Area 19', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(139, 'Area 20 (Chilinde 1)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(140, 'Area 21 (Chilinde)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(141, 'Area 22', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(142, 'Area 23', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(143, 'Area 24', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(144, 'Area 25', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(145, 'Area 26 (Manyenje)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(146, 'Area 27 (Liwewe)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(147, 'Area 28', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(148, 'Area 29 (Kanengo)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(149, 'Area 30', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(150, 'Area 31', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(151, 'Area 32', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(152, 'Area 33', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(153, 'Area 34', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(154, 'Area 35', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(155, 'Area 36', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(156, 'Area 37', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(157, 'Area 38 (Chimutu)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(158, 'Area 39 (Chatata)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(159, 'Area 40', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(160, 'Area 41', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(161, 'Area 42', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(162, 'Area 43', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(163, 'Area 44', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(164, 'Area 45 (Katete)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(165, 'Area 46 (Njewa)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(166, 'Area 47', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(167, 'Area 48', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(168, 'Area 49', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(169, 'Area 50 (Senti)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(170, 'Area 51 (M\'gona)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(171, 'Area 52 (Lumbadzi TC)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(172, 'Area 53 (Lumbadzi)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(173, 'Area 54', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(174, 'Area 55 (Chitukula)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(175, 'Area 56 (Ntandire)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(176, 'Area 57(Chinsapo)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(177, 'Area 58 (Likuni)', NULL, '', 28, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(178, 'Mchinji Boma', NULL, '', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(179, 'Mduwa', NULL, '', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(180, 'Mkanda', NULL, '', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(181, 'Dambe', NULL, '', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(182, 'Mavwere', NULL, '', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(183, 'Mlonyeni', NULL, '', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(184, 'Zulu', NULL, '', 20, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(185, 'Dedza Town', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(186, 'Kamenya Gwaza', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(187, 'Kaphuka', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(188, 'Pemba', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(189, 'Chauma', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(190, 'Kachindamoto', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(191, 'Chilikumwendo', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(192, 'Kasumbu', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(193, 'Tambala', NULL, '', 23, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(194, 'Ntcheu Boma', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(195, 'Chakhumbira', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(196, 'Champiti', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(197, 'Goodson Ganya', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(198, 'Kwataine', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(199, 'Makwangwala', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(200, 'Masasa', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(201, 'Mpando', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(202, 'Njolomole', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(203, 'Phambala', NULL, '', 25, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(204, 'Mangochi Boma', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(205, 'Chimwala', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(206, 'Jalasi', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(207, 'Makanjila', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(208, 'Mponda', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(209, 'Nankumba', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(210, 'Lake Malawi National Park', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(211, 'Chowe', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(212, 'Katuli', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(213, 'Mbwananyambi', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(214, 'Namabvi', NULL, '', 3, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(215, 'Liwonde National Park', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(216, 'Machinga Boma', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(217, 'Chamba', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(218, 'Chiwalo', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(219, 'Liwonde', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(220, 'Mposa', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(221, 'Nyambi', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(222, 'Liwonde Town', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(223, 'Chikweo', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(224, 'Kawinga', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(225, 'Mlomba', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(226, 'Ngokwe', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(227, 'Sitola', NULL, '', 5, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(228, 'Mbiza', NULL, '', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(229, 'Kuntumanji', NULL, '', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(230, 'Mkumbira', NULL, '', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(231, 'Mwambo', NULL, '', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(232, 'Chikowi', NULL, '', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(233, 'Malemia', NULL, '', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(234, 'Mlumbe', NULL, '', 9, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(235, 'Chambo Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(236, 'Chhikamveka Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(237, 'Chilunga East Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(238, 'Likangala Central Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(239, 'Masongola Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(240, 'Mtiya Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(241, 'Zakazaka Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(242, 'Chikamveka North Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(243, 'Chirunga Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(244, 'Likangala South Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(245, 'Likangala North Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(246, 'Mbedza Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(247, 'Sadzi Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(248, 'Zomba Central Ward', NULL, '', 10, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(249, 'Chitera', NULL, '', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(250, 'Kadewere', NULL, '', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(251, 'Likoswe', NULL, '', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(252, 'Mchema', NULL, '', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(253, 'Nkalo', NULL, '', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(254, 'Mpama', NULL, '', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(255, 'Chiradzulu Boma', NULL, '', 11, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(256, 'Kuntaja', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(257, 'Lunzu TPA', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(258, 'Nkula TPA', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(259, 'Kapeni', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(260, 'Lundu', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(261, 'Makata', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(262, 'Somba', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(263, 'Chigaru', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(264, 'Kunthembwe', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(265, 'Machinjili', NULL, '', 14, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(266, 'Bangwe Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(267, 'Blantyre West Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(268, 'Chigumula Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(269, 'Likhubula Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(270, 'Limbe Central Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(271, 'Mapanga Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(272, 'Misesa Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(273, 'Mzedi Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(274, 'Nancholi Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(275, 'Ndirande South Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(276, 'Nkolokoti Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(277, 'Soche East Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(278, 'South Lunzu Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(279, 'Soche West Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(280, 'Nyambadwe Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(281, 'Ndirande West Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(282, 'Ndirande North Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(283, 'Namiyango Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(284, 'Msamba Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(285, 'Michiru Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(286, 'Limbe East Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(287, 'Limbe West Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(288, 'Chilomoni Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(289, 'Chichiri Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(290, 'Blantrye East Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(291, 'Blantrye Central Ward', NULL, '', 32, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(292, 'Kanduku', NULL, '', 19, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(293, 'Nthache', NULL, '', 19, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(294, 'Mwanza Boma', NULL, '', 19, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(295, 'Khwethemule', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(296, 'Kapichi', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(297, 'Chimaliro', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(298, 'Changata', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(299, 'Bvumbwe', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(300, 'Thukuta', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(301, 'Mbawela', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(302, 'Luchenza Town', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(303, 'Mphuka', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(304, 'Nsabwe', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(305, 'Thyolo Boma', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(306, 'Nchilamwela', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(307, 'Thomasi', NULL, '', 22, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(308, 'Mulanje Boma', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(309, 'Mulanje Mountain', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(310, 'Chikumbu', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(311, 'Juma', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(312, 'Njema', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(313, 'Laston Njema', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(314, 'Mabuka', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(315, 'Nkanda', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(316, 'Nthiramanja', NULL, '', 24, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(317, 'Phalombe Boma', NULL, '', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(318, 'Chiwalo', NULL, '', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(319, 'Mkhumba', NULL, '', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(320, 'Nazombe', NULL, '', 26, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(321, 'Chapananga', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(322, 'Kasisi', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(323, 'Katunga', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(324, 'Lundu', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(325, 'Makhuwira', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(326, 'Maseya', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(327, 'Ngabu', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(328, 'Chikwawa Boma', NULL, '', 27, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(329, 'Mwabvi Game Reserve', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(330, 'Nsanje Boma', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(331, 'Chimombo', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(332, 'Malemia', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(333, 'Mlolo', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(334, 'Nyachikadza', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(335, 'Ngabu', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(336, 'Makoko', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(337, 'Mbenje', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(338, 'Ndamera', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(339, 'Tengani', NULL, '', 29, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(340, 'Balaka Boma', NULL, '', 30, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(341, 'Kalembo', NULL, '', 30, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(342, 'Nsamala', NULL, '', 30, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(343, 'Dambe', NULL, '', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(344, 'Mlauli', NULL, '', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(345, 'Neno Boma', NULL, '', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(346, 'Ngozi', NULL, '', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(347, 'Symon', NULL, '', 31, 1, '2011-09-27 00:00:00', 0, NULL, NULL, NULL),
+(512, 'Tsabango', NULL, '', 18, 1, '2012-10-03 10:17:16', 0, NULL, NULL, NULL),
+(513, 'Njewa', NULL, '', 18, 1, '2012-10-03 10:17:21', 0, NULL, NULL, NULL),
+(514, 'Kabudula', NULL, '', 18, 1, '2012-10-03 10:17:27', 0, NULL, NULL, NULL),
+(515, 'Malili', NULL, '', 18, 1, '2012-10-03 10:17:39', 0, NULL, NULL, NULL),
+(516, 'Chitukula', NULL, '', 18, 1, '2012-10-03 10:17:49', 0, NULL, NULL, NULL),
+(517, 'Masumbankhunda', NULL, '', 18, 1, '2012-10-03 10:17:55', 0, NULL, NULL, NULL),
+(518, 'Masula', NULL, '', 18, 1, '2012-10-03 10:18:11', 0, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `username` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_superuser` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_login` timestamp NULL DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `status`, `is_superuser`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'dataClerk', '$2y$10$j4fFmgGUpl.NZesY1Qe9keAEYLrqLxvIvtCYs38kiLwP8I14qmgse', NULL, '0', NULL, '2019-04-15 14:00:52', '2019-04-15 14:00:52'),
-(2, 'admin', '$2y$10$YZ89qBTi2o8IqVfJvaBghOUiQVBfOr8J7l1YTJxtJo7N8p8wdDwSy', '0', '0', NULL, '2019-05-05 12:44:29', '2019-05-05 12:44:29');
+INSERT INTO `users` (`user_id`, `username`, `password`, `status`, `is_superuser`, `last_login`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'dataClerk', '$2y$10$j4fFmgGUpl.NZesY1Qe9keAEYLrqLxvIvtCYs38kiLwP8I14qmgse', '', '0', NULL, NULL, '2019-04-15 14:00:52', '2019-04-15 14:00:52'),
+(2, 'admin', '$2y$10$YZ89qBTi2o8IqVfJvaBghOUiQVBfOr8J7l1YTJxtJo7N8p8wdDwSy', '0', '0', NULL, NULL, '2019-05-05 12:44:29', '2019-05-05 12:44:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `village`
+--
+
+CREATE TABLE `village` (
+  `village_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `traditional_authority_id` int(10) UNSIGNED NOT NULL,
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL,
+  `retired` int(11) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `village`
@@ -34607,6 +35568,409 @@ INSERT INTO `village` (`village_id`, `name`, `traditional_authority_id`, `creato
 (33747, 'Matsimbe', 518, 1, '2012-10-03 10:18:15', 0, NULL, NULL, NULL),
 (33748, 'Simalambo', 518, 1, '2012-10-03 10:18:16', 0, NULL, NULL, NULL),
 (33749, 'Mkanda', 518, 1, '2012-10-03 10:18:16', 0, NULL, NULL, NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `concept`
+--
+ALTER TABLE `concept`
+  ADD PRIMARY KEY (`concept_id`),
+  ADD UNIQUE KEY `concept_uuid_unique` (`uuid`),
+  ADD KEY `concept_datatype_id_foreign` (`datatype_id`);
+
+--
+-- Indexes for table `concept_datatype`
+--
+ALTER TABLE `concept_datatype`
+  ADD PRIMARY KEY (`concept_datatype_id`),
+  ADD UNIQUE KEY `concept_datatype_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `concept_name`
+--
+ALTER TABLE `concept_name`
+  ADD PRIMARY KEY (`concept_name_id`),
+  ADD UNIQUE KEY `concept_name_uuid_unique` (`uuid`),
+  ADD KEY `concept_name_concept_id_foreign` (`concept_id`);
+
+--
+-- Indexes for table `district`
+--
+ALTER TABLE `district`
+  ADD PRIMARY KEY (`district_id`),
+  ADD KEY `district_region_id_foreign` (`region_id`);
+
+--
+-- Indexes for table `encounter`
+--
+ALTER TABLE `encounter`
+  ADD PRIMARY KEY (`encounter_id`),
+  ADD UNIQUE KEY `encounter_uuid_unique` (`uuid`),
+  ADD KEY `encounter_patient_id_foreign` (`patient_id`),
+  ADD KEY `encounter_encounter_type_foreign` (`encounter_type`),
+  ADD KEY `encounter_provider_id_foreign` (`provider_id`);
+
+--
+-- Indexes for table `encounter_type`
+--
+ALTER TABLE `encounter_type`
+  ADD PRIMARY KEY (`encounter_type_id`),
+  ADD UNIQUE KEY `encounter_type_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `facility`
+--
+ALTER TABLE `facility`
+  ADD PRIMARY KEY (`facility_id`),
+  ADD KEY `facility_district_id_foreign` (`district_id`);
+
+--
+-- Indexes for table `hts_record`
+--
+ALTER TABLE `hts_record`
+  ADD PRIMARY KEY (`hts_record_id`);
+
+--
+-- Indexes for table `location`
+--
+ALTER TABLE `location`
+  ADD PRIMARY KEY (`location_id`);
+
+--
+-- Indexes for table `master_card`
+--
+ALTER TABLE `master_card`
+  ADD PRIMARY KEY (`master_card_id`),
+  ADD UNIQUE KEY `master_card_version_unique` (`version`),
+  ADD UNIQUE KEY `master_card_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `master_card_map`
+--
+ALTER TABLE `master_card_map`
+  ADD PRIMARY KEY (`concept_id`,`encounter_type_id`,`master_card_id`),
+  ADD KEY `master_card_map_encounter_type_id_foreign` (`encounter_type_id`),
+  ADD KEY `master_card_map_master_card_id_foreign` (`master_card_id`);
+
+--
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `obs`
+--
+ALTER TABLE `obs`
+  ADD PRIMARY KEY (`obs_id`),
+  ADD UNIQUE KEY `obs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `patient`
+--
+ALTER TABLE `patient`
+  ADD PRIMARY KEY (`patient_id`);
+
+--
+-- Indexes for table `patient_card`
+--
+ALTER TABLE `patient_card`
+  ADD PRIMARY KEY (`patient_card_id`),
+  ADD UNIQUE KEY `patient_card_uuid_unique` (`uuid`),
+  ADD KEY `patient_card_patient_id_foreign` (`patient_id`),
+  ADD KEY `patient_card_master_card_id_foreign` (`master_card_id`);
+
+--
+-- Indexes for table `patient_card_map`
+--
+ALTER TABLE `patient_card_map`
+  ADD PRIMARY KEY (`encounter_id`,`patient_card_id`),
+  ADD KEY `patient_card_map_patient_card_id_foreign` (`patient_card_id`);
+
+--
+-- Indexes for table `patient_step`
+--
+ALTER TABLE `patient_step`
+  ADD PRIMARY KEY (`patient_step_id`),
+  ADD KEY `patient_step_patient_id_foreign` (`patient_id`);
+
+--
+-- Indexes for table `person`
+--
+ALTER TABLE `person`
+  ADD PRIMARY KEY (`person_id`),
+  ADD UNIQUE KEY `person_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `person_address`
+--
+ALTER TABLE `person_address`
+  ADD PRIMARY KEY (`person_address_id`),
+  ADD UNIQUE KEY `person_address_uuid_unique` (`uuid`),
+  ADD KEY `person_address_person_id_foreign` (`person_id`);
+
+--
+-- Indexes for table `person_name`
+--
+ALTER TABLE `person_name`
+  ADD PRIMARY KEY (`person_name_id`),
+  ADD UNIQUE KEY `person_name_uuid_unique` (`uuid`),
+  ADD KEY `person_name_person_id_foreign` (`person_id`);
+
+--
+-- Indexes for table `region`
+--
+ALTER TABLE `region`
+  ADD PRIMARY KEY (`region_id`);
+
+--
+-- Indexes for table `traditional_authority`
+--
+ALTER TABLE `traditional_authority`
+  ADD PRIMARY KEY (`traditional_authority_id`),
+  ADD KEY `traditional_authority_district_id_foreign` (`district_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `users_username_unique` (`username`);
+
+--
+-- Indexes for table `village`
+--
+ALTER TABLE `village`
+  ADD PRIMARY KEY (`village_id`),
+  ADD KEY `village_traditional_authority_id_foreign` (`traditional_authority_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `concept`
+--
+ALTER TABLE `concept`
+  MODIFY `concept_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
+--
+-- AUTO_INCREMENT for table `concept_datatype`
+--
+ALTER TABLE `concept_datatype`
+  MODIFY `concept_datatype_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `concept_name`
+--
+ALTER TABLE `concept_name`
+  MODIFY `concept_name_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
+--
+-- AUTO_INCREMENT for table `district`
+--
+ALTER TABLE `district`
+  MODIFY `district_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT for table `encounter`
+--
+ALTER TABLE `encounter`
+  MODIFY `encounter_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `encounter_type`
+--
+ALTER TABLE `encounter_type`
+  MODIFY `encounter_type_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `facility`
+--
+ALTER TABLE `facility`
+  MODIFY `facility_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=791;
+
+--
+-- AUTO_INCREMENT for table `hts_record`
+--
+ALTER TABLE `hts_record`
+  MODIFY `hts_record_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `location`
+--
+ALTER TABLE `location`
+  MODIFY `location_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `master_card`
+--
+ALTER TABLE `master_card`
+  MODIFY `master_card_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `obs`
+--
+ALTER TABLE `obs`
+  MODIFY `obs_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `patient_card`
+--
+ALTER TABLE `patient_card`
+  MODIFY `patient_card_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `patient_step`
+--
+ALTER TABLE `patient_step`
+  MODIFY `patient_step_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `person`
+--
+ALTER TABLE `person`
+  MODIFY `person_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `person_address`
+--
+ALTER TABLE `person_address`
+  MODIFY `person_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `person_name`
+--
+ALTER TABLE `person_name`
+  MODIFY `person_name_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `region`
+--
+ALTER TABLE `region`
+  MODIFY `region_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `traditional_authority`
+--
+ALTER TABLE `traditional_authority`
+  MODIFY `traditional_authority_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=519;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `village`
+--
+ALTER TABLE `village`
+  MODIFY `village_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33750;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `concept`
+--
+ALTER TABLE `concept`
+  ADD CONSTRAINT `concept_datatype_id_foreign` FOREIGN KEY (`datatype_id`) REFERENCES `concept_datatype` (`concept_datatype_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `concept_name`
+--
+ALTER TABLE `concept_name`
+  ADD CONSTRAINT `concept_name_concept_id_foreign` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `district`
+--
+ALTER TABLE `district`
+  ADD CONSTRAINT `district_region_id_foreign` FOREIGN KEY (`region_id`) REFERENCES `region` (`region_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `encounter`
+--
+ALTER TABLE `encounter`
+  ADD CONSTRAINT `encounter_encounter_type_foreign` FOREIGN KEY (`encounter_type`) REFERENCES `encounter_type` (`encounter_type_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `encounter_patient_id_foreign` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `encounter_provider_id_foreign` FOREIGN KEY (`provider_id`) REFERENCES `person` (`person_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `facility`
+--
+ALTER TABLE `facility`
+  ADD CONSTRAINT `facility_district_id_foreign` FOREIGN KEY (`district_id`) REFERENCES `district` (`district_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `master_card_map`
+--
+ALTER TABLE `master_card_map`
+  ADD CONSTRAINT `master_card_map_concept_id_foreign` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `master_card_map_encounter_type_id_foreign` FOREIGN KEY (`encounter_type_id`) REFERENCES `encounter_type` (`encounter_type_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `master_card_map_master_card_id_foreign` FOREIGN KEY (`master_card_id`) REFERENCES `master_card` (`master_card_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `patient`
+--
+ALTER TABLE `patient`
+  ADD CONSTRAINT `patient_patient_id_foreign` FOREIGN KEY (`patient_id`) REFERENCES `person` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `patient_card`
+--
+ALTER TABLE `patient_card`
+  ADD CONSTRAINT `patient_card_master_card_id_foreign` FOREIGN KEY (`master_card_id`) REFERENCES `master_card` (`master_card_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `patient_card_patient_id_foreign` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `patient_card_map`
+--
+ALTER TABLE `patient_card_map`
+  ADD CONSTRAINT `patient_card_map_encounter_id_foreign` FOREIGN KEY (`encounter_id`) REFERENCES `encounter` (`encounter_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `patient_card_map_patient_card_id_foreign` FOREIGN KEY (`patient_card_id`) REFERENCES `patient_card` (`patient_card_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `patient_step`
+--
+ALTER TABLE `patient_step`
+  ADD CONSTRAINT `patient_step_patient_id_foreign` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `person_address`
+--
+ALTER TABLE `person_address`
+  ADD CONSTRAINT `person_address_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `person_name`
+--
+ALTER TABLE `person_name`
+  ADD CONSTRAINT `person_name_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `traditional_authority`
+--
+ALTER TABLE `traditional_authority`
+  ADD CONSTRAINT `traditional_authority_district_id_foreign` FOREIGN KEY (`district_id`) REFERENCES `district` (`district_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `village`
+--
+ALTER TABLE `village`
+  ADD CONSTRAINT `village_traditional_authority_id_foreign` FOREIGN KEY (`traditional_authority_id`) REFERENCES `traditional_authority` (`traditional_authority_id`) ON DELETE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

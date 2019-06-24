@@ -58,11 +58,6 @@ class APIv1Router
                 'as' => 'change_password',
                 'uses' => 'UserAPIController@changePassword',
             ]);
-
-            $router->patch('/{user}/reset_password', [
-                'as' => 'reset_password',
-                'uses' => 'UserAPIController@resetPassword',
-            ]);
         });
     }
 }

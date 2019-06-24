@@ -16,15 +16,9 @@ class CreateFacilityTable extends Migration
         Schema::create('facility', function (Blueprint $table) {
             $table->increments('facility_id');
             $table->string('name');
-            $table->string('code')->nullable();
-            $table->string('zone')->nullable();
-            $table->string('type')->nullable();
-            $table->string('district_code')->nullable();
-            $table->string('mga')->nullable();
-            $table->string('ftype')->nullable();
+            $table->string('site_code')->nullable();
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();
-            $table->string('ngo')->nullable();
 
             $table->unsignedInteger('district_id');
 

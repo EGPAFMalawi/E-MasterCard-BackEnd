@@ -19,7 +19,7 @@ class FacilityResource extends Resource
             'object' => 'FacilityResource',
             'facilityID' => $this->facility_id,
             'name' => $this->name,
-            'code' => $this->code,
+            'siteCode' => $this->site_code,
             'district' => Districts::resource($this->district),
             'dateCreated' => $this->date_created
         ];
