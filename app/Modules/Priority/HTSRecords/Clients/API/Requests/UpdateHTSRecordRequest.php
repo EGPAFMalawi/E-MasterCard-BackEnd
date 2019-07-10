@@ -3,6 +3,7 @@
 namespace App\Modules\Priority\HTSRecords\Clients\API\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateHTSRecordRequest extends FormRequest
 {
@@ -23,6 +24,11 @@ class UpdateHTSRecordRequest extends FormRequest
      */
     public function rules()
     {
-      return config('hts-records.validation_rules.update');
+      return array_merge(config('hts-records.validation_rules.update'),[
+          'inserted_hts_record_id' => [
+              'required',
+              Rule::unique('hts_record')->ignore($this->HTSRecord->hts_record_id, 'hts_record_id'),
+              'string',
+      ]]);
     }
 }
