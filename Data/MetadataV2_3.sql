@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Jun 24, 2019 at 06:09 PM
+-- Generation Time: Jul 11, 2019 at 11:53 AM
 -- Server version: 5.7.22
 -- PHP Version: 7.2.6
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_emastercard`
+-- Database: `new_emastercard4`
 --
 
 --
@@ -1112,6 +1112,8 @@ INSERT INTO `master_card_map` (`concept_id`, `encounter_type_id`, `master_card_i
 (32, 4, 8),
 (33, 4, 7),
 (33, 4, 8),
+(34, 4, 7),
+(34, 4, 8),
 (35, 4, 7),
 (35, 4, 8),
 (36, 4, 7),
