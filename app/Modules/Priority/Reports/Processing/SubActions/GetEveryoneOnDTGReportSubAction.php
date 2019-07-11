@@ -17,7 +17,6 @@ class GetEveryoneOnDTGReportSubAction
         $conceptRepo = Concepts::repository();
 
         $ARTRegimenConcept = $conceptRepo->get(39);
-        $adverseOutcomeConcept = $conceptRepo->get(48);
 
         $encounterType = EncounterTypes::repository()->get(4);
 
@@ -36,7 +35,7 @@ class GetEveryoneOnDTGReportSubAction
             $ARTRegimen = $lastEncounter->observations->where('concept_id', $ARTRegimenConcept->concept_id)->first();
 
             #AdverseOutcome
-            $adverseOutcome = $lastEncounter->observations->where('concept_id', $adverseOutcomeConcept->concept_id)->first();
+            $adverseOutcome = $patient->steps->where('step','Died')->count();
 
             if (is_null($ARTRegimen))
                 continue;
@@ -49,8 +48,8 @@ class GetEveryoneOnDTGReportSubAction
                     $ARTRegimen->value == '12A' ||
                     $ARTRegimen->value == '13A' ||
                     $ARTRegimen->value == '14A'
-                ) &&
-                is_null($adverseOutcome->value)
+                )&&
+                $adverseOutcome === 0
             )
                 $allOnDTG->push($patient);
         };

@@ -10,7 +10,7 @@ class GetLastEncounterTask
     public function run(Patient $patient, EncounterType $encounterType, $var = null)
     {
         #Get Last Encounter
-        $lastPatientCard = $patient->patientCards->sortBy(function ($item){
+        $lastPatientCard = $patient->patientCards->sortByDesc(function ($item){
             return $item->masterCard->version;
         })->last();
 

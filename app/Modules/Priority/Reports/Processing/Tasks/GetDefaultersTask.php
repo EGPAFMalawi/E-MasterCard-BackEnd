@@ -17,7 +17,6 @@ class GetDefaultersTask
         $conceptRepo = Concepts::repository();
 
         $nextAppointmentDateConcept = $conceptRepo->get(47);
-        $adverseOutcomeConcept = $conceptRepo->get(48);
 
         $encounterType = EncounterTypes::repository()->get(4);
 
@@ -44,7 +43,7 @@ class GetDefaultersTask
             $nextAppointmentDate = $lastEncounter->observations->where('concept_id', $nextAppointmentDateConcept->concept_id)->first();
 
             #AdverseOutcome
-            $adverseOutcome = $lastEncounter->observations->where('concept_id', $adverseOutcomeConcept->concept_id)->first();
+            $adverseOutcome = $patient->steps->where('step','Died')->count();
 
             if (is_null($nextAppointmentDate))
                 continue;
@@ -60,13 +59,13 @@ class GetDefaultersTask
             #Check if Past Today and if not Dead
             if (
                 $defaultedBy31->lessThan($today) &&
-                is_null($adverseOutcome->value)
+                $adverseOutcome === 0
             )
                 $defaultedBy31Days->push($patient);
 
             if (
                 $defaultedBy61->lessThan($today) &&
-                is_null($adverseOutcome->value)
+                $adverseOutcome === 0
             )
                 $defaultedBy61Days->push($patient);
         };

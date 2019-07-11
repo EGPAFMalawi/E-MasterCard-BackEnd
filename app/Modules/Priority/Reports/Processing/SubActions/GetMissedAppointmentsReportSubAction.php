@@ -19,7 +19,6 @@ class GetMissedAppointmentsReportSubAction
         $conceptRepo = Concepts::repository();
 
         $nextAppointmentDateConcept = $conceptRepo->get(47);
-        $adverseOutcomeConcept = $conceptRepo->get(48);
 
         $encounterType = EncounterTypes::repository()->get(4);
 
@@ -38,7 +37,7 @@ class GetMissedAppointmentsReportSubAction
             $nextAppointmentDate = $lastEncounter->observations->where('concept_id', $nextAppointmentDateConcept->concept_id)->first();
 
             #AdverseOutcome
-            $adverseOutcome = $lastEncounter->observations->where('concept_id', $adverseOutcomeConcept->concept_id)->first();
+            $adverseOutcome = $patient->steps->where('step','Died')->count();
 
             if (is_null($nextAppointmentDate))
                 continue;
@@ -51,8 +50,8 @@ class GetMissedAppointmentsReportSubAction
 
             #Check if Past Today and if not Dead
             if (
-                $parsedNextAppointmentDate->addDays($days)->lessThan($today) &&
-                is_null($adverseOutcome->value)
+                $parsedNextAppointmentDate->addDays($days)->lessThan($today)&&
+                $adverseOutcome === 0
             )
                 $missedAppointments->push($patient);
         };

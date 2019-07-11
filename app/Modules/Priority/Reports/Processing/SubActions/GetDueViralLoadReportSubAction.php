@@ -20,7 +20,6 @@ class GetDueViralLoadReportSubAction
         $startDateConcept = $conceptRepo->get(23);
         $visitDateConcept = $conceptRepo->get(32);
         $viralLoadSampleTakenConcept = $conceptRepo->get(45);
-        $adverseOutcomeConcept = $conceptRepo->get(48);
 
         $encounterType = EncounterTypes::repository()->get(4);
 
@@ -58,7 +57,8 @@ class GetDueViralLoadReportSubAction
             $viralLoadSampleTaken = $lastEncounter->observations->where('concept_id', $viralLoadSampleTakenConcept->concept_id)->first();
 
             #AdverseOutcome
-            $adverseOutcome = $lastEncounter->observations->where('concept_id', $adverseOutcomeConcept->concept_id)->first();
+            $adverseOutcome = $patient->steps->where('step','Died')->count();
+
             if (is_null($visitDate))
                 continue;
             #Get Month Difference for 6,12,After 12
@@ -70,23 +70,23 @@ class GetDueViralLoadReportSubAction
             if (
                 $today->greaterThan($dateAfter6Months) &&
                 $today->lessThan($dateAfter12Months) &&
-                $viralLoadSampleTaken->value == 'Bled' &&
-                $adverseOutcome->value != 'D'
+                $viralLoadSampleTaken->value == 'Bled'&&
+                $adverseOutcome === 0
             )
                 $due6Months->push($patient);
             elseif (
                 $today->greaterThan($dateAfter12Months) &&
                 $today->lessThan($dateAfter13Months) &&
-                $viralLoadSampleTaken->value == 'Bled' &&
-                $adverseOutcome->value != 'D'
+                $viralLoadSampleTaken->value == 'Bled'&&
+                $adverseOutcome === 0
 
             )
                 $due12Months->push($patient);
             elseif (
                 $today->greaterThan($dateAfter13Months) &&
                 $parsedVisitDate->lessThan($dateAfter13Months) &&
-                $viralLoadSampleTaken->value == 'Bled' &&
-                $adverseOutcome->value != 'D'
+                $viralLoadSampleTaken->value == 'Bled'&&
+                $adverseOutcome === 0
             )
                 $dueAfter12Months->push($patient);
         };

@@ -16,7 +16,6 @@ class GetLastViralLoadReportSubAction
         $conceptRepo = Concepts::repository();
 
         $lastViralLoadConcept = $conceptRepo->get(46);
-        $adverseOutcomeConcept = $conceptRepo->get(48);
 
         $encounterType = EncounterTypes::repository()->get(4);
 
@@ -35,7 +34,7 @@ class GetLastViralLoadReportSubAction
             $lastViralLoad = $lastEncounter->observations->where('concept_id', $lastViralLoadConcept->concept_id)->first();
 
             #AdverseOutcome
-            $adverseOutcome = $lastEncounter->observations->where('concept_id', $adverseOutcomeConcept->concept_id)->first();
+            $adverseOutcome = $patient->steps->where('step','Died')->count();
 
             if (is_null($lastViralLoad))
                 continue;
@@ -45,8 +44,8 @@ class GetLastViralLoadReportSubAction
 
             #Check if Past Today and if not Dead
             if (
-                $lastViralLoad->value > 1000 &&
-                is_null($adverseOutcome->value)
+                $lastViralLoad->value > 1000&&
+                $adverseOutcome->value === 0
             )
                 $lastViralLoadOver1000->push($patient);
         };

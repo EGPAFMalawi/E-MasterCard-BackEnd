@@ -16,10 +16,9 @@ class GetTxCurrentReportSubAction
     {
         $defaulters = App::make(GetDefaultersTask::class)->run($patients);
 
-        $adverseOutcomeConcept = Concepts::repository()->get(48);
         $encounterType = EncounterTypes::repository()->get(4);
 
-        $patientsWithoutOutcome = $patients->filter(function ($patient) use ($adverseOutcomeConcept,$encounterType){
+        $patientsWithoutOutcome = $patients->filter(function ($patient) use ($encounterType){
             #Get Last Encounter
             $lastEncounter = App::make(GetLastEncounterTask::class)->run($patient, $encounterType);
 
@@ -27,16 +26,10 @@ class GetTxCurrentReportSubAction
                 return false;
 
             #AdverseOutcome
-            $adverseOutcome = $lastEncounter->observations->where('concept_id', $adverseOutcomeConcept->concept_id)->first();
 
             #Check if Past Today and if not Dead
             if (
-            is_null($adverseOutcome)
-            )
-                return true;
-
-            if (
-            is_null($adverseOutcome->value)
+            $patient->steps->where('step','Died')->count() == 0
             )
                 return true;
 
