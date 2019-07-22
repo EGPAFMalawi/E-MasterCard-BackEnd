@@ -16,23 +16,28 @@ class APIv1Router
 
     public function run()
     {
-//        $this->router->group([
-//            'prefix' => 'encounters',
-//            'as' => 'encounters.',
-//            'middleware' => 'auth:api'
-//            ],
-//            function($router)
-//            {
-//
-//            $router->get('/', [
-//                'as' => 'get_all',
-//                'uses' => 'EncounterAPIController@getAll',
-//            ]);
-//
-//            $router->get('/{encounter}', [
-//                'as' => 'get',
-//                'uses' => 'EncounterAPIController@get',
-//            ]);
-//        });
+        $this->router->group([
+            'prefix' => 'encounters',
+            'as' => 'encounters.',
+            'middleware' => 'auth:api'
+            ],
+            function(Router $router)
+            {
+
+                $router->get('/', [
+                    'as' => 'get_all',
+                    'uses' => 'EncounterAPIController@getAll',
+                ]);
+
+                $router->get('/{encounter}', [
+                    'as' => 'get',
+                    'uses' => 'EncounterAPIController@get',
+                ]);
+
+                $router->patch('/{encounter}/toggle-void', [
+                    'as' => 'toggle.void',
+                    'uses' => 'EncounterAPIController@toggleVoid',
+                ]);
+        });
     }
 }

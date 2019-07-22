@@ -206,6 +206,7 @@ return [
         // Priority Modules
         App\Modules\Priority\Reports\Other\Providers\ReportServiceProvider::class,
         App\Modules\Priority\HTSRecords\Other\Providers\HTSRecordServiceProvider::class,
+        App\Modules\Priority\SystemBackups\Other\Providers\SystemBackupServiceProvider::class,
     ],
 
     /*

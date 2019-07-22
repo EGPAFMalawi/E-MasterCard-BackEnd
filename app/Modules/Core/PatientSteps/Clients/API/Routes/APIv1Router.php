@@ -39,6 +39,11 @@ class APIv1Router
                     'uses' => 'PatientStepAPIController@update',
                 ]);
 
+                $router->patch('/{patientStep}/toggle-void', [
+                    'as' => 'toggle.void',
+                    'uses' => 'PatientStepAPIController@toggleVoid',
+                ]);
+
         });
     }
 }

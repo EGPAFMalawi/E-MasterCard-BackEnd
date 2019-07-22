@@ -22,6 +22,15 @@ class CreatePatientStepTable extends Migration
             $table->string('origin_destination')->nullable();
             $table->string('art_number');
 
+            $table->integer('creator')->default(0);
+            $table->dateTime('date_created');
+            $table->integer('changed_by')->nullable();
+            $table->dateTime('date_changed')->nullable();
+            $table->integer('voided')->default(0);
+            $table->integer('voided_by')->nullable();
+            $table->dateTime('date_voided')->nullable();
+            $table->string('void_reason')->nullable();
+
             $table->foreign('patient_id')
                 ->references('patient_id')
                 ->on('patient')

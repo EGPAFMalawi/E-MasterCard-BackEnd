@@ -20,6 +20,7 @@ class EncounterResource extends Resource
             'patient' => $this->patient,
             'encounterType' => $this->encounter_type,
             'dateCreated' => $this->date_created,
+            'voided' => $this->voided == 0?false:true,
             'uuid' => $this->uuid
         ];
     }

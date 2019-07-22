@@ -38,4 +38,11 @@ class EncounterRepository {
 
         return $encounter;
     }
+
+    public function update($data, Encounter $encounter)
+    {
+        $encounter->update($data);
+
+        return $encounter;
+    }
 }
