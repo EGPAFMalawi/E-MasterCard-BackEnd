@@ -12,6 +12,7 @@ class PatientStep extends Model
     protected $primaryKey = 'patient_step_id';
 
     const CREATED_AT = 'date_created';
+
     const UPDATED_AT = null;
 
     protected $fillable = ['art_number', 'date', 'site', 'origin_destination', 'step'];
