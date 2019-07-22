@@ -9,6 +9,7 @@ use App\Modules\Priority\Reports\Processing\SubActions\GetEveryoneOnDTGReportSub
 use App\Modules\Priority\Reports\Processing\SubActions\GetLastViralLoadReportSubAction;
 use App\Modules\Priority\Reports\Processing\SubActions\GetMissedAppointmentsReportSubAction;
 use App\Modules\Priority\Reports\Processing\SubActions\GetNextAppointmentTomorrowReportSubAction;
+use App\Modules\Priority\Reports\Processing\SubActions\GetStepsReportSubAction;
 use App\Modules\Priority\Reports\Processing\SubActions\GetTxCurrentReportSubAction;
 use Illuminate\Support\Facades\App;
 
@@ -50,8 +51,8 @@ class GetReportAction
         }elseif ($data['code'] == 6)
         {
             $defaulters = App::make(GetDefaultersReportSubAction::class)->run($patients);
-            if ($data['type'] == 'CDCDefaulters')
-                $reportPayload = $defaulters['CDCDefaulters'];
+            if ($data['type'] == 'PEPFARDefaulters')
+                $reportPayload = $defaulters['PEPFARDefaulters'];
             else
                 $reportPayload = $defaulters['MOHDefaulters'];
 
@@ -59,22 +60,24 @@ class GetReportAction
         {
             $txCurrent = App::make(GetTxCurrentReportSubAction::class)->run($patients);
 
-            if ($data['type'] == 'CDCTXCurrent')
-                $reportPayload = $txCurrent['CDCTXCurrent'];
+            if ($data['type'] == 'PEPFARTXCurrent')
+                $reportPayload = $txCurrent['PEPFARTXCurrent'];
             else
                 $reportPayload = $txCurrent['MOHTXCurrent'];
-        }elseif ($data['code'] == 8)
+        }elseif ($data['code'] == 10)
         {
-            $outcomes = App::make(GetTxCurrentReportSubAction::class)->run($patients);
+            $outcomes = App::make(GetStepsReportSubAction::class)->run($patients);
 
-            if ($data['type'] == 'D')
-                $reportPayload = $outcomes['D'];
-            else if ($data['type'] == 'Def')
-                $reportPayload = $outcomes['Def'];
-            else if ($data['type'] == 'Stop')
-                $reportPayload = $outcomes['Stop'];
+            if ($data['type'] == 'Died')
+                $reportPayload = $outcomes['Died'];
+            else if ($data['type'] == 'ARTStop')
+                $reportPayload = $outcomes['ART Stop'];
+            else if ($data['type'] == 'Trans-in')
+                $reportPayload = $outcomes['Trans-in'];
+            else if ($data['type'] == 'Trans-out')
+                $reportPayload = $outcomes['Trans-out'];
             else
-                $reportPayload = $outcomes['TO'];
+                $reportPayload = $outcomes['Restart'];
         }
 
         return $reportPayload;

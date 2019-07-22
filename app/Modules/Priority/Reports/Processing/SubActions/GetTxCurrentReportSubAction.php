@@ -38,7 +38,7 @@ class GetTxCurrentReportSubAction
 
 
         return [
-            'CDCTXCurrent' => $patientsWithoutOutcome->diff($defaulters['CDCDefaulters']),
+            'PEPFARTXCurrent' => $patientsWithoutOutcome->diff($defaulters['PEPFARDefaulters']),
             'MOHTXCurrent' => $patientsWithoutOutcome->diff($defaulters['MOHDefaulters']),
         ];
     }

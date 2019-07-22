@@ -72,8 +72,8 @@ class RouteServiceProvider extends ServiceProvider
                'namespace' => $this->namespaces['api']
            ],function($router){
               $router->group([
-                              'prefix' => 'v1/encounters',
-                              'as' => 'v1.encounters.'
+                              'prefix' => 'v1',
+                              'as' => 'v1.'
                             ],function($router){
                               App::makeWith(APIv1Router::class,['router' => $router])->run();
                             });

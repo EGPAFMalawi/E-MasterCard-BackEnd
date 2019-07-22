@@ -12,15 +12,15 @@ class ToggleVoidEncounterAction
 {
     public function run($data, Encounter $encounter)
     {
-        if ($data['void'])
+        if ($data['void'] == true)
         {
             $encounter->voided = 1;
             $encounter->voided_by = request()->user()->id;
             $encounter->date_voided = Carbon::now();
-            $encounter->voided_reason = 'N/A';
+            $encounter->void_reason = 'N/A';
         }else{
             $encounter->voided = 0;
-            $encounter->voided_by = $encounter->date_voided = $encounter->voided_reason =null;
+            $encounter->voided_by = $encounter->date_voided = $encounter->void_reason =null;
         }
 
         return App::make(EncounterRepository::class)->update([], $encounter);

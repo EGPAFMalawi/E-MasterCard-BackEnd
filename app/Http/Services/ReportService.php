@@ -45,8 +45,8 @@ class ReportService
         }elseif ($data['code'] == 6)
         {
             $defaulters = $this->defaulters($patients);
-            if ($data['type'] == 'CDCDefaulters')
-                $reportPayload = $defaulters['CDCDefaulters'];
+            if ($data['type'] == 'PEPFARDefaulters')
+                $reportPayload = $defaulters['PEPFARDefaulters'];
             else
                 $reportPayload = $defaulters['MOHDefaulters'];
 
@@ -54,8 +54,8 @@ class ReportService
         {
             $txCurrent = $this->txCurrent($patients);
 
-            if ($data['type'] == 'CDCTXCurrent')
-                $reportPayload = $txCurrent['CDCTXCurrent'];
+            if ($data['type'] == 'PEPFARTXCurrent')
+                $reportPayload = $txCurrent['PEPFARTXCurrent'];
             else
                 $reportPayload = $txCurrent['MOHTXCurrent'];
         }elseif ($data['code'] == 8)
@@ -370,7 +370,7 @@ class ReportService
         };
 
         return [
-            'CDCDefaulters' => $defaultedBy31Days,
+            'PEPFARDefaulters' => $defaultedBy31Days,
             'MOHDefaulters' => $defaultedBy61Days,
         ];
     }
@@ -407,7 +407,7 @@ class ReportService
 
 
         return [
-            'CDCTXCurrent' => $patientsWithoutOutcome->diff($defaulters['CDCDefaulters']),
+            'PEPFARTXCurrent' => $patientsWithoutOutcome->diff($defaulters['PEPFARDefaulters']),
             'MOHTXCurrent' => $patientsWithoutOutcome->diff($defaulters['MOHDefaulters']),
         ];
     }

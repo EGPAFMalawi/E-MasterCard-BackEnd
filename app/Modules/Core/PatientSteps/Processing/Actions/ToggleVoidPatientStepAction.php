@@ -13,15 +13,15 @@ class ToggleVoidPatientStepAction
 {
     public function run($data, PatientStep $patientStep)
     {
-        if ($data['void'])
+        if ($data['void'] == true)
         {
             $patientStep->voided = 1;
             $patientStep->voided_by = request()->user()->id;
             $patientStep->date_voided = Carbon::now();
-            $patientStep->voided_reason = 'N/A';
+            $patientStep->void_reason = 'N/A';
         }else{
             $patientStep->voided = 0;
-            $patientStep->voided_by = $patientStep->date_voided = $patientStep->voided_reason =null;
+            $patientStep->voided_by = $patientStep->date_voided = $patientStep->void_reason =null;
         }
 
         return App::make(PatientStepRepository::class)->update([], $patientStep);

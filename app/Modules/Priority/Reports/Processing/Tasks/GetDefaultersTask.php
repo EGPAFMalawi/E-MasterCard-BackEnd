@@ -71,7 +71,7 @@ class GetDefaultersTask
         };
 
         return [
-            'CDCDefaulters' => $defaultedBy31Days,
+            'PEPFARDefaulters' => $defaultedBy31Days,
             'MOHDefaulters' => $defaultedBy61Days,
         ];
     }
