@@ -22,6 +22,11 @@ class HTSRecordRepository {
         return HTSRecord::where($field, $value)->first();
     }
 
+    public function getAllBy($field, $value)
+    {
+        return HTSRecord::where($field, $value)->get();
+    }
+
     public function create($data)
     {
         $HTSRecord = new HTSRecord;

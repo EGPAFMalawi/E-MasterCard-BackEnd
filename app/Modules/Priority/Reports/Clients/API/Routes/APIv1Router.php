@@ -38,6 +38,16 @@ class APIv1Router
                 'as' => 'export',
                 'uses' => 'ReportAPIController@exportPatients',
             ]);
+
+            $router->get('/hts', [
+                'as' => 'hts',
+                'uses' => 'ReportAPIController@getHTS',
+            ]);
+
+            $router->get('/hts/export', [
+                'as' => 'hts.export',
+                'uses' => 'ReportAPIController@exportHTS',
+            ]);
         });
     }
 }
