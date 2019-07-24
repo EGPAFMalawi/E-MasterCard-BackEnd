@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Modules\Core\Encounters\Processing\Actions;
+namespace App\Modules\Core\PatientSteps\Processing\Actions;
 
-use App\Modules\Core\Encounters\Data\Repositories\EncounterRepository;
 use App\Modules\Core\PatientSteps\Data\Models\PatientStep;
 use App\Modules\Core\PatientSteps\Data\Repositories\PatientStepRepository;
 use Carbon\Carbon;

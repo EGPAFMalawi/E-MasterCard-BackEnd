@@ -4,7 +4,7 @@ namespace App\Modules\Core\PatientSteps\Clients\API\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use App\Modules\Core\Encounters\Processing\Actions\ToggleVoidPatientStepAction;
+use App\Modules\Core\PatientSteps\Processing\Actions\ToggleVoidPatientStepAction;
 use App\Modules\Core\PatientSteps\Clients\API\Requests\StorePatientStepRequest;
 use App\Modules\Core\PatientSteps\Clients\API\Requests\UpdatePatientStepRequest;
 use App\Modules\Core\PatientSteps\Clients\API\Resources\PatientStepResource;
