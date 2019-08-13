@@ -23,6 +23,6 @@ class ToggleVoidEncounterAction
             $encounter->voided_by = $encounter->date_voided = $encounter->void_reason =null;
         }
 
-        return App::make(EncounterRepository::class)->update([], $encounter);
+        return App::make(EncounterRepository::class)->update([], $encounter, $encounter->encounter_datetime);
     }
 }

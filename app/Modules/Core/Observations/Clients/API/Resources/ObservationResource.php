@@ -3,6 +3,7 @@
 namespace App\Modules\Core\Observations\Clients\API\Resources;
 
 use App\Modules\Core\Concepts\Concepts;
+use App\Modules\Core\Encounters\Encounter;
 use App\Modules\Core\Encounters\Encounters;
 use Illuminate\Http\Resources\Json\Resource;
 

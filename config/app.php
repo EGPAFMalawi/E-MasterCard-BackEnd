@@ -187,7 +187,8 @@ return [
         App\Modules\Core\PersonNames\Other\Providers\PersonNameServiceProvider::class,
         App\Modules\Core\PersonAddresses\Other\Providers\PersonAddressServiceProvider::class,
         App\Modules\Core\Patients\Other\Providers\PatientServiceProvider::class,
-        App\Modules\Core\PatientSteps\Other\Providers\PatientStepServiceProvider::class,
+        App\Modules\Core\PatientIdentifiers\Other\Providers\PatientIdentifierServiceProvider::class,
+        App\Modules\Core\PatientIdentifierTypes\Other\Providers\PatientIdentifierTypeServiceProvider::class,
         App\Modules\Core\PatientCards\Other\Providers\PatientCardServiceProvider::class,
         App\Modules\Core\ConceptDatatypes\Other\Providers\ConceptDatatypeServiceProvider::class,
         App\Modules\Core\Concepts\Other\Providers\ConceptServiceProvider::class,
@@ -207,6 +208,8 @@ return [
         App\Modules\Priority\Reports\Other\Providers\ReportServiceProvider::class,
         App\Modules\Priority\HTSRecords\Other\Providers\HTSRecordServiceProvider::class,
         App\Modules\Priority\SystemBackups\Other\Providers\SystemBackupServiceProvider::class,
+        App\Modules\Priority\ActivityLogs\Other\Providers\ActivityLogServiceProvider::class,
+        App\Modules\Priority\Settings\Other\Providers\SettingServiceProvider::class,
     ],
 
     /*

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Modules\Core\Patients\Patients;
 use App\Modules\Priority\Reports\Processing\Actions\GetHTSReportAction;
 use App\Modules\Priority\Reports\Processing\Actions\GetReportAction;
+use App\Modules\Priority\Reports\Processing\Actions\GetTestReportAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Facades\Excel;
@@ -21,7 +22,27 @@ class ReportAPIController extends Controller
             'type' => $request->type
         ];
 
-        $report = App::make(GetReportAction::class)->run($data);
+        $report = App::make(GetTestReportAction::class)->run($data);
+
+        $reportPayload = $report->count();
+
+        return response()->json(
+            [
+                'data' => [
+                    'counts' => $reportPayload,
+                ]
+            ]
+        );
+    }
+
+    public function test(Request $request)
+    {
+        $data = [
+            'code' => $request->code,
+            'type' => $request->type
+        ];
+
+        $report = App::make(GetTestReportAction::class)->run($data);
 
         $reportPayload = $report->count();
 
@@ -41,7 +62,7 @@ class ReportAPIController extends Controller
             'type' => $request->type
         ];
 
-        $report = App::make(GetReportAction::class)->run($data);
+        $report = App::make(GetTestReportAction::class)->run($data);
 
         $reportPayload = Patients::resourceCollection($report);
 
@@ -61,7 +82,7 @@ class ReportAPIController extends Controller
             'type' => $request->type
         ];
 
-        $report = App::make(GetReportAction::class)->run($data);
+        $report = App::make(GetTestReportAction::class)->run($data);
 
         return Excel::download(new PatientsExport($report),'patient-report.xlsx');
     }

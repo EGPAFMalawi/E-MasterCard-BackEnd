@@ -6,7 +6,7 @@ use App\Modules\Core\Concepts\Concepts;
 use App\Modules\Core\EncounterTypes\EncounterTypes;
 use App\Modules\Core\Patients\Patients;
 use App\Modules\Priority\HTSRecords\Data\Models\HTSRecord;
-use App\Modules\Priority\Reports\Processing\Tasks\GetLastEncounterTask;
+use App\Modules\Priority\Reports\Processing\Tasks\GetLastVisitEncounterTask;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;

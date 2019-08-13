@@ -16,7 +16,7 @@ class Person extends Model
     const CREATED_AT = 'date_created';
     const UPDATED_AT = null;
 
-    protected $fillable = ['gender', 'birthdate'];
+    protected $fillable = ['gender', 'birthdate', 'birthdate_estimated'];
 
     public function patient()
     {

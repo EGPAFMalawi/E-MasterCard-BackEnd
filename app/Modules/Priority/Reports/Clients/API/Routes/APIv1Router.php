@@ -48,6 +48,11 @@ class APIv1Router
                 'as' => 'hts.export',
                 'uses' => 'ReportAPIController@exportHTS',
             ]);
+
+                $router->get('/test', [
+                    'as' => 'hts.export',
+                    'uses' => 'ReportAPIController@test',
+                ]);
         });
     }
 }

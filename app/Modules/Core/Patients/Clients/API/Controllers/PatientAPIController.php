@@ -50,9 +50,4 @@ class PatientAPIController extends  Controller
     {
         return PatientCards::resourceCollection($patient->patientCards);
     }
-
-    public function getSteps(Patient $patient)
-    {
-        return PatientSteps::resourceCollection($patient->steps);
-    }
 }

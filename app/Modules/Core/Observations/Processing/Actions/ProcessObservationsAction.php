@@ -6,7 +6,9 @@ use App\Modules\Core\Concepts\Concepts;
 use App\Modules\Core\Encounters\Encounters;
 use App\Modules\Core\EncounterTypes\EncounterTypes;
 use App\Modules\Core\Observations\Data\Repositories\ObservationRepository;
+use App\Modules\Core\Observations\Observations;
 use App\Modules\Core\PatientCards\PatientCards;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
 class ProcessObservationsAction
@@ -34,7 +36,12 @@ class ProcessObservationsAction
 
             if (count($newObservations) > 0)
             {
-                $encounter = Encounters::create($patient, $encounterType);
+                if (isset($data['encounterDatetime']))
+                    $encounterDatetime = Carbon::parse($data['encounterDatetime']);
+                else
+                    $encounterDatetime = Carbon::now();
+
+                $encounter = Encounters::create($patient, $encounterType, $encounterDatetime);
 
                 foreach ($newObservations as $value)
                 {
@@ -48,6 +55,15 @@ class ProcessObservationsAction
 
             if(count($oldObservations) > 0)
             {
+                $encounter = Observations::repository()->get($oldObservations[0]['observation'])->encounter;
+
+                if (isset($data['encounterDatetime']))
+                    $encounterDatetime = Carbon::parse($data['encounterDatetime']);
+                else
+                    $encounterDatetime = $encounter->encounter_datetime;
+
+                Encounters::update([], $encounter, $encounterDatetime);
+
                 foreach ($oldObservations as $value)
                 {
                     $concept = Concepts::repository()->get($value['concept']);

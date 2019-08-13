@@ -32,6 +32,7 @@ class CreateObservationTable extends Migration
             $table->float('value_numeric')->nullable();
             $table->string('value_modifier')->nullable();
             $table->mediumText('value_text')->nullable();
+            $table->json('value_json')->nullable();
             $table->dateTime('date_started')->nullable();
             $table->dateTime('date_stopped')->nullable();
             $table->string('comments')->nullable();

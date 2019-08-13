@@ -19,7 +19,7 @@ class APIv1Router
         $this->router->group([
             'prefix' => 'patients',
             'as' => 'patients.',
-            'middleware' => 'auth:api'
+            //'middleware' => 'auth:api'
             ],
             function($router)
             {
@@ -52,11 +52,6 @@ class APIv1Router
             $router->get('/{patient}/cards', [
                 'as' => 'get_cards',
                 'uses' => 'PatientAPIController@getCards',
-            ]);
-
-            $router->get('/{patient}/steps', [
-                'as' => 'get_steps',
-                'uses' => 'PatientAPIController@getSteps',
             ]);
         });
     }

@@ -5,9 +5,12 @@ namespace App\Modules\Priority\Reports\Processing\Tasks;
 use App\Modules\Core\Concepts\Concepts;
 use App\Modules\Core\EncounterTypes\EncounterTypes;
 use App\Modules\Core\MasterCards\MasterCards;
+use App\Modules\Core\Observations\Data\Models\Observation;
+use App\Modules\Core\Patients\Data\Models\Patient;
 use App\Modules\Core\Patients\Patients;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 
 class GetDefaultersTask
 {

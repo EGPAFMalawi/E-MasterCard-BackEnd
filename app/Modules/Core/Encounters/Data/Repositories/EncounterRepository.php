@@ -25,10 +25,10 @@ class EncounterRepository {
         return Encounter::where($field, $value)->first();
     }
 
-    public function create(Patient $patient, EncounterType $encounterType, Person $person)
+    public function create(Patient $patient, EncounterType $encounterType, $encounterDatetime, Person $person)
     {
         $encounter = new Encounter;
-        $encounter->encounter_datetime = Carbon::now();
+        $encounter->encounter_datetime = $encounterDatetime;
 
         $encounter->patient()->associate($patient);
         $encounter->type()->associate($encounterType);
@@ -39,8 +39,9 @@ class EncounterRepository {
         return $encounter;
     }
 
-    public function update($data, Encounter $encounter)
+    public function update($data, Encounter $encounter, $encounterDatetime)
     {
+        $encounter->encounter_datetime = $encounterDatetime;
         $encounter->update($data);
 
         return $encounter;

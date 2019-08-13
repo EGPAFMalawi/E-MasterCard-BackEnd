@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\App;
 
 class CreateEncounterAction
 {
-    public function run(Patient $patient, EncounterType $encounterType)
+    public function run(Patient $patient, EncounterType $encounterType, $encounterDatetime)
     {
         $person = $patient->person;
 
-        $encounter = App::make(EncounterRepository::class)->create($patient, $encounterType, $person);
+        $encounter = App::make(EncounterRepository::class)->create($patient, $encounterType, $encounterDatetime, $person);
 
         return $encounter;
     }

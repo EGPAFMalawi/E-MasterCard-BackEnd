@@ -45,8 +45,8 @@ class PatientRepository {
     public function search($searchParameter)
     {
         return Patient::orderBy('date_created', 'desc')
-            ->orWhereHas('steps', function ($query) use ($searchParameter){
-                $query->where('art_number', 'like', '%'. $searchParameter . '%');
+            ->orWhereHas('patientIdentifiers', function ($query) use ($searchParameter){
+                $query->where('identifier', 'like', '%'. $searchParameter . '%');
             })
             ->orWhereHas('person', function ($query) use ($searchParameter){
                 $query->whereHas('names', function ($query) use ($searchParameter){
