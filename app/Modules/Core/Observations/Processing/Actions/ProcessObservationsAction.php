@@ -57,8 +57,8 @@ class ProcessObservationsAction
             {
                 $encounter = Observations::repository()->get($oldObservations[0]['observation'])->encounter;
 
-                if (isset($data['encounterDatetime']))
-                    $encounterDatetime = Carbon::parse($data['encounterDatetime']);
+                if (isset($data['encounter-datetime']))
+                    $encounterDatetime = Carbon::parse($data['encounter-datetime']);
                 else
                     $encounterDatetime = $encounter->encounter_datetime;
 
