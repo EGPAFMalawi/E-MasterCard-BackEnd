@@ -189,6 +189,7 @@ return [
         App\Modules\Core\Patients\Other\Providers\PatientServiceProvider::class,
         App\Modules\Core\PatientIdentifiers\Other\Providers\PatientIdentifierServiceProvider::class,
         App\Modules\Core\PatientIdentifierTypes\Other\Providers\PatientIdentifierTypeServiceProvider::class,
+        App\Modules\Core\PatientSteps\Other\Providers\PatientStepServiceProvider::class,
         App\Modules\Core\PatientCards\Other\Providers\PatientCardServiceProvider::class,
         App\Modules\Core\ConceptDatatypes\Other\Providers\ConceptDatatypeServiceProvider::class,
         App\Modules\Core\Concepts\Other\Providers\ConceptServiceProvider::class,

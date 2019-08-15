@@ -44,8 +44,8 @@ class Observation extends Model
             $value = is_null($this->value_datetime)?null:Carbon::parse($this->value_datetime)->format('Y-m-d');
         elseif($this->concept->datatype->hl7_abbreviation == 'ZZ')
             $value = $this->value_text;
-        elseif($this->concept->datatype->hl7_abbreviation == 'JS')
-            $value = $this->value_json;
+//        elseif($this->concept->datatype->hl7_abbreviation == 'JS')
+//            $value = $this->value_json;
         else
             $value = $this->value_text;
 
