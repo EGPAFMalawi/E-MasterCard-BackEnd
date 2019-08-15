@@ -2,6 +2,7 @@
 
 namespace App\Modules\Core\Persons\Clients\API\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 
 class PersonResource extends Resource
@@ -30,10 +31,10 @@ class PersonResource extends Resource
                 'townshipDivision' => $this->preferredAddress->township_division,
             ],
             'gender' => $this->gender,
-            'birthdate' => (string)$this->birthdate,
+            'birthdate' => Carbon::parse($this->birthdate)->format('d-m-Y'),
             'birthdateEstimated' => $this->birthdate_estimated,
             'dead' => $this->dead,
-            'deathDate' => $this->death_date,
+            'deathDate' => Carbon::parse($this->death_date)->format('d-m-Y'),
             'causeOfDeath' => $this->cause_of_death,
 
             'dateCreated' => $this->date_created,

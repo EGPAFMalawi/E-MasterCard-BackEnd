@@ -2,6 +2,7 @@
 
 namespace App\Modules\Core\Encounters\Clients\API\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 
 class EncounterResource extends Resource
@@ -19,7 +20,7 @@ class EncounterResource extends Resource
             'encounterID' => $this->encounter_id,
             'patient' => $this->patient,
             'encounterType' => $this->encounter_type,
-            'encounterDatetime' => $this->encounter_datetime,
+            'encounterDatetime' => Carbon::parse($this->encounter_datetime)->format('d-m-Y'),
             'dateCreated' => $this->date_created,
             'voided' => $this->voided == 0?false:true,
             'uuid' => $this->uuid
