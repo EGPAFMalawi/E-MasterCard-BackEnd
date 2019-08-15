@@ -20,7 +20,7 @@ class EncounterResource extends Resource
             'encounterID' => $this->encounter_id,
             'patient' => $this->patient,
             'encounterType' => $this->encounter_type,
-            'encounterDatetime' => Carbon::parse($this->encounter_datetime)->format('d-m-Y'),
+            'encounterDatetime' => Carbon::parse($this->encounter_datetime)->format('Y-m-d'),
             'dateCreated' => $this->date_created,
             'voided' => $this->voided == 0?false:true,
             'uuid' => $this->uuid
