@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -48,6 +49,92 @@ class CreateObservationTable extends Migration
             $table->string('uuid', 38)->unique();
         });
 
+        DB::statement("CREATE VIEW  visit_outcome_event AS
+                            SELECT
+                                o.person_id,
+                                o.encounter_id,
+                                o.birthdate,
+                                o.gender,
+                                o.encounter_datetime,
+                                o.voided,
+                            
+                                e1.value_text AS \"event_type\",
+                                e2.value_numeric AS \"weight\",
+                                e3.value_text AS \"preg_breast_feeding\",
+                                e4.value_text AS \"tb_tatus\",
+                                e5.value_text AS \"side effects\",
+                                e6.value_numeric AS \"pill_count\",
+                                e7.value_numeric AS \"doses_missed\",
+                                e8.value_text AS \"art_regimen\",
+                                e9.value_numeric AS \"arvs_given_no_of_tablets\",
+                                e10.value_numeric AS \"arvs_given_to\",
+                                e11.value_text AS \"cpt_ipt_given_options\",
+                                e12.value_numeric AS \"cpt_ipt_given_no_of_tablets\",
+                                e13.value_numeric AS \"months_on_art\",
+                                e14.value_text AS \"viral_load_sample_taken\",
+                                e15.value_numeric AS \"viral_load_result\",
+                                e16.value_datetime AS \"next_appointment_Date\",
+                                e17.value_text AS \"adverse_outcome\",
+                                e18.value_text AS \"family_planning_depo_given\",
+                                e19.value_numeric AS \"family_planning_depo_no_of_condoms\",
+                                e20.value_numeric AS \"height\",
+                                e21.value_numeric AS \"age\",
+                                e22.value_text AS \"viral_load_result_symbol\"
+                            
+                            
+                            FROM
+                                (SELECT DISTINCT
+                                    a.person_id, a.encounter_id, p.birthdate,p.gender,b.encounter_datetime, b.voided
+                                 FROM
+                                     obs a join encounter b on a.encounter_id = b.encounter_id join encounter_type c on c.encounter_type_id = b.encounter_type join person p on p.person_id = a.person_id  where c.encounter_type_id = 4
+                                 ) o
+                                LEFT JOIN obs e1
+                                    ON e1.person_id = o.person_id AND e1.encounter_id = o.encounter_id AND e1.concept_id = 32
+                                LEFT JOIN obs e2
+                                    ON e2.person_id = o.person_id AND e2.encounter_id = o.encounter_id AND e2.concept_id = 33
+                                LEFT JOIN obs e3
+                                    ON e3.person_id = o.person_id AND e3.encounter_id = o.encounter_id AND e3.concept_id = 34
+                                LEFT JOIN obs e4
+                                        ON e4.person_id = o.person_id AND e4.encounter_id = o.encounter_id AND e4.concept_id = 35
+                                LEFT JOIN obs e5
+                                        ON e5.person_id = o.person_id AND e5.encounter_id = o.encounter_id AND e5.concept_id = 36
+                                LEFT JOIN obs e6
+                                        ON e6.person_id = o.person_id AND e6.encounter_id = o.encounter_id AND e6.concept_id = 37
+                                LEFT JOIN obs e7
+                                        ON e7.person_id = o.person_id AND e7.encounter_id = o.encounter_id AND e7.concept_id = 38
+                                LEFT JOIN obs e8
+                                        ON e8.person_id = o.person_id AND e8.encounter_id = o.encounter_id AND e8.concept_id = 39
+                                LEFT JOIN obs e9
+                                        ON e9.person_id = o.person_id AND e9.encounter_id = o.encounter_id AND e9.concept_id = 40
+                                LEFT JOIN obs e10
+                                        ON e10.person_id = o.person_id AND e10.encounter_id = o.encounter_id AND e10.concept_id = 41
+                                LEFT JOIN obs e11
+                                        ON e11.person_id = o.person_id AND e11.encounter_id = o.encounter_id AND e11.concept_id = 42
+                                LEFT JOIN obs e12
+                                        ON e12.person_id = o.person_id AND e12.encounter_id = o.encounter_id AND e12.concept_id = 43
+                                LEFT JOIN obs e13
+                                        ON e13.person_id = o.person_id AND e13.encounter_id = o.encounter_id AND e13.concept_id = 44
+                                LEFT JOIN obs e14
+                                        ON e14.person_id = o.person_id AND e14.encounter_id = o.encounter_id AND e14.concept_id = 45
+                                LEFT JOIN obs e15
+                                        ON e15.person_id = o.person_id AND e15.encounter_id = o.encounter_id AND e15.concept_id = 46
+                                LEFT JOIN obs e16
+                                        ON e16.person_id = o.person_id AND e16.encounter_id = o.encounter_id AND e16.concept_id = 47
+                                LEFT JOIN obs e17
+                                        ON e17.person_id = o.person_id AND e17.encounter_id = o.encounter_id AND e17.concept_id = 48
+                                LEFT JOIN obs e18
+                                        ON e18.person_id = o.person_id AND e18.encounter_id = o.encounter_id AND e18.concept_id = 49
+                                LEFT JOIN obs e19
+                                        ON e19.person_id = o.person_id AND e19.encounter_id = o.encounter_id AND e19.concept_id = 50
+                                LEFT JOIN obs e20
+                                        ON e20.person_id = o.person_id AND e20.encounter_id = o.encounter_id AND e20.concept_id = 51
+                                LEFT JOIN obs e21
+                                        ON e21.person_id = o.person_id AND e21.encounter_id = o.encounter_id AND e21.concept_id = 52
+                                LEFT JOIN obs e22
+                                        ON e22.person_id = o.person_id AND e22.encounter_id = o.encounter_id AND e22.concept_id = 53
+                            "
+        );
+
 
     }
 
@@ -58,6 +145,8 @@ class CreateObservationTable extends Migration
      */
     public function down()
     {
+        DB::statement("DROP VIEW visit_outcome_event");
+
         Schema::dropIfExists('obs');
     }
 }

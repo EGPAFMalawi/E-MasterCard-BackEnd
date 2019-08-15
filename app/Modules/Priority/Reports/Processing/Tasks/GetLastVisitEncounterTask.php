@@ -47,4 +47,16 @@ class GetLastVisitEncounterTask
 
         return PatientIdentifier::whereIn('encounter_id', $lastEncounters->pluck('encounter_id'))->get();
     }
+
+    public function run3()
+    {
+        $groupedEncounters = DB::table('visit_outcome_event')->groupBy('patient_id')->get();
+
+        $lastVisitEncounterIDs = $groupedEncounters->map(function ($items){
+                return $items->sortBy('encounter_datetime')->last();
+        })
+        ->pluck('encounter_id');
+
+        return $lastVisitEncounterIDs;
+    }
 }

@@ -54,6 +54,8 @@ class ObservationRepository {
                     $observation->value_datetime = Carbon::parse($value)->toDateTimeString();
         }elseif($conceptDatatype->hl7_abbreviation == 'ZZ')
             $observation->value_text = $value;
+        elseif($conceptDatatype->hl7_abbreviation == 'JS')
+            $observation->value_json = $value;
         else
             $observation->value_text = $value;
 

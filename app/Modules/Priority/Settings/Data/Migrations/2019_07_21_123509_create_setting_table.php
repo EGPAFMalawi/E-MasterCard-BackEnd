@@ -17,7 +17,7 @@ class CreateSettingTable extends Migration
     {
         Schema::create('setting', function (Blueprint $table) {
             $table->increments('setting_id');
-            $table->json('name');
+            $table->string('name');
             $table->json('options');
             $table->json('last_options');
 

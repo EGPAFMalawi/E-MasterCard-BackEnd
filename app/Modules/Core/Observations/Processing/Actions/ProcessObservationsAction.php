@@ -36,8 +36,8 @@ class ProcessObservationsAction
 
             if (count($newObservations) > 0)
             {
-                if (isset($data['encounterDatetime']))
-                    $encounterDatetime = Carbon::parse($data['encounterDatetime']);
+                if (isset($data['encounter-datetime']))
+                    $encounterDatetime = Carbon::parse($data['encounter-datetime']);
                 else
                     $encounterDatetime = Carbon::now();
 
