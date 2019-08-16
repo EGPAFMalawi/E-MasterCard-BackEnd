@@ -2,66 +2,61 @@
 
 namespace App\Modules\Priority\Reports\Processing\Actions;
 
-use App\Modules\Core\Observations\Data\Models\Observation;
-use App\Modules\Core\Patients\Data\Models\Patient;
-use App\Modules\Core\Patients\Patients;
-use App\Modules\Priority\Reports\Processing\SubActions\GetDefaultersReportSubAction;
-use App\Modules\Priority\Reports\Processing\SubActions\GetDueViralLoadReportSubAction;
-use App\Modules\Priority\Reports\Processing\SubActions\GetEveryoneOnDTGReportSubAction;
-use App\Modules\Priority\Reports\Processing\SubActions\GetLastViralLoadReportSubAction;
-use App\Modules\Priority\Reports\Processing\SubActions\GetMissedAppointmentsReportSubAction;
-use App\Modules\Priority\Reports\Processing\SubActions\GetNextAppointmentTomorrowReportSubAction;
-use App\Modules\Priority\Reports\Processing\SubActions\GetStepsReportSubAction;
-use App\Modules\Priority\Reports\Processing\SubActions\GetTxCurrentReportSubAction;
-use App\Modules\Priority\Reports\Processing\Tasks\GetLastVisitEncounterTask;
-use App\Modules\Priority\Reports\Processing\Tasks\GetPatientsWithoutAdverseOutcomesTask;
-use Carbon\Carbon;
+use App\Modules\Priority\Reports\Processing\SubActions\DisaggregatedReports\GetAdverseOutcomeDisAggReportSubAction;
+use App\Modules\Priority\Reports\Processing\SubActions\DisaggregatedReports\GetDefaultersDisAggReportSubAction;
+use App\Modules\Priority\Reports\Processing\SubActions\DisaggregatedReports\GetNewEnrollmentsDisAggReportSubAction;
+use App\Modules\Priority\Reports\Processing\SubActions\DisaggregatedReports\GetTxCurrentDisAggReportSubAction;
 use Illuminate\Support\Facades\App;
 
 class GetDisaggregatedReportAction
 {
     public function run($data)
     {
-
-        $patients = Patients::repository()->getAll();
-
         $reportPayload = null;
 
         if ($data['code'] == 1)
         {
-            $dueViralLoad = App::make(GetDueViralLoadReportSubAction::class)->run($patients);
-
             if ($data['type'] == 'TXCurrent')
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetTxCurrentDisAggReportSubAction::class)->run($data['reportEndDate']);
             elseif ($data['type'] == 'defaulted1Month')
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetDefaultersDisAggReportSubAction::class)->run($data['reportEndDate'],'defaulted1Month');
             elseif($data['type'] == 'defaulted2Months')
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetDefaultersDisAggReportSubAction::class)->run($data['reportEndDate'],'defaulted2Months');
             elseif($data['type'] == 'defaulted3MonthsPlus')
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetDefaultersDisAggReportSubAction::class)->run($data['reportEndDate'],'defaulted3MonthsPlus');
             elseif($data['type'] == 'stopped')
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run($data['reportEndDate'], 'stopped');
             elseif($data['type'] == 'transferredOut')
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run($data['reportEndDate'], 'transferredOut');
             elseif($data['type'] == 'totalRegistered')
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run($data['reportEndDate'], 'totalRegistered');
             else
-                $disaggregatedReport = App::make(GetTXCurrentDisaggregatedReportSubAction::class)->run();
+                $disaggregatedReportPayload = App::make(GetTxCurrentDisAggReportSubAction::class)->run($data['reportEndDate']);
 
         }elseif ($data['code'] == 2)
         {
-            $nextAppointmentTomorrow = App::make(GetNextAppointmentTomorrowReportSubAction::class)->run2();
-            $reportPayload = $nextAppointmentTomorrow;
-        }elseif ($data['code'] == 3)
-        {
-            $missedAppointments = App::make(GetMissedAppointmentsReportSubAction::class)->run2();
-            $reportPayload = $missedAppointments;
-        }elseif ($data['code'] == 4)
-        {
-            $lastViralLoad = App::make(GetLastViralLoadReportSubAction::class)->run2();
-            $reportPayload = $lastViralLoad;
+            if ($data['type'] == 'TXNew')
+                $disaggregatedReportPayload = App::make(GetNewEnrollmentsDisAggReportSubAction::class)->run($data['reportStartDate'], $data['reportEndDate'], 'TXNew');
+            elseif ($data['type'] == 'reInitiated')
+                $disaggregatedReportPayload = App::make(GetNewEnrollmentsDisAggReportSubAction::class)->run($data['reportStartDate'], $data['reportEndDate'], 'reInitiated');
+            elseif($data['type'] == 'transferredIn')
+                $disaggregatedReportPayload = App::make(GetNewEnrollmentsDisAggReportSubAction::class)->run($data['reportStartDate'], $data['reportEndDate'], 'transferredIn');
+            elseif($data['type'] == 'defaulted1MonthPlus')
+                $disaggregatedReportPayload = App::make(GetDefaultersDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'defaulted1MonthPlus');
+            elseif($data['type'] == 'defaulted2MonthsPlus')
+                $disaggregatedReportPayload = App::make(GetDefaultersDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'defaulted2MonthsPlus');
+            elseif($data['type'] == 'defaulted3MonthsPlus')
+                $disaggregatedReportPayload = App::make(GetDefaultersDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'defaulted3MonthsPlus');
+            elseif($data['type'] == 'stopped')
+                $disaggregatedReportPayload = App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'stopped');
+            elseif($data['type'] == 'died')
+                $disaggregatedReportPayload = App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'died');
+            elseif($data['type'] == 'transferredOut')
+                $disaggregatedReportPayload = App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'transferredOut');
+            else
+                $disaggregatedReportPayload = App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'transferredOut');
         }
 
-        return $reportPayload;
+        return $disaggregatedReportPayload;
     }
 }

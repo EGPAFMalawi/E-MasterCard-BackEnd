@@ -6,6 +6,7 @@ use App\Exports\HTSExport;
 use App\Exports\PatientsExport;
 use App\Http\Controllers\Controller;
 use App\Modules\Core\Patients\Patients;
+use App\Modules\Priority\Reports\Processing\Actions\GetDisaggregatedReportAction;
 use App\Modules\Priority\Reports\Processing\Actions\GetHTSReportAction;
 use App\Modules\Priority\Reports\Processing\Actions\GetReportAction;
 use App\Modules\Priority\Reports\Processing\Actions\GetTestReportAction;
@@ -106,6 +107,36 @@ class ReportAPIController extends Controller
     }
 
     public function exportHTS(Request $request)
+    {
+        $data = [
+            'code' => $request->code,
+            'type' => $request->type
+        ];
+
+        $report = App::make(GetHTSReportAction::class)->run($data);
+
+        return Excel::download(new HTSExport($report),'hts-report.xlsx');
+    }
+
+    public function getAgeDisaggregates(Request $request)
+    {
+        $data = [
+            'code' => $request->code,
+            'type' => $request->type,
+            'reportStartDate' => $request->reportStartDate,
+            'reportEndDate' => $request->reportEndDate
+        ];
+
+        $report = App::make(GetDisaggregatedReportAction::class)->run($data);
+
+        return response()->json(
+            [
+                'data' => $report
+            ]
+        );
+    }
+
+    public function exportAgeDisaggregates(Request $request)
     {
         $data = [
             'code' => $request->code,

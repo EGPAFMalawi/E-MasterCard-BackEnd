@@ -49,10 +49,20 @@ class APIv1Router
                 'uses' => 'ReportAPIController@exportHTS',
             ]);
 
-                $router->get('/test', [
-                    'as' => 'hts.export',
-                    'uses' => 'ReportAPIController@test',
-                ]);
+            $router->get('/test', [
+                'as' => 'hts.export',
+                'uses' => 'ReportAPIController@test',
+            ]);
+
+            $router->get('/age-disaggregates', [
+                'as' => 'age_disaggregates',
+                'uses' => 'ReportAPIController@getAgeDisaggregates',
+            ]);
+
+            $router->get('/age-disaggregates/export', [
+                'as' => 'age_disaggregates.export',
+                'uses' => 'ReportAPIController@exportAgeDisaggregates',
+            ]);
         });
     }
 }

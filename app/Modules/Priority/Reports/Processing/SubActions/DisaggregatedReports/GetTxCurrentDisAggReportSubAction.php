@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Modules\Priority\Reports\Processing\DisaggregatedReports\SubActions;
+namespace App\Modules\Priority\Reports\Processing\SubActions\DisaggregatedReports;
 
-use App\Modules\Priority\Reports\Processing\SubActions\GetDisaggregatesTask;
+use App\Modules\Priority\Reports\Processing\Tasks\GetDisaggregatesTask;
 use App\Modules\Priority\Reports\Processing\Tasks\GetLastVisitEncounterTask;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
-class GetTxCurrentReportSubAction
+class GetTxCurrentDisAggReportSubAction
 {
     public function run($reportDate)
     {
+        dd('1');
         $parsedReportDate = Carbon::parse($reportDate);
         ### STILL UNDER WORKS TO SORT BY VISIT DATE ######
         $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3();

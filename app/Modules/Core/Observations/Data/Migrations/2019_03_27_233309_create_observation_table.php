@@ -134,8 +134,100 @@ class CreateObservationTable extends Migration
                                         ON e22.person_id = o.person_id AND e22.encounter_id = o.encounter_id AND e22.concept_id = 53
                             "
         );
+        DB::statement("CREATE VIEW  clinic_registration AS
+                        SELECT
+                            o.person_id,
+                            o.encounter_id,
+                            o.birthdate,
+                            o.gender,
+                            o.encounter_datetime,
+                            o.voided,
+                            o.registration_age,
+                        
+                            e1.value_datetime AS \"transfer_in_date\",
+                            e2.value_text AS \"art_reg_no\",
+                            e3.value_text AS \"child_hcc_no\",
+                            e4.value_numeric AS \"year\",
+                            e5.value_text AS \"registration_type\",
+                            e6.value_datetime AS \"registration_date\",
+                            e7.value_datetime AS \"registration_art_start_date\",
+                            e8.value_numeric AS \"registration_age_at_initiation\",
+                            e9.value_text AS \"registration_age_at_initiation_unit\"
+                        
+                            FROM
+                            (SELECT DISTINCT
+                            a.person_id, a.encounter_id, p.birthdate,p.gender,b.encounter_datetime, b.voided, timestampdiff(Year,'e6.value_datetime','p.birthdate') as registration_age
+                            FROM
+                            obs a join encounter b on a.encounter_id = b.encounter_id join encounter_type c on c.encounter_type_id = b.encounter_type join person p on p.person_id = a.person_id  where c.encounter_type_id = 1
+                            ) o
+                            LEFT JOIN obs e1
+                            ON e1.person_id = o.person_id AND e1.encounter_id = o.encounter_id AND e1.concept_id = 28
+                            LEFT JOIN obs e2
+                            ON e2.person_id = o.person_id AND e2.encounter_id = o.encounter_id AND e2.concept_id = 29
+                            LEFT JOIN obs e3
+                            ON e3.person_id = o.person_id AND e3.encounter_id = o.encounter_id AND e3.concept_id = 30
+                            LEFT JOIN obs e4
+                            ON e4.person_id = o.person_id AND e4.encounter_id = o.encounter_id AND e4.concept_id = 31
+                            LEFT JOIN obs e5
+                            ON e5.person_id = o.person_id AND e5.encounter_id = o.encounter_id AND e5.concept_id = 55
+                            LEFT JOIN obs e6
+                            ON e6.person_id = o.person_id AND e6.encounter_id = o.encounter_id AND e6.concept_id = 56
+                            LEFT JOIN obs e7
+                            ON e7.person_id = o.person_id AND e7.encounter_id = o.encounter_id AND e7.concept_id = 57
+                            LEFT JOIN obs e8
+                            ON e8.person_id = o.person_id AND e8.encounter_id = o.encounter_id AND e8.concept_id = 58
+                            LEFT JOIN obs e9
+                            ON e9.person_id = o.person_id AND e9.encounter_id = o.encounter_id AND e9.concept_id = 59
+                            "
+        );
+
+/*
 
 
+ SELECT
+                            o.person_id,
+                            o.encounter_id,
+                            o.birthdate,
+                            o.gender,
+                            o.encounter_datetime,
+                            o.voided,
+
+                            e1.value_datetime AS "transfer_in_date",
+                            e2.value_text AS "art_reg_no",
+                            e3.value_text AS "child_hcc_no",
+                            e4.value_numeric AS "year",
+                            e5.value_text AS "registration_type",
+                            e6.value_datetime AS "registration_date",
+                            e7.value_datetime AS "registration_art_start_date",
+                            e8.value_numeric AS "registration_age_at_initiation",
+                            e9.value_text AS "registration_age_at_initiation_unit"
+
+                            FROM
+                            (SELECT DISTINCT
+                            a.person_id, a.encounter_id, p.birthdate,p.gender,b.encounter_datetime, b.voided, DATEDIFF('e6.value_datetime','p.birthdate') as Age_at_reg
+                            FROM
+                            obs a join encounter b on a.encounter_id = b.encounter_id join encounter_type c on c.encounter_type_id = b.encounter_type join person p on p.person_id = a.person_id  where c.encounter_type_id = 1
+                            ) o
+                            LEFT JOIN obs e1
+                            ON e1.person_id = o.person_id AND e1.encounter_id = o.encounter_id AND e1.concept_id = 28
+                            LEFT JOIN obs e2
+                            ON e2.person_id = o.person_id AND e2.encounter_id = o.encounter_id AND e2.concept_id = 29
+                            LEFT JOIN obs e3
+                            ON e3.person_id = o.person_id AND e3.encounter_id = o.encounter_id AND e3.concept_id = 30
+                            LEFT JOIN obs e4
+                            ON e4.person_id = o.person_id AND e4.encounter_id = o.encounter_id AND e4.concept_id = 31
+                            LEFT JOIN obs e5
+                            ON e5.person_id = o.person_id AND e5.encounter_id = o.encounter_id AND e5.concept_id = 55
+                            LEFT JOIN obs e6
+                            ON e6.person_id = o.person_id AND e6.encounter_id = o.encounter_id AND e6.concept_id = 56
+                            LEFT JOIN obs e7
+                            ON e7.person_id = o.person_id AND e7.encounter_id = o.encounter_id AND e7.concept_id = 57
+                            LEFT JOIN obs e8
+                            ON e8.person_id = o.person_id AND e8.encounter_id = o.encounter_id AND e8.concept_id = 58
+                            LEFT JOIN obs e9
+                            ON e9.person_id = o.person_id AND e9.encounter_id = o.encounter_id AND e9.concept_id = 59
+
+ * */
     }
 
     /**
@@ -145,7 +237,8 @@ class CreateObservationTable extends Migration
      */
     public function down()
     {
-        DB::statement("DROP VIEW visit_outcome_event");
+        DB::statement("DROP VIEW IF EXISTS clinic_registration");
+        DB::statement("DROP VIEW IF EXISTS visit_outcome_event");
 
         Schema::dropIfExists('obs');
     }
