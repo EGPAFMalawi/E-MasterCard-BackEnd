@@ -22,7 +22,7 @@ class PersonRepository {
         $person = new Person;
         $person->fill($data);
 
-        if (isset($data['birthdate']))
+        if (isset($data['birthdate']) && $data['birthdate'] != null)
             $person->birthdate = Carbon::parse($data['birthdate']);
 
         $person->save();
