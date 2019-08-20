@@ -78,4 +78,26 @@ class GetStepsReportSubAction
             ->where('step', $field)
             ->get();
     }
+
+    public function run3($type)
+    {
+
+        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3();
+
+        $eventsQuery = DB::table('visit_outcome_event')
+            ->whereIn('encounter_id', $lastVisitEncounterIDs)
+            ->whereNotNull('adverse_outcome')
+            ->whereNotNull('encounter_datetime');
+
+        if ($type == 'Stopped')
+            $eventsQuery->where('adverse_outcome','Stop');
+        elseif ($type == 'Died')
+            $eventsQuery->where('adverse_outcome','D');
+        else
+            $eventsQuery->where('adverse_outcome','To');
+
+        $eventsQuery->get();
+
+        return Patient::whereIn('patient_id', $eventsQuery->pluck('person_id'))->get();
+    }
 }

@@ -12,6 +12,7 @@ use App\Modules\Priority\Reports\Processing\Tasks\GetPatientsWithoutAdverseOutco
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 
 class GetMissedAppointmentsReportSubAction
@@ -77,5 +78,22 @@ class GetMissedAppointmentsReportSubAction
         $patients = Patient::whereIn('patient_id', $nextAppointmentDateObs->pluck('person_id'))->get();
 
         return App::make(GetPatientsWithoutAdverseOutcomesTask::class)->run($patients);
+    }
+
+    public function run3($days = 14)
+    {
+        $parsedReportEndDate = Carbon::today();
+
+        ### STILL UNDER WORKS TO SORT BY VISIT DATE ######
+        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3();
+
+        $eventsQuery = DB::table('visit_outcome_event')
+            ->whereIn('encounter_id', $lastVisitEncounterIDs)
+            ->whereNull('adverse_outcome')
+            ->whereNotNull('next_appointment_date')
+            ->whereDate('next_appointment_date','<', $parsedReportEndDate->subDays($days))
+            ->get();
+
+        return Patient::whereIn('patient_id', $eventsQuery->pluck('person_id'))->get();
     }
 }

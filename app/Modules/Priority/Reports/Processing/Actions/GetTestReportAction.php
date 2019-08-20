@@ -39,31 +39,31 @@ class GetTestReportAction
                 $reportPayload = $dueViralLoad['dueAfter12Months'];
         }elseif ($data['code'] == 2)
         {
-            $nextAppointmentTomorrow = App::make(GetNextAppointmentTomorrowReportSubAction::class)->run2();
+            $nextAppointmentTomorrow = App::make(GetNextAppointmentTomorrowReportSubAction::class)->run3();
             $reportPayload = $nextAppointmentTomorrow;
         }elseif ($data['code'] == 3)
         {
-            $missedAppointments = App::make(GetMissedAppointmentsReportSubAction::class)->run2();
+            $missedAppointments = App::make(GetMissedAppointmentsReportSubAction::class)->run3();
             $reportPayload = $missedAppointments;
         }elseif ($data['code'] == 4)
         {
-            $lastViralLoad = App::make(GetLastViralLoadReportSubAction::class)->run2();
+            $lastViralLoad = App::make(GetLastViralLoadReportSubAction::class)->run3();
             $reportPayload = $lastViralLoad;
         }elseif ($data['code'] == 5)
         {
-            $everyoneOnDTG = App::make(GetEveryoneOnDTGReportSubAction::class)->run2();
+            $everyoneOnDTG = App::make(GetEveryoneOnDTGReportSubAction::class)->run3();
             $reportPayload = $everyoneOnDTG;
         }elseif ($data['code'] == 6)
         {
-            $defaulters = App::make(GetDefaultersReportSubAction::class)->run2($data['type']);
+            $defaulters = App::make(GetDefaultersReportSubAction::class)->run3($data['type']);
             $reportPayload = $defaulters;
         }elseif ($data['code'] == 7)
         {
-            $txCurrent = App::make(GetTxCurrentReportSubAction::class)->run2($data['type']);
+            $txCurrent = App::make(GetTxCurrentReportSubAction::class)->run3($data['type']);
             $reportPayload = $txCurrent;
         }elseif ($data['code'] == 10)
         {
-            $outcomes = App::make(GetStepsReportSubAction::class)->run2($data['type']);
+            $outcomes = App::make(GetStepsReportSubAction::class)->run3($data['type']);
             $reportPayload = $outcomes;
         }
 

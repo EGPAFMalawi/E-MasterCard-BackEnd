@@ -12,6 +12,7 @@ use App\Modules\Priority\Reports\Processing\Tasks\GetPatientsWithoutAdverseOutco
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class GetLastViralLoadReportSubAction
 {
@@ -71,5 +72,20 @@ class GetLastViralLoadReportSubAction
         $patients = Patient::whereIn('patient_id', $lastViralLoadObs->pluck('person_id'))->get();
 
         return App::make(GetPatientsWithoutAdverseOutcomesTask::class)->run($patients);
+    }
+
+    public function run3()
+    {
+        ### STILL UNDER WORKS TO SORT BY VISIT DATE ######
+        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3();
+
+        $eventsQuery = DB::table('visit_outcome_event')
+            ->whereIn('encounter_id', $lastVisitEncounterIDs)
+            ->whereNull('adverse_outcome')
+            ->whereNotNull('viral_load_result')
+            ->where('viral_load_result','>', 1000)
+            ->get();
+
+        return Patient::whereIn('patient_id', $eventsQuery->pluck('person_id'))->get();
     }
 }

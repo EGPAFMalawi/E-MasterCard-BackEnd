@@ -2,8 +2,10 @@
 
 namespace App\Modules\Priority\Reports\Clients\API\Controllers;
 
+use App\Exports\CumulativeAgeDisaggregatesExport;
 use App\Exports\HTSExport;
 use App\Exports\PatientsExport;
+use App\Exports\QuarterlyAgeDisaggregatesExport;
 use App\Http\Controllers\Controller;
 use App\Modules\Core\Patients\Patients;
 use App\Modules\Priority\Reports\Processing\Actions\GetDisaggregatedReportAction;
@@ -127,7 +129,10 @@ class ReportAPIController extends Controller
             'reportEndDate' => $request->reportEndDate
         ];
 
-        $report = App::make(GetDisaggregatedReportAction::class)->run($data);
+        if (is_null($data['type']))
+            $report = App::make(GetDisaggregatedReportAction::class)->run2($data);
+        else
+            $report = App::make(GetDisaggregatedReportAction::class)->run($data);
 
         return response()->json(
             [
@@ -140,11 +145,16 @@ class ReportAPIController extends Controller
     {
         $data = [
             'code' => $request->code,
-            'type' => $request->type
+            'reportStartDate' => $request->reportStartDate,
+            'reportEndDate' => $request->reportEndDate
         ];
 
-        $report = App::make(GetHTSReportAction::class)->run($data);
-
-        return Excel::download(new HTSExport($report),'hts-report.xlsx');
+        if ($data['code'] == 1){
+            $report = App::make(GetDisaggregatedReportAction::class)->run2($data);
+            return Excel::download(new CumulativeAgeDisaggregatesExport($report), 'cumulative-age-disaggregates.xlsx');
+        } else {
+            $report = App::make(GetDisaggregatedReportAction::class)->run2($data);
+            return Excel::download(new QuarterlyAgeDisaggregatesExport($report), 'quarterly-age-disaggregates.xlsx');
+        }
     }
 }

@@ -12,6 +12,7 @@ use App\Modules\Priority\Reports\Processing\Tasks\GetPatientsWithoutAdverseOutco
 use function foo\func;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 
 class GetEveryoneOnDTGReportSubAction
@@ -75,5 +76,20 @@ class GetEveryoneOnDTGReportSubAction
         $patients = Patient::whereIn('patient_id', $regimenObs->pluck('person_id'))->get();
 
         return App::make(GetPatientsWithoutAdverseOutcomesTask::class)->run($patients);
+    }
+
+    public function run3()
+    {
+        ### STILL UNDER WORKS TO SORT BY VISIT DATE ######
+        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3();
+
+        $eventsQuery = DB::table('visit_outcome_event')
+            ->whereIn('encounter_id', $lastVisitEncounterIDs)
+            ->whereNull('adverse_outcome')
+            ->whereNotNull('art_regimen')
+            ->whereIn('art_regimen', ['12A','13A','14A'])
+            ->get();
+
+        return Patient::whereIn('patient_id', $eventsQuery->pluck('person_id'))->get();
     }
 }
