@@ -31,10 +31,10 @@ class PersonResource extends Resource
                 'townshipDivision' => $this->preferredAddress->township_division,
             ],
             'gender' => $this->gender,
-            'birthdate' => Carbon::parse($this->birthdate)->format('Y-m-d'),
+            'birthdate' => is_null($this->birthdate)? null : Carbon::parse($this->birthdate)->format('Y-m-d'),
             'birthdateEstimated' => $this->birthdate_estimated,
             'dead' => $this->dead,
-            'deathDate' => Carbon::parse($this->death_date)->format('Y-m-d'),
+            'deathDate' => is_null($this->death_date)? null : Carbon::parse($this->death_date)->format('Y-m-d'),
             'causeOfDeath' => $this->cause_of_death,
 
             'dateCreated' => $this->date_created,
