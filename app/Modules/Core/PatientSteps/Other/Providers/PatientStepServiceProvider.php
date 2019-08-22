@@ -13,7 +13,7 @@ class PatientStepServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerMigrations();
+//        $this->registerMigrations();
         $this->registerConfig();
     }
 

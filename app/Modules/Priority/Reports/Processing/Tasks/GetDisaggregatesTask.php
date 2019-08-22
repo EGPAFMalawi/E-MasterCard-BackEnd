@@ -70,63 +70,64 @@ class GetDisaggregatesTask
 
     public function run2($eventQuery, $parsedReportDate, $type)
     {
+//        dd($eventQuery->get());
         if ($type == 'NewEnrollments') {
             $payload = [
                 'total' => $this->copyQuery($eventQuery)->count(),
                 'adults' => [
-                    'count' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '>=', 15)->count(),
+                    'count' => $this->copyQuery($eventQuery)->where('registration_age', '>=', 15)->count(),
                     'males' => [
-                        'count' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '>=', 15)->where('gender', 'M')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('registration_age', '>=', 15)->where('gender', 'M')->count(),
                         'disaggregatedByAge' => [
-                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [15, 19])->where('gender', 'M')->count(),
-                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [20, 24])->where('gender', 'M')->count(),
-                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [25, 29])->where('gender', 'M')->count(),
-                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [30, 34])->where('gender', 'M')->count(),
-                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [35, 39])->where('gender', 'M')->count(),
-                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [40, 44])->where('gender', 'M')->count(),
-                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [45, 49])->where('gender', 'M')->count(),
-                            '50+' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '>=', 50)->where('gender', 'M')->count(),
+                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [15, 19])->where('gender', 'M')->count(),
+                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [20, 24])->where('gender', 'M')->count(),
+                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [25, 29])->where('gender', 'M')->count(),
+                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [30, 34])->where('gender', 'M')->count(),
+                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [35, 39])->where('gender', 'M')->count(),
+                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [40, 44])->where('gender', 'M')->count(),
+                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [45, 49])->where('gender', 'M')->count(),
+                            '50+' => $this->copyQuery($eventQuery)->where('registration_age', '>=', 50)->where('gender', 'M')->count(),
                         ]
                     ],
                     'females' => [
-                        'count' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '>=', 15)->where('gender', 'F')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('registration_age', '>=', 15)->where('gender', 'F')->count(),
                         'disaggregatedByAge' => [
-                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [15, 19])->where('gender', 'F')->count(),
-                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [20, 24])->where('gender', 'F')->count(),
-                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [25, 29])->where('gender', 'F')->count(),
-                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [30, 34])->where('gender', 'F')->count(),
-                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [35, 39])->where('gender', 'F')->count(),
-                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [40, 44])->where('gender', 'F')->count(),
-                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [45, 49])->where('gender', 'F')->count(),
-                            '50+' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '>=', 15)->where('gender', 'F')->count(),
+                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [15, 19])->where('gender', 'F')->count(),
+                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [20, 24])->where('gender', 'F')->count(),
+                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [25, 29])->where('gender', 'F')->count(),
+                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [30, 34])->where('gender', 'F')->count(),
+                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [35, 39])->where('gender', 'F')->count(),
+                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [40, 44])->where('gender', 'F')->count(),
+                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [45, 49])->where('gender', 'F')->count(),
+                            '50+' => $this->copyQuery($eventQuery)->where('registration_age', '>=', 15)->where('gender', 'F')->count(),
                         ]
                     ]
                 ],
                 'pediatrics' => [
-                    'count' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '<', 15)->count(),
+                    'count' => $this->copyQuery($eventQuery)->where('registration_age', '<', 15)->count(),
                     'males' => [
-                        'count' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '<', 15)->where('gender', 'M')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('registration_age', '<', 15)->where('gender', 'M')->count(),
                         'disaggregatedByAge' => [
-                            '<1' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '<', 1)->where('gender', 'M')->count(),
-                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [1,4])->where('gender', 'M')->count(),
-                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [5,9])->where('gender', 'M')->count(),
-                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [10,14])->where('gender', 'M')->count()
+                            '<1' => $this->copyQuery($eventQuery)->where('registration_age', '<', 1)->where('gender', 'M')->count(),
+                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [1,4])->where('gender', 'M')->count(),
+                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [5,9])->where('gender', 'M')->count(),
+                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [10,14])->where('gender', 'M')->count()
                         ]
                     ],
                     'females' => [
-                        'count' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '<', 15)->where('gender', 'F')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('registration_age', '<', 15)->where('gender', 'F')->count(),
                         'disaggregatedByAge' => [
-                            '<1' => $this->copyQuery($eventQuery)->where('registration_age_at_initiation', '<', 1)->where('gender', 'F')->count(),
-                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [1,4])->where('gender', 'F')->count(),
-                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [5,9])->where('gender', 'F')->count(),
-                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('registration_age_at_initiation', [10,14])->where('gender', 'F')->count()
+                            '<1' => $this->copyQuery($eventQuery)->where('registration_age', '<', 1)->where('gender', 'F')->count(),
+                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [1,4])->where('gender', 'F')->count(),
+                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [5,9])->where('gender', 'F')->count(),
+                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('registration_age', [10,14])->where('gender', 'F')->count()
                         ]
                     ]
                 ],
                 'unknownAge' => [
-                    'count' => $this->copyQuery($eventQuery)->whereNull('registration_age_at_initiation')->count(),
-                    'males' => $this->copyQuery($eventQuery)->whereNull('registration_age_at_initiation')->where('gender', 'M')->count(),
-                    'females' => $this->copyQuery($eventQuery)->whereNull('registration_age_at_initiation')->where('gender', 'F')->count()
+                    'count' => $this->copyQuery($eventQuery)->whereNull('registration_age')->count(),
+                    'males' => $this->copyQuery($eventQuery)->whereNull('registration_age')->where('gender', 'M')->count(),
+                    'females' => $this->copyQuery($eventQuery)->whereNull('registration_age')->where('gender', 'F')->count()
                 ]
             ];
         }else{

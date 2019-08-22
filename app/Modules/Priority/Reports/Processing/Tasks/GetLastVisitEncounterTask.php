@@ -50,7 +50,7 @@ class GetLastVisitEncounterTask
 
     public function run3()
     {
-        $groupedEncounters = DB::table('visit_outcome_event')->get()->groupBy('person_id');
+        $groupedEncounters = DB::table('visit_outcome_event')->where('voided',0)->get()->groupBy('person_id');
 
         $lastVisitEncounterIDs = $groupedEncounters->map(function ($items){
                 return $items->sortBy('encounter_datetime')->last();

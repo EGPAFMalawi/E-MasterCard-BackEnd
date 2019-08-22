@@ -33,8 +33,8 @@ class PersonResource extends Resource
             'gender' => $this->gender,
             'birthdate' => is_null($this->birthdate)? null : Carbon::parse($this->birthdate)->format('Y-m-d'),
             'birthdateEstimated' => $this->birthdate_estimated,
-            'dead' => $this->dead,
-            'deathDate' => is_null($this->death_date)? null : Carbon::parse($this->death_date)->format('Y-m-d'),
+            'outcomeDetails' => $this->outcome_details,
+            'dead' => isset($this->outcome_details['outcome'])? ($this->outcome_details['outcome'] == 'D'):false,
             'causeOfDeath' => $this->cause_of_death,
 
             'dateCreated' => $this->date_created,

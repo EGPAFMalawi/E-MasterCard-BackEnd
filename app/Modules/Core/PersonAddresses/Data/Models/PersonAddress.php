@@ -3,7 +3,9 @@
 namespace App\Modules\Core\PersonAddresses\Data\Models;
 
 use App\Modules\Core\Persons\Data\Models\Person;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class PersonAddress extends Model
 {
@@ -31,6 +33,13 @@ class PersonAddress extends Model
 
         static::creating(function ($instance) {
             $instance->uuid = uuid4();
+            $instance->creator = Auth::user()->user_id;
+            $instance->date_created = Carbon::now();
+        });
+
+        static::updating(function ($instance) {
+            $instance->changed_by = Auth::user()->user_id;
+            $instance->date_changed = Carbon::now();
         });
     }
 

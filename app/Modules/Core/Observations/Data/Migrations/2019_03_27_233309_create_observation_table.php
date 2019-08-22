@@ -142,7 +142,7 @@ class CreateObservationTable extends Migration
                             o.gender,
                             o.encounter_datetime,
                             o.voided,
-                            o.registration_age,
+                            TIMESTAMPDIFF(YEAR, o.birthdate, e6.value_datetime)  AS \"registration_age\",
                         
                             e1.value_datetime AS \"transfer_in_date\",
                             e2.value_text AS \"art_reg_no\",
@@ -156,7 +156,7 @@ class CreateObservationTable extends Migration
                         
                             FROM
                             (SELECT DISTINCT
-                            a.person_id, a.encounter_id, p.birthdate,p.gender,b.encounter_datetime, b.voided, timestampdiff(Year,'e6.value_datetime','p.birthdate') as registration_age
+                            a.person_id, a.encounter_id, p.birthdate,p.gender,b.encounter_datetime, b.voided
                             FROM
                             obs a join encounter b on a.encounter_id = b.encounter_id join encounter_type c on c.encounter_type_id = b.encounter_type join person p on p.person_id = a.person_id  where c.encounter_type_id = 1
                             ) o

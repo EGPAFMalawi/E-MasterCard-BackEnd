@@ -8,7 +8,9 @@ use App\Modules\Core\PatientCards\Data\Models\PatientCard;
 use App\Modules\Core\Patients\Data\Models\Patient;
 use App\Modules\Core\Persons\Data\Models\Person;
 use App\Modules\Priority\ActivityLogs\ActivityLogs;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Encounter extends Model
 {
@@ -51,6 +53,13 @@ class Encounter extends Model
 
         static::creating(function ($instance) {
             $instance->uuid = uuid4();
+            $instance->creator = Auth::user()->user_id;
+            $instance->date_created = Carbon::now();
+        });
+
+        static::updating(function ($instance) {
+            $instance->changed_by = Auth::user()->user_id;
+            $instance->date_changed = Carbon::now();
         });
 
         static::created(function ($instance) {

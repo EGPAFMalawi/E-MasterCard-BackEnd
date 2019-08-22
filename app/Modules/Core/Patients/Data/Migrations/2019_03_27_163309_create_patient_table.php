@@ -20,6 +20,7 @@ class CreatePatientTable extends Migration
             $table->string('guardian_phone')->nullable();
             $table->string('follow_up')->nullable();
             $table->string('guardian_relation')->nullable();
+            $table->integer('soldier')->default(0);
 
             $table->integer('creator')->default(0);
             $table->dateTime('date_created');
