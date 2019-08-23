@@ -8,6 +8,7 @@ use App\Modules\Core\PatientCards\Data\Models\PatientCard;
 use App\Modules\Core\PatientIdentifiers\Data\Models\PatientIdentifier;
 use App\Modules\Core\Persons\Data\Models\Person;
 use App\Modules\Priority\ActivityLogs\ActivityLogs;
+use App\Modules\Priority\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -49,9 +50,22 @@ class Patient extends Model
         return $this->hasMany(PatientIdentifier::class, 'patient_id');
     }
 
+    public function getFullArtNumberAttribute()
+    {
+        $identifier = $this->patientIdentifiers->last()?$this->patientIdentifiers->last()->identifier:null;
+
+        if(!is_null($identifier))
+        {
+            $identifier = Settings::repository()->get(1)->options['code'].$identifier;
+        }
+        return $identifier;
+    }
+
     public function getArtNumberAttribute()
     {
-        return $this->patientIdentifiers->last()?$this->patientIdentifiers->last()->identifier:null;
+        $identifier = $this->patientIdentifiers->last()?$this->patientIdentifiers->last()->identifier:null;
+
+        return $identifier;
     }
 
 //    public function getLastVisitDateAttribute()

@@ -45,8 +45,8 @@ class Observation extends Model
             $value = is_null($this->value_datetime)?null:Carbon::parse($this->value_datetime)->format('Y-m-d');
         elseif($this->concept->datatype->hl7_abbreviation == 'ZZ')
             $value = $this->value_text;
-        elseif($this->concept->datatype->hl7_abbreviation == 'JS')
-            $value = $this->value_json;
+//        elseif($this->concept->datatype->hl7_abbreviation == 'JS')
+//            $value = $this->value_json;
         else
             $value = $this->value_text;
 
@@ -61,11 +61,6 @@ class Observation extends Model
             $instance->uuid = uuid4();
             $instance->creator = Auth::user()->user_id;
             $instance->date_created = Carbon::now();
-        });
-
-        static::updating(function ($instance) {
-            $instance->changed_by = Auth::user()->user_id;
-            $instance->date_changed = Carbon::now();
         });
     }
 
