@@ -22,13 +22,14 @@ class GetNewEnrollmentsDisAggReportSubAction
         $eventsQuery = DB::table('clinic_registration')
                                 ->whereIn('encounter_id', $lastRegistrationEncounterIDs)
                                 ->whereNotNull('registration_type');
-        if($type == 'TxNew')
+
+        if($type == 'TXNew')
             $eventsQuery->where('registration_type','First Time Initiation')->whereBetween('registration_art_start_date', [$parsedReportStartDate, $parsedReportEndDate]);
-        elseif ($type == 'reInitiation')
+        elseif ($type == 'reInitiated')
             $eventsQuery->where('registration_type','Reinitiation')->whereBetween('registration_date', [$parsedReportStartDate, $parsedReportEndDate]);
         else
             $eventsQuery->where('registration_type','Transfer In')->whereBetween('registration_date', [$parsedReportStartDate, $parsedReportEndDate]);;
 
-        return App::make(GetDisaggregatesTask::class)->run2($eventsQuery, $parsedReportEndDate, 'NewEnrollments ');
+        return App::make(GetDisaggregatesTask::class)->run2($eventsQuery, $parsedReportEndDate, 'NewEnrollments');
     }
 }

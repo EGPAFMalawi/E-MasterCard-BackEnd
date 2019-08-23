@@ -70,7 +70,6 @@ class GetDisaggregatesTask
 
     public function run2($eventQuery, $parsedReportDate, $type)
     {
-//        dd($eventQuery->get());
         if ($type == 'NewEnrollments') {
             $payload = [
                 'total' => $this->copyQuery($eventQuery)->count(),
@@ -130,6 +129,8 @@ class GetDisaggregatesTask
                     'females' => $this->copyQuery($eventQuery)->whereNull('registration_age')->where('gender', 'F')->count()
                 ]
             ];
+
+            //dd($this->copyQuery($eventQuery)->whereBetween('registration_age', [10,14])->where('gender', 'M')->count());
         }else{
             $payload = [
                 'total' => $this->copyQuery($eventQuery)->count(),
