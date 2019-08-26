@@ -82,7 +82,7 @@ class GetDisaggregatedReportAction
                 'txNew' => App::make(GetNewEnrollmentsDisAggReportSubAction::class)->run($data['reportStartDate'], $data['reportEndDate'], 'TXNew'),
                 'reInitiated' => App::make(GetNewEnrollmentsDisAggReportSubAction::class)->run($data['reportStartDate'], $data['reportEndDate'], 'reInitiated'),
                 'transferredIn' => App::make(GetNewEnrollmentsDisAggReportSubAction::class)->run($data['reportStartDate'], $data['reportEndDate'], 'transferredIn'),
-                'defaulted1MonthPlus' => App::make(GetDefaultersDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'],'defaulted1MonthsPlus'),
+                'defaulted1MonthPlus' => App::make(GetDefaultersDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'],'defaulted1MonthPlus'),
                 'defaulted2MonthsPlus' => App::make(GetDefaultersDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'],'defaulted2MonthsPlus'),
                 'defaulted3MonthsPlus' => App::make(GetDefaultersDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'],'defaulted3MonthsPlus'),
                 'stopped' => App::make(GetAdverseOutcomeDisAggReportSubAction::class)->run2($data['reportStartDate'], $data['reportEndDate'], 'stopped'),

@@ -16,9 +16,9 @@ class CreateObservationTable extends Migration
     {
         Schema::create('obs', function (Blueprint $table) {
             $table->increments('obs_id');
-            $table->integer('person_id')->unsigned();
-            $table->integer('concept_id')->unsigned()->default(0);
-            $table->integer('encounter_id')->unsigned()->nullable();
+            $table->integer('person_id')->unsigned()->index();
+            $table->integer('concept_id')->unsigned()->default(0)->index();
+            $table->integer('encounter_id')->unsigned()->nullable()->index();
             $table->integer('order_id')->unsigned()->nullable();
             $table->dateTime('obs_datetime');
             $table->integer('location_id')->nullable();

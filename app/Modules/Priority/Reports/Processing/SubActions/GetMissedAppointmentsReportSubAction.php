@@ -91,7 +91,7 @@ class GetMissedAppointmentsReportSubAction
             ->whereIn('encounter_id', $lastVisitEncounterIDs)
             ->whereNull('adverse_outcome')
             ->whereNotNull('next_appointment_date')
-            ->whereBetween('next_appointment_date', [$parsedReportEndDate->subDays(60), $parsedReportEndDate->subDays($days)])
+            ->whereBetween('next_appointment_date', [with(clone $parsedReportEndDate)->subDays(60), with(clone $parsedReportEndDate)->subDays($days)])
             ->get();
 
         return Patient::whereIn('patient_id', $eventsQuery->pluck('person_id'))->get();

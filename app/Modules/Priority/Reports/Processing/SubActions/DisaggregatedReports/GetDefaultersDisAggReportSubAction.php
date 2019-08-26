@@ -52,7 +52,7 @@ class GetDefaultersDisAggReportSubAction
         else
             $eventsQuery->whereDate('next_appointment_date','<', with(clone $parsedReportEndDate)->subDays(90));
 
-        $eventsQuery->whereBetween('next_appointment_date', [$parsedReportStartDate, $parsedReportEndDate]);;
+        $eventsQuery->whereBetween('encounter_datetime', [$parsedReportStartDate, $parsedReportEndDate]);;
 
         return App::make(GetDisaggregatesTask::class)->run2($eventsQuery, $parsedReportEndDate, 'AdverseOutcomes ');
     }
