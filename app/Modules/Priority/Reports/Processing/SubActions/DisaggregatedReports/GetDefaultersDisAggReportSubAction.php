@@ -23,11 +23,11 @@ class GetDefaultersDisAggReportSubAction
             ->whereNotNull('next_appointment_date');
 
         if ($type == 'defaulted1Month')
-            $eventsQuery->whereBetween('next_appointment_date', [$parsedReportDate->subDays(60),$parsedReportDate->subYears(30)]);
+            $eventsQuery->whereBetween('next_appointment_date', [with(clone $parsedReportDate)->subDays(60),with(clone $parsedReportDate)->subDays(30)]);
         elseif ($type == 'defaulted2Months')
-            $eventsQuery->whereBetween('next_appointment_date', [$parsedReportDate->subDays(90),$parsedReportDate->subYears(60)]);
+            $eventsQuery->whereBetween('next_appointment_date', [with(clone $parsedReportDate)->subDays(90),with(clone $parsedReportDate)->subDays(60)]);
         else
-            $eventsQuery->whereDate('next_appointment_date','<', $parsedReportDate->subDays(90));
+            $eventsQuery->whereDate('next_appointment_date','<', with(clone $parsedReportDate)->subDays(90));
 
         return App::make(GetDisaggregatesTask::class)->run($eventsQuery, $parsedReportDate);
     }
@@ -46,11 +46,11 @@ class GetDefaultersDisAggReportSubAction
             ->whereNotNull('next_appointment_date');
 
         if($type == 'defaulted1MonthPlus')
-            $eventsQuery->whereDate('next_appointment_date','<', $parsedReportEndDate->subDays(30));
+            $eventsQuery->whereDate('next_appointment_date','<', with(clone $parsedReportEndDate)->subDays(30));
         elseif ($type == 'defaulted2MonthsPlus')
-            $eventsQuery->whereDate('next_appointment_date','<', $parsedReportEndDate->subDays(60));
+            $eventsQuery->whereDate('next_appointment_date','<', with(clone $parsedReportEndDate)->subDays(60));
         else
-            $eventsQuery->whereDate('next_appointment_date','<', $parsedReportEndDate->subDays(90));
+            $eventsQuery->whereDate('next_appointment_date','<', with(clone $parsedReportEndDate)->subDays(90));
 
         $eventsQuery->whereBetween('next_appointment_date', [$parsedReportStartDate, $parsedReportEndDate]);;
 

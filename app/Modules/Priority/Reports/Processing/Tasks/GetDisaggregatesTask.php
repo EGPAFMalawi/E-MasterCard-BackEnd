@@ -2,6 +2,9 @@
 
 namespace App\Modules\Priority\Reports\Processing\Tasks;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
+
 class GetDisaggregatesTask
 {
     public function run($eventQuery, $parsedReportDate)
@@ -9,52 +12,52 @@ class GetDisaggregatesTask
         $payload = [
             'total' =>  $this->copyQuery($eventQuery)->count(),
             'adults' => [
-                'count' => $this->copyQuery($eventQuery)->whereDate('birthdate','<=',$parsedReportDate->subYears(15))->count(),
+                'count' => $this->copyQuery($eventQuery)->whereDate('birthdate','<=',with(clone $parsedReportDate)->subYears(15))->count(),
                 'males' => [
-                    'count' => $this->copyQuery($eventQuery)->where('birthdate','<=',$parsedReportDate->subYears(15))->where('gender','M')->count(),
+                    'count' => $this->copyQuery($eventQuery)->where('birthdate','<=',with(clone $parsedReportDate)->subYears(15))->where('gender','M')->count(),
                     'disaggregatedByAge' => [
-                        '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(19), $parsedReportDate->subYears(15)])->where('gender','M')->count(),
-                        '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(24), $parsedReportDate->subYears(20)])->where('gender','M')->count(),
-                        '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(29), $parsedReportDate->subYears(25)])->where('gender','M')->count(),
-                        '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(34), $parsedReportDate->subYears(30)])->where('gender','M')->count(),
-                        '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(39), $parsedReportDate->subYears(35)])->where('gender','M')->count(),
-                        '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(44), $parsedReportDate->subYears(40)])->where('gender','M')->count(),
-                        '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(49), $parsedReportDate->subYears(45)])->where('gender','M')->count(),
-                        '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', $parsedReportDate->subYears(50))->where('gender','M')->count(),
+                        '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(20), with(clone $parsedReportDate)->subYears(15)])->where('gender','M')->count(),
+                        '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(25), with(clone $parsedReportDate)->subYears(20)])->where('gender','M')->count(),
+                        '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(30), with(clone $parsedReportDate)->subYears(25)])->where('gender','M')->count(),
+                        '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(35), with(clone $parsedReportDate)->subYears(30)])->where('gender','M')->count(),
+                        '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(40), with(clone $parsedReportDate)->subYears(35)])->where('gender','M')->count(),
+                        '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(45), with(clone $parsedReportDate)->subYears(40)])->where('gender','M')->count(),
+                        '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(50), with(clone $parsedReportDate)->subYears(45)])->where('gender','M')->count(),
+                        '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', with(clone $parsedReportDate)->subYears(50))->where('gender','M')->count(),
                     ]
                 ],
                 'females' => [
-                    'count' => $this->copyQuery($eventQuery)->where('birthdate','<=',$parsedReportDate->subYears(15))->where('gender','F')->count(),
+                    'count' => $this->copyQuery($eventQuery)->where('birthdate','<=',with(clone $parsedReportDate)->subYears(15))->where('gender','F')->count(),
                     'disaggregatedByAge' => [
-                        '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(19), $parsedReportDate->subYears(15)])->where('gender','F')->count(),
-                        '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(24), $parsedReportDate->subYears(20)])->where('gender','F')->count(),
-                        '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(29), $parsedReportDate->subYears(25)])->where('gender','F')->count(),
-                        '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(34), $parsedReportDate->subYears(30)])->where('gender','F')->count(),
-                        '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(39), $parsedReportDate->subYears(35)])->where('gender','F')->count(),
-                        '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(44), $parsedReportDate->subYears(40)])->where('gender','F')->count(),
-                        '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(49), $parsedReportDate->subYears(45)])->where('gender','F')->count(),
-                        '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', $parsedReportDate->subYears(50))->where('gender','F')->count(),
+                        '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(20), with(clone $parsedReportDate)->subYears(15)])->where('gender','F')->count(),
+                        '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(25), with(clone $parsedReportDate)->subYears(20)])->where('gender','F')->count(),
+                        '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(30), with(clone $parsedReportDate)->subYears(25)])->where('gender','F')->count(),
+                        '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(35), with(clone $parsedReportDate)->subYears(30)])->where('gender','F')->count(),
+                        '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(40), with(clone $parsedReportDate)->subYears(35)])->where('gender','F')->count(),
+                        '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(45), with(clone $parsedReportDate)->subYears(40)])->where('gender','F')->count(),
+                        '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(50), with(clone $parsedReportDate)->subYears(45)])->where('gender','F')->count(),
+                        '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', with(clone $parsedReportDate)->subYears(50))->where('gender','F')->count(),
                     ]
                 ]
             ],
             'pediatrics' => [
-                'count' => $this->copyQuery($eventQuery)->whereDate('birthdate','>',$parsedReportDate->subYears(15))->count(),
+                'count' => $this->copyQuery($eventQuery)->whereDate('birthdate','>',with(clone $parsedReportDate)->subYears(15))->count(),
                 'males' => [
-                    'count' => $this->copyQuery($eventQuery)->where('birthdate','>',$parsedReportDate->subYears(15))->where('gender','M')->count(),
+                    'count' => $this->copyQuery($eventQuery)->where('birthdate','>',with(clone $parsedReportDate)->subYears(15))->where('gender','M')->count(),
                     'disaggregatedByAge' => [
-                        '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', $parsedReportDate->subYears(1))->where('gender','M')->count(),
-                        '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(4), $parsedReportDate->subYears(1)])->where('gender','M')->count(),
-                        '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(9), $parsedReportDate->subYears(5)])->where('gender','M')->count(),
-                        '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(14), $parsedReportDate->subYears(10)])->where('gender','M')->count()
+                        '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', with(clone $parsedReportDate)->subYears(1))->where('gender','M')->count(),
+                        '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(4), with(clone $parsedReportDate)->subYears(1)])->where('gender','M')->count(),
+                        '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(9), with(clone $parsedReportDate)->subYears(5)])->where('gender','M')->count(),
+                        '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(14), with(clone $parsedReportDate)->subYears(10)])->where('gender','M')->count()
                     ]
                 ],
                 'females' => [
-                    'count' => $this->copyQuery($eventQuery)->where('birthdate','<',$parsedReportDate->subYears(15))->where('gender','F')->count(),
+                    'count' => $this->copyQuery($eventQuery)->where('birthdate','>',with(clone $parsedReportDate)->subYears(15))->where('gender','F')->count(),
                     'disaggregatedByAge' => [
-                        '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', $parsedReportDate->subYears(1))->where('gender','F')->count(),
-                        '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(4), $parsedReportDate->subYears(1)])->where('gender','F')->count(),
-                        '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(9), $parsedReportDate->subYears(5)])->where('gender','F')->count(),
-                        '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(14), $parsedReportDate->subYears(10)])->where('gender','F')->count()
+                        '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', with(clone $parsedReportDate)->subYears(1))->where('gender','F')->count(),
+                        '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(5), with(clone $parsedReportDate)->subYears(1)])->where('gender','F')->count(),
+                        '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(10), with(clone $parsedReportDate)->subYears(5)])->where('gender','F')->count(),
+                        '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(15), with(clone $parsedReportDate)->subYears(10)])->where('gender','F')->count()
                     ]
                 ]
             ],
@@ -135,52 +138,52 @@ class GetDisaggregatesTask
             $payload = [
                 'total' => $this->copyQuery($eventQuery)->count(),
                 'adults' => [
-                    'count' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', $parsedReportDate->subYears(15))->count(),
+                    'count' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', with(clone $parsedReportDate)->subYears(15))->count(),
                     'males' => [
-                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '<=', $parsedReportDate->subYears(15))->where('gender', 'M')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '<=', with(clone $parsedReportDate)->subYears(15))->where('gender', 'M')->count(),
                         'disaggregatedByAge' => [
-                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(19), $parsedReportDate->subYears(15)])->where('gender', 'M')->count(),
-                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(24), $parsedReportDate->subYears(20)])->where('gender', 'M')->count(),
-                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(29), $parsedReportDate->subYears(25)])->where('gender', 'M')->count(),
-                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(34), $parsedReportDate->subYears(30)])->where('gender', 'M')->count(),
-                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(39), $parsedReportDate->subYears(35)])->where('gender', 'M')->count(),
-                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(44), $parsedReportDate->subYears(40)])->where('gender', 'M')->count(),
-                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(49), $parsedReportDate->subYears(45)])->where('gender', 'M')->count(),
-                            '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', $parsedReportDate->subYears(50))->where('gender', 'M')->count(),
+                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(20), with(clone $parsedReportDate)->subYears(15)])->where('gender', 'M')->count(),
+                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(25), with(clone $parsedReportDate)->subYears(20)])->where('gender', 'M')->count(),
+                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(30), with(clone $parsedReportDate)->subYears(25)])->where('gender', 'M')->count(),
+                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(35), with(clone $parsedReportDate)->subYears(30)])->where('gender', 'M')->count(),
+                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(40), with(clone $parsedReportDate)->subYears(35)])->where('gender', 'M')->count(),
+                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(45), with(clone $parsedReportDate)->subYears(40)])->where('gender', 'M')->count(),
+                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(50), with(clone $parsedReportDate)->subYears(45)])->where('gender', 'M')->count(),
+                            '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', with(clone $parsedReportDate)->subYears(50))->where('gender', 'M')->count(),
                         ]
                     ],
                     'females' => [
-                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '<=', $parsedReportDate->subYears(15))->where('gender', 'F')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '<=', with(clone $parsedReportDate)->subYears(15))->where('gender', 'F')->count(),
                         'disaggregatedByAge' => [
-                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(19), $parsedReportDate->subYears(15)])->where('gender', 'F')->count(),
-                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(24), $parsedReportDate->subYears(20)])->where('gender', 'F')->count(),
-                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(29), $parsedReportDate->subYears(25)])->where('gender', 'F')->count(),
-                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(34), $parsedReportDate->subYears(30)])->where('gender', 'F')->count(),
-                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(39), $parsedReportDate->subYears(35)])->where('gender', 'F')->count(),
-                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(44), $parsedReportDate->subYears(40)])->where('gender', 'F')->count(),
-                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(49), $parsedReportDate->subYears(45)])->where('gender', 'F')->count(),
-                            '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', $parsedReportDate->subYears(50))->where('gender', 'F')->count(),
+                            '15-19' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(20), with(clone $parsedReportDate)->subYears(15)])->where('gender', 'F')->count(),
+                            '20-24' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(25), with(clone $parsedReportDate)->subYears(20)])->where('gender', 'F')->count(),
+                            '25-29' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(30), with(clone $parsedReportDate)->subYears(25)])->where('gender', 'F')->count(),
+                            '30-34' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(35), with(clone $parsedReportDate)->subYears(30)])->where('gender', 'F')->count(),
+                            '35-39' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(40), with(clone $parsedReportDate)->subYears(35)])->where('gender', 'F')->count(),
+                            '40-44' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(45), with(clone $parsedReportDate)->subYears(40)])->where('gender', 'F')->count(),
+                            '45-49' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(50), with(clone $parsedReportDate)->subYears(45)])->where('gender', 'F')->count(),
+                            '50+' => $this->copyQuery($eventQuery)->whereDate('birthdate', '<=', with(clone $parsedReportDate)->subYears(50))->where('gender', 'F')->count(),
                         ]
                     ]
                 ],
                 'pediatrics' => [
-                    'count' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', $parsedReportDate->subYears(15))->count(),
+                    'count' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', with(clone $parsedReportDate)->subYears(15))->count(),
                     'males' => [
-                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '>', $parsedReportDate->subYears(15))->where('gender', 'M')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '>', with(clone $parsedReportDate)->subYears(15))->where('gender', 'M')->count(),
                         'disaggregatedByAge' => [
-                            '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', $parsedReportDate->subYears(1))->where('gender', 'M')->count(),
-                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(4), $parsedReportDate->subYears(1)])->where('gender', 'M')->count(),
-                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(9), $parsedReportDate->subYears(5)])->where('gender', 'M')->count(),
-                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(14), $parsedReportDate->subYears(10)])->where('gender', 'M')->count()
+                            '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', with(clone $parsedReportDate)->subYears(1))->where('gender', 'M')->count(),
+                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(5), with(clone $parsedReportDate)->subYears(1)])->where('gender', 'M')->count(),
+                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(10), with(clone $parsedReportDate)->subYears(5)])->where('gender', 'M')->count(),
+                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(15), with(clone $parsedReportDate)->subYears(10)])->where('gender', 'M')->count()
                         ]
                     ],
                     'females' => [
-                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '<', $parsedReportDate->subYears(15))->where('gender', 'F')->count(),
+                        'count' => $this->copyQuery($eventQuery)->where('birthdate', '>', with(clone $parsedReportDate)->subYears(15))->where('gender', 'F')->count(),
                         'disaggregatedByAge' => [
-                            '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', $parsedReportDate->subYears(1))->where('gender', 'F')->count(),
-                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(4), $parsedReportDate->subYears(1)])->where('gender', 'F')->count(),
-                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(9), $parsedReportDate->subYears(5)])->where('gender', 'F')->count(),
-                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [$parsedReportDate->subYears(14), $parsedReportDate->subYears(10)])->where('gender', 'F')->count()
+                            '<1' => $this->copyQuery($eventQuery)->whereDate('birthdate', '>', with(clone $parsedReportDate)->subYears(1))->where('gender', 'F')->count(),
+                            '1-4' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(5), with(clone $parsedReportDate)->subYears(1)])->where('gender', 'F')->count(),
+                            '5-9' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(10), with(clone $parsedReportDate)->subYears(5)])->where('gender', 'F')->count(),
+                            '10-14' => $this->copyQuery($eventQuery)->whereBetween('birthdate', [with(clone $parsedReportDate)->subYears(15), with(clone $parsedReportDate)->subYears(10)])->where('gender', 'F')->count()
                         ]
                     ]
                 ],
@@ -197,6 +200,6 @@ class GetDisaggregatesTask
 
     public function copyQuery($query)
     {
-        return clone($query);
+        return clone $query;
     }
 }

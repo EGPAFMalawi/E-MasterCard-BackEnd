@@ -21,9 +21,9 @@ class GetAdverseOutcomeDisAggReportSubAction
             ->whereNotNull('adverse_outcome')
             ->whereNotNull('encounter_datetime');
 
-        if ($type == 'Stopped')
+        if ($type == 'stopped')
             $eventsQuery->where('adverse_outcome','Stop');
-        elseif ($type == 'Died')
+        elseif ($type == 'died')
             $eventsQuery->where('adverse_outcome','D');
         else
             $eventsQuery->where('adverse_outcome','To');
@@ -46,9 +46,9 @@ class GetAdverseOutcomeDisAggReportSubAction
             ->whereNotNull('adverse_outcome')
             ->whereNotNull('encounter_datetime');
 
-        if ($type == 'Stopped')
+        if ($type == 'stopped')
             $eventsQuery->where('adverse_outcome','Stop');
-        elseif ($type == 'Died')
+        elseif ($type == 'died')
             $eventsQuery->where('adverse_outcome','D');
         else
             $eventsQuery->where('adverse_outcome','To');

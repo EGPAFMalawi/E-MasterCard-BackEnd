@@ -20,7 +20,7 @@ class GetTxCurrentDisAggReportSubAction
                                 ->whereIn('encounter_id', $lastVisitEncounterIDs)
                                 ->whereNull('adverse_outcome')
                                 ->whereNotNull('next_appointment_date')
-                                ->whereDate('next_appointment_date', '>', $parsedReportDate->subDays(30));
+                                ->whereDate('next_appointment_date', '>', with(clone $parsedReportDate)->subDays(30));
 
         return App::make(GetDisaggregatesTask::class)->run($eventsQuery, $parsedReportDate);
     }
