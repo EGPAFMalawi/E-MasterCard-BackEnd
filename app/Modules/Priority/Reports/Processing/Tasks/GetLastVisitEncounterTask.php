@@ -49,8 +49,11 @@ class GetLastVisitEncounterTask
         return PatientIdentifier::whereIn('encounter_id', $lastEncounters->pluck('encounter_id'))->get();
     }
 
-    public function run3(Carbon $parsedReportDate)
+    public function run3($parsedReportDate = null)
     {
+        if (is_null($parsedReportDate))
+            $parsedReportDate = Carbon::today();
+
         $groupedEncounters = DB::table('visit_outcome_event')->whereDate('encounter_datetime', '<=', $parsedReportDate)->where('voided',0)->get()->groupBy('person_id');
 
         $lastVisitEncounterIDs = $groupedEncounters->map(function ($items){
