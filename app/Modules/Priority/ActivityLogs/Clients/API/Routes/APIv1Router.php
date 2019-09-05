@@ -19,7 +19,7 @@ class APIv1Router
         $this->router->group([
             'prefix' => 'activity-logs',
             'as' => 'activity_logs.',
-            //'middleware' => 'auth:api'
+            'middleware' => 'auth:api'
             ],
             function($router)
             {

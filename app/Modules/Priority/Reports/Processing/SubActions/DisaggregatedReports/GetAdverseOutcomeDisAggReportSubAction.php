@@ -14,7 +14,7 @@ class GetAdverseOutcomeDisAggReportSubAction
     {
         $parsedReportDate = Carbon::parse($reportDate);
         ### STILL UNDER WORKS TO SORT BY VISIT DATE ######
-        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3();
+        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3($parsedReportDate);
 
         $eventsQuery = DB::table('visit_outcome_event')
             ->whereIn('encounter_id', $lastVisitEncounterIDs)
@@ -39,7 +39,7 @@ class GetAdverseOutcomeDisAggReportSubAction
         $parsedReportEndDate = Carbon::parse($reportEndDate);
 
         ### STILL UNDER WORKS TO SORT BY VISIT DATE ######
-        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3();
+        $lastVisitEncounterIDs = App::make(GetLastVisitEncounterTask::class)->run3($parsedReportEndDate);
 
         $eventsQuery = DB::table('visit_outcome_event')
             ->whereIn('encounter_id', $lastVisitEncounterIDs)

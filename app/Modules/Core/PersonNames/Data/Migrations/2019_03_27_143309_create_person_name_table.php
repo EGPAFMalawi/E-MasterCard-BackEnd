@@ -40,7 +40,7 @@ class CreatePersonNameTable extends Migration
             $table->foreign('person_id')
                 ->references('person_id')
                 ->on('person')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
 
 

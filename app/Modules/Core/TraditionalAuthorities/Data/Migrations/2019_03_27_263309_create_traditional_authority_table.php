@@ -31,7 +31,7 @@ class CreateTraditionalAuthorityTable extends Migration
             $table->foreign('district_id')
                 ->references('district_id')
                 ->on('district')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
 
 

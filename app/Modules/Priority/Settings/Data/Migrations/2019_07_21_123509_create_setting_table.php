@@ -20,6 +20,8 @@ class CreateSettingTable extends Migration
             $table->string('name');
             $table->json('options');
             $table->json('last_options');
+            $table->integer('model_id')->unsigned()->nullable();
+            $table->string('model_type')->nullable();
 
             $table->timestamps();
         });

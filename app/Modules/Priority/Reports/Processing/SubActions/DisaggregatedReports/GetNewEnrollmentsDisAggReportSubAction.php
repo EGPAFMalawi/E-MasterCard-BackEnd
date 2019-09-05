@@ -17,7 +17,7 @@ class GetNewEnrollmentsDisAggReportSubAction
         $parsedReportEndDate = Carbon::parse($reportEndDate);
 
         ### STILL UNDER WORKS TO SORT BY VISIT DATE ######
-        $lastRegistrationEncounterIDs = App::make(GetLastRegistrationTask::class)->run();
+        $lastRegistrationEncounterIDs = App::make(GetLastRegistrationTask::class)->run($parsedReportStartDate, $parsedReportEndDate);
 
         $eventsQuery = DB::table('clinic_registration')
                                 ->whereIn('encounter_id', $lastRegistrationEncounterIDs)

@@ -47,6 +47,21 @@ class CreateObservationTable extends Migration
 
             $table->string('value_complex')->nullable();
             $table->string('uuid', 38)->unique();
+
+            $table->foreign('encounter_id')
+                ->references('encounter_id')
+                ->on('encounter')
+                ->onDelete('restrict');
+
+            $table->foreign('concept_id')
+                ->references('concept_id')
+                ->on('concept')
+                ->onDelete('restrict');
+
+            $table->foreign('person_id')
+                ->references('person_id')
+                ->on('person')
+                ->onDelete('restrict');
         });
 
         DB::statement("CREATE VIEW  visit_outcome_event AS

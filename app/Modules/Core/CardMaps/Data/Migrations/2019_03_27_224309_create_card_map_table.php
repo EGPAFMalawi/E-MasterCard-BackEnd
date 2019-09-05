@@ -21,15 +21,15 @@ class CreateCardMapTable extends Migration
             $table->foreign('concept_id')
                 ->references('concept_id')
                 ->on('concept')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreign('encounter_type_id')
                 ->references('encounter_type_id')
                 ->on('encounter_type')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreign('master_card_id')
                 ->references('master_card_id')
                 ->on('master_card')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->primary(['concept_id', 'encounter_type_id', 'master_card_id'], 'master_card_mappings');
 
@@ -42,14 +42,14 @@ class CreateCardMapTable extends Migration
             $table->foreign('encounter_id')
                 ->references('encounter_id')
                 ->on('encounter')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
+
             $table->foreign('patient_card_id')
                 ->references('patient_card_id')
                 ->on('patient_card')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->primary(['encounter_id', 'patient_card_id'], 'patient_card_mappings');
-
         });
     }
 

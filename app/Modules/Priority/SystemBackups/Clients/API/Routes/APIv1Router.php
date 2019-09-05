@@ -19,7 +19,7 @@ class APIv1Router
         $this->router->group([
             'prefix' => 'system-backups',
             'as' => 'system_backups.',
-            //'middleware' => 'auth:api'
+            'middleware' => 'auth:api'
             ],
             function($router)
             {

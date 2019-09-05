@@ -32,12 +32,12 @@ class CreatePatientCardTable extends Migration
             $table->foreign('patient_id')
                 ->references('patient_id')
                 ->on('patient')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->foreign('master_card_id')
                 ->references('master_card_id')
                 ->on('master_card')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

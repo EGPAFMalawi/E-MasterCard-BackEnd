@@ -35,12 +35,12 @@ class CreatePatientIdentifierTable extends Migration
             $table->foreign('patient_id')
                 ->references('patient_id')
                 ->on('patient')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->foreign('identifier_type')
                 ->references('patient_identifier_type_id')
                 ->on('patient_identifier_type')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
 
 

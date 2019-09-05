@@ -36,8 +36,7 @@ class CreatePatientTable extends Migration
             $table->foreign('patient_id')
                 ->references('person_id')
                 ->on('person')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('restrict');
         });
 
 

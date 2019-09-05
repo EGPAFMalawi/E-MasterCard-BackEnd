@@ -6,6 +6,7 @@ use App\Modules\Core\Encounters\Data\Models\PatientIdentifier;
 use App\Modules\Core\EncounterTypes\Data\Models\EncounterType;
 use App\Modules\Core\PatientCards\Data\Models\PatientCard;
 use App\Modules\Core\Patients\Data\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class GetLastVisitEncounterTask
@@ -48,9 +49,9 @@ class GetLastVisitEncounterTask
         return PatientIdentifier::whereIn('encounter_id', $lastEncounters->pluck('encounter_id'))->get();
     }
 
-    public function run3()
+    public function run3(Carbon $parsedReportDate)
     {
-        $groupedEncounters = DB::table('visit_outcome_event')->where('voided',0)->get()->groupBy('person_id');
+        $groupedEncounters = DB::table('visit_outcome_event')->whereDate('encounter_datetime', '<=', $parsedReportDate)->where('voided',0)->get()->groupBy('person_id');
 
         $lastVisitEncounterIDs = $groupedEncounters->map(function ($items){
                 return $items->sortBy('encounter_datetime')->last();

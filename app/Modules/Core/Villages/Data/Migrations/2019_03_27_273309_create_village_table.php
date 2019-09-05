@@ -29,7 +29,7 @@ class CreateVillageTable extends Migration
             $table->foreign('traditional_authority_id')
                 ->references('traditional_authority_id')
                 ->on('traditional_authority')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
 
 

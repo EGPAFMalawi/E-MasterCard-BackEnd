@@ -38,17 +38,17 @@ class CreateEncounterTable extends Migration
             $table->foreign('patient_id')
                 ->references('patient_id')
                 ->on('patient')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->foreign('encounter_type')
                 ->references('encounter_type_id')
                 ->on('encounter_type')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->foreign('provider_id')
                 ->references('person_id')
                 ->on('person')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
 
 

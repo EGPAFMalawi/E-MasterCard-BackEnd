@@ -6,7 +6,6 @@ use App\Modules\Core\Patients\Data\Repositories\PatientRepository;
 use App\Modules\Core\Persons\Persons;
 use Illuminate\Support\Facades\App;
 
-
 class CreatePatientAction
 {
     public function run($data)

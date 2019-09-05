@@ -39,7 +39,7 @@ class CreateConceptTable extends Migration
             $table->foreign('datatype_id')
                 ->references('concept_datatype_id')
                 ->on('concept_datatype')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
 
 

@@ -36,7 +36,7 @@ class CreateConceptNameTable extends Migration
             $table->foreign('concept_id')
                 ->references('concept_id')
                 ->on('concept')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
 
 

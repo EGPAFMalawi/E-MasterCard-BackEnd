@@ -89,12 +89,12 @@ class GetStepsReportSubAction
             ->whereNotNull('adverse_outcome')
             ->whereNotNull('encounter_datetime');
 
-        if ($type == 'Stopped')
+        if ($type == 'ARTStop')
             $eventsQuery->where('adverse_outcome','Stop');
         elseif ($type == 'Died')
             $eventsQuery->where('adverse_outcome','D');
         else
-            $eventsQuery->where('adverse_outcome','To');
+            $eventsQuery->where('adverse_outcome','TO');
 
         $eventsQuery->get();
 

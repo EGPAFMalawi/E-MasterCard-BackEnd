@@ -358,7 +358,7 @@
         <th>{{$data['stopped']['pediatrics']['females']['count']}}</th>
         <th>{{$data['died']['pediatrics']['females']['count']}}</th>
         <th>{{$data['transferredOut']['pediatrics']['females']['count']}}</th>
-        <th>{{$data['txCurrent']['pediatrics']['females']['count']+$data['defaulted1Month']['pediatrics']['females']['count']+$data['defaulted2Months']['pediatrics']['females']['count']+$data['defaulted3MonthsPlus']['pediatrics']['females']['count']+$data['stopped']['pediatrics']['females']['count']+$data['died']['pediatrics']['count']+$data['transferredOut']['pediatrics']['count']}}</th>
+        <th>{{$data['txCurrent']['pediatrics']['females']['count']+$data['defaulted1Month']['pediatrics']['females']['count']+$data['defaulted2Months']['pediatrics']['females']['count']+$data['defaulted3MonthsPlus']['pediatrics']['females']['count']+$data['stopped']['pediatrics']['females']['count']+$data['died']['pediatrics']['females']['count']+$data['transferredOut']['pediatrics']['females']['count']}}</th>
     </tr>
     <tr>
         <th></th>

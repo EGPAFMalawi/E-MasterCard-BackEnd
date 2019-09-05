@@ -34,8 +34,7 @@ class CreatePatientStepTable extends Migration
             $table->foreign('patient_id')
                 ->references('patient_id')
                 ->on('patient')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('restrict');
         });
 
 
