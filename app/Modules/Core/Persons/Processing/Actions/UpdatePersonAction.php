@@ -17,6 +17,9 @@ class UpdatePersonAction
 
         $person = App::make(PersonRepository::class)->update($data, $person);
 
+        if ($person->gender == 'M')
+            App::make(NullifyPersonPregnantAndBreastFeedingObservationsAction::class)->run($person);
+
         return $person;
     }
 }
