@@ -18,6 +18,7 @@ class PatientResource extends Resource
         return [
             'object' => 'PatientResource',
             'patientID' => $this->patient_id,
+            'patientIdentifierID' => $this->patient_identifier_id,
             'artNumber' => $this->art_number,
             'fullArtNumber' => $this->full_art_number,
             'lastVisitDate' => $this->last_visit_date,

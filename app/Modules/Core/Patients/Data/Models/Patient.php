@@ -68,6 +68,13 @@ class Patient extends Model
         return $identifier;
     }
 
+    public function getPatientIdentifierIDAttribute()
+    {
+        $identifierID = $this->patientIdentifiers->last()?$this->patientIdentifiers->last()->patient_identifier_id:null;
+
+        return $identifierID;
+    }
+
 //    public function getLastVisitDateAttribute()
 //    {
 //        $visitDateConcept = Concept::find(32);
